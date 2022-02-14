@@ -180,26 +180,28 @@ public class MySettingActivity extends UpdateActivity<EntrancePresent> implement
     @Override
     public void initData() {
         menuBeans.clear();
-        if (UserInfoManager.getAccountStatus() == 1) {
-            menuBeans.add(new MyMenuBean("修改密码", 0, R.mipmap.set_psd, MyCenterContract.SET_UPDATE_PSD_TAG,
-                    BackPwdActivity.class));
-        }
-        //        menuBeans.add(new MyMenuBean("收货地址", 0, R.mipmap.set_address, MyCenterContract.SET_ADDRESS_TAG,
-        //        MySettingActivity.class));
-        if (UserInfoManager.getAccountStatus() == 1) {
-            menuBeans.add(new MyMenuBean("修改手机号", 0, R.mipmap.set_tel, MyCenterContract.SET_UPDATE_TEL_TAG,
-                    BackPwdActivity.class));
-        } else {
-            //第三方登录
-            menuBeans.add(new MyMenuBean("绑定手机号", 0, R.mipmap.set_tel, MyCenterContract.SET_UPDATE_TEL_TAG,
-                    BindingPhoneActivity.class));
-        }
+//        if (UserInfoManager.getAccountStatus() == 1) {
+//            menuBeans.add(new MyMenuBean("修改密码", 0, R.mipmap.set_psd, MyCenterContract.SET_UPDATE_PSD_TAG,
+//                    BackPwdActivity.class));
+//        }
+//        //        menuBeans.add(new MyMenuBean("收货地址", 0, R.mipmap.set_address, MyCenterContract.SET_ADDRESS_TAG,
+//        //        MySettingActivity.class));
+//        if (UserInfoManager.getAccountStatus() == 1) {
+//            menuBeans.add(new MyMenuBean("修改手机号", 0, R.mipmap.set_tel, MyCenterContract.SET_UPDATE_TEL_TAG,
+//                    BackPwdActivity.class));
+//        } else {
+//            //第三方登录
+//            menuBeans.add(new MyMenuBean("绑定手机号", 0, R.mipmap.set_tel, MyCenterContract.SET_UPDATE_TEL_TAG,
+//                    BindingPhoneActivity.class));
+//        }
+        menuBeans.add(new MyMenuBean("修改密码", 0, R.mipmap.set_psd, MyCenterContract.SET_UPDATE_PSD_TAG,
+                BackPwdActivity.class));
         menuBeans.add(new MyMenuBean("清理内存", 0, R.mipmap.set_clear, MyCenterContract.SET_CLEAR_TAG, null));
-        menuBeans.add(new MyMenuBean("检测更新", 0, R.mipmap.set_update, MyCenterContract.SET_UPDATE_TAG, null));
-        menuBeans.add(new MyMenuBean("关于我们", -1, R.mipmap.set_about, MyCenterContract.SET_ABOUT_TAG,
-                AboutActivity.class));
-        menuBeans.add(new MyMenuBean("绑定微信", 0, R.mipmap.set_wexin, MyCenterContract.SET_WEIXIN_TAG, null));
-        menuBeans.add(new MyMenuBean("绑定QQ", 0, R.mipmap.set_qq, MyCenterContract.SET_QQ_TAG, null));
+//        menuBeans.add(new MyMenuBean("检测更新", 0, R.mipmap.set_update, MyCenterContract.SET_UPDATE_TAG, null));
+//        menuBeans.add(new MyMenuBean("关于我们", -1, R.mipmap.set_about, MyCenterContract.SET_ABOUT_TAG,
+//                AboutActivity.class));
+//        menuBeans.add(new MyMenuBean("绑定微信", 0, R.mipmap.set_wexin, MyCenterContract.SET_WEIXIN_TAG, null));
+//        menuBeans.add(new MyMenuBean("绑定QQ", 0, R.mipmap.set_qq, MyCenterContract.SET_QQ_TAG, null));
         settingMenuAdapter.notifyDataSetChanged();
     }
 

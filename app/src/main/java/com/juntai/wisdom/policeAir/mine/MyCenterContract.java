@@ -27,6 +27,7 @@ public interface MyCenterContract {
     String CENTER_FABU_TAG ="centerFabuTag";
     String CENTER_MESSAGE_TAG = "centerMessageTag";
     String CENTER_SETTING_TAG ="centerSettingTag";
+    String QUITE_ACCOUNT_TAG ="quiteAccountTag";
     String CENTER_MISSION_TAG = "centerMissionTag";//任务
     String CENTER_TIAOJIE_TAG = "centerTiaoJieTag";//调解
     String CENTER_DEVICE_TAG = "centerDeviceTag";//我的设备

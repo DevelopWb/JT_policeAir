@@ -83,7 +83,8 @@ public class MyInformationActivity extends BaseMvpActivity<MyInfoPresent> implem
             headLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.imageChoose();
+                    // TODO: 2022-02-14 更改头像的逻辑关闭
+//                    mPresenter.imageChoose();
                 }
             });
         }
@@ -93,12 +94,12 @@ public class MyInformationActivity extends BaseMvpActivity<MyInfoPresent> implem
             if (userBean != null && userBean.getUserId() != 0){
                 beanList.add(new TextListBean("账号", userBean.getAccount()));
                 beanList.add(new TextListBean("昵称", userBean.getName()));
-                beanList.add(new TextListBean("手机号码", userBean.getPhoneNumber()));
-                beanList.add(new TextListBean("真实姓名", userBean.getRealName() == ""? "未实名" : userBean.getRealName()));
+//                beanList.add(new TextListBean("手机号码", userBean.getPhoneNumber()));
+//                beanList.add(new TextListBean("真实姓名", userBean.getRealName() == ""? "未实名" : userBean.getRealName()));
 //                beanList.add(new TextListBean("身份证号", userBean.getIdnumber()));
-                beanList.add(new TextListBean("积分", userBean.getScore() +""));
-                beanList.add(new TextListBean("QQ昵称", userBean.getQqName() == ""? "未绑定" : userBean.getQqName()));
-                beanList.add(new TextListBean("微信昵称", userBean.getWeChatName() == ""? "未绑定" : userBean.getWeChatName()));
+//                beanList.add(new TextListBean("积分", userBean.getScore() +""));
+//                beanList.add(new TextListBean("QQ昵称", userBean.getQqName() == ""? "未绑定" : userBean.getQqName()));
+//                beanList.add(new TextListBean("微信昵称", userBean.getWeChatName() == ""? "未绑定" : userBean.getWeChatName()));
 
                 if (userBean.getSettleStatus() == 2){
                     beanList.add(new TextListBean("部门", userBean.getDepartmentName()));

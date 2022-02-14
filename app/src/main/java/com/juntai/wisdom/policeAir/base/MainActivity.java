@@ -44,10 +44,8 @@ import com.juntai.wisdom.policeAir.bean.news.NewsDraftsBean;
 import com.juntai.wisdom.policeAir.entrance.BindingPhoneActivity;
 import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.home_page.MyMapFragment;
-import com.juntai.wisdom.policeAir.home_page.QRScanActivity;
 import com.juntai.wisdom.policeAir.home_page.law_case.CaseInfoActivity;
 import com.juntai.wisdom.policeAir.home_page.inspection.InspectionDetailActivity;
-import com.juntai.wisdom.policeAir.home_page.news.news_common.NewsListFragment;
 import com.juntai.wisdom.policeAir.home_page.news.news_publish.PublishNewsActivity;
 import com.juntai.wisdom.policeAir.home_page.site_manager.site_add.AddNewSiteActivity;
 import com.juntai.wisdom.policeAir.mine.MyCenterFragment;
@@ -87,9 +85,8 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     private LinearLayout mainLayout;
     private CustomViewPager mainViewpager;
     private TabLayout mainTablayout;
-    private String[] title = new String[]{"首页", "发布", "巡检", "资讯", "我的"};
-    private int[] tabDrawables = new int[]{R.drawable.home_index, R.drawable.home_publish,
-            R.drawable.home_inspection, R.drawable.home_news, R.drawable.home_msg};
+    private String[] title = new String[]{"首页",  "我的"};
+    private int[] tabDrawables = new int[]{R.drawable.home_index, R.drawable.home_msg};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
@@ -109,10 +106,10 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         mainLayout = findViewById(R.id.main_layout);
         mainViewpager.setScanScroll(false);
         mFragments.append(0, new MyMapFragment());//地图
-        mFragments.append(1, new EmptyFragment());//
-        mFragments.append(2, new EmptyScanFragment());//
-        mFragments.append(3, new NewsListFragment());//资讯
-        mFragments.append(4, new MyCenterFragment());//我的
+//        mFragments.append(1, new EmptyFragment());//
+//        mFragments.append(2, new EmptyScanFragment());//
+//        mFragments.append(3, new NewsListFragment());//资讯
+        mFragments.append(1, new MyCenterFragment());//我的
         //
         getToolbar().setVisibility(View.GONE);
         mBaseRootCol.setFitsSystemWindows(false);
@@ -162,24 +159,25 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         mainTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    //条件弹窗
-                    initPopTypePublish(mainTablayout);
-                } else if (tab.getPosition() == 2) {
-                    if (!MyApp.isLogin()) {
-                        MyApp.goLogin();
-                        return;
-                    }
-                    if (UserInfoManager.getAccountStatus() != 1) {
-                        //没有绑定手机号
-                        startActivity(new Intent(mContext, BindingPhoneActivity.class));
-                        return;
-                    }
-                    startActivityForResult(new Intent(mContext, QRScanActivity.class),
-                            AppUtils.QR_SCAN_FOR_XUANJIAN);
-                } else {
-                    mainViewpager.setCurrentItem(tab.getPosition(), false);
-                }
+                mainViewpager.setCurrentItem(tab.getPosition(), false);
+//                if (tab.getPosition() == 1) {
+//                    //条件弹窗
+//                    initPopTypePublish(mainTablayout);
+//                } else if (tab.getPosition() == 2) {
+//                    if (!MyApp.isLogin()) {
+//                        MyApp.goLogin();
+//                        return;
+//                    }
+//                    if (UserInfoManager.getAccountStatus() != 1) {
+//                        //没有绑定手机号
+//                        startActivity(new Intent(mContext, BindingPhoneActivity.class));
+//                        return;
+//                    }
+//                    startActivityForResult(new Intent(mContext, QRScanActivity.class),
+//                            AppUtils.QR_SCAN_FOR_XUANJIAN);
+//                } else {
+//                    mainViewpager.setCurrentItem(tab.getPosition(), false);
+//                }
             }
 
             @Override
@@ -189,22 +187,22 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    //条件弹窗
-                    initPopTypePublish(mainTablayout);
-                } else if (tab.getPosition() == 2) {
-                    if (!MyApp.isLogin()) {
-                        MyApp.goLogin();
-                        return;
-                    }
-                    if (UserInfoManager.getAccountStatus() != 1) {
-                        //没有绑定手机号
-                        startActivity(new Intent(mContext, BindingPhoneActivity.class));
-                        return;
-                    }
-                    startActivityForResult(new Intent(mContext, QRScanActivity.class),
-                            AppUtils.QR_SCAN_FOR_XUANJIAN);
-                }
+//                if (tab.getPosition() == 1) {
+//                    //条件弹窗
+//                    initPopTypePublish(mainTablayout);
+//                } else if (tab.getPosition() == 2) {
+//                    if (!MyApp.isLogin()) {
+//                        MyApp.goLogin();
+//                        return;
+//                    }
+//                    if (UserInfoManager.getAccountStatus() != 1) {
+//                        //没有绑定手机号
+//                        startActivity(new Intent(mContext, BindingPhoneActivity.class));
+//                        return;
+//                    }
+//                    startActivityForResult(new Intent(mContext, QRScanActivity.class),
+//                            AppUtils.QR_SCAN_FOR_XUANJIAN);
+//                }
             }
         });
 
@@ -310,7 +308,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
                     LogUtil.d("888888", "-----------后台===发送通知");
                     //后台发通知
                     Notification notification = NotificationTool.sendNotifMessage(BaseApplication.app, new Random().nextInt(10000),
-                            setNotificationTile(type), content, R.mipmap.app_jing_icon,
+                            setNotificationTile(type), content, R.mipmap.app_icon,
                             false, setNotificationIntent(type));
 
                 }

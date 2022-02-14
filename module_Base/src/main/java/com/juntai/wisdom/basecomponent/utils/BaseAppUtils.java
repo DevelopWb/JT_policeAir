@@ -46,7 +46,7 @@ public class BaseAppUtils {
      */
     public static synchronized int getAppLogo() {
         try {
-            int ic = BaseApplication.app.getResources().getIdentifier("app_jing_icon", "mipmap", BaseApplication.app.getPackageName());
+            int ic = BaseApplication.app.getResources().getIdentifier("app_icon", "mipmap", BaseApplication.app.getPackageName());
             return ic;
         } catch (Exception e) {
             e.printStackTrace();

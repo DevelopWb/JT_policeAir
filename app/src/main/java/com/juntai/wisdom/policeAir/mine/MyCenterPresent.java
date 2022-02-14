@@ -125,17 +125,18 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     @Override
     public void initList() {
         menuBeans.clear();
-        menuBeans.add(new MyMenuBean("我的积分", 0, R.mipmap.my_score, MyCenterContract.CENTER_SCORE_TAG, MyScoreActivity.class));
-//        menuBeans.add(new MyMenuBean("我的订单",0,R.mipmap.my_order,MyCenterContract.CENTER_ORDER_TAG, OrderListActivity.class));
-//        menuBeans.add(new MyMenuBean("我的评价",0,R.mipmap.my_pingjia,MyCenterContract.CENTER_PINGJIA_TAG, MySettingActivity.class));
-        menuBeans.add(new MyMenuBean("我的任务", 0, R.mipmap.my_task, MyCenterContract.CENTER_MISSION_TAG, MyTaskListActivity.class));
-        menuBeans.add(new MyMenuBean("我的收藏", 0, R.mipmap.my_favorite, MyCenterContract.CENTER_SHOUCANG_TAG, MyCollectActivity.class));
-        menuBeans.add(new MyMenuBean("我的分享", 0, R.mipmap.my_share, MyCenterContract.CENTER_SHARE_TAG, MyCollectActivity.class));
-        menuBeans.add(new MyMenuBean("我的发布", 0, R.mipmap.my_push, MyCenterContract.CENTER_FABU_TAG, MyPublishListActivity.class));
-        menuBeans.add(new MyMenuBean("我的调解", 0, R.mipmap.my_concliation, MyCenterContract.CENTER_TIAOJIE_TAG, ConciliationListActivity.class));
-        menuBeans.add(new MyMenuBean("我的消息", 0, R.mipmap.my_message, MyCenterContract.CENTER_MESSAGE_TAG, MyMessageActivity.class));
-        menuBeans.add(new MyMenuBean("我的设备", 0, R.mipmap.my_device, MyCenterContract.CENTER_DEVICE_TAG, MyEquipmentListActivity.class));
+//        menuBeans.add(new MyMenuBean("我的积分", 0, R.mipmap.my_score, MyCenterContract.CENTER_SCORE_TAG, MyScoreActivity.class));
+////        menuBeans.add(new MyMenuBean("我的订单",0,R.mipmap.my_order,MyCenterContract.CENTER_ORDER_TAG, OrderListActivity.class));
+////        menuBeans.add(new MyMenuBean("我的评价",0,R.mipmap.my_pingjia,MyCenterContract.CENTER_PINGJIA_TAG, MySettingActivity.class));
+//        menuBeans.add(new MyMenuBean("我的任务", 0, R.mipmap.my_task, MyCenterContract.CENTER_MISSION_TAG, MyTaskListActivity.class));
+//        menuBeans.add(new MyMenuBean("我的收藏", 0, R.mipmap.my_favorite, MyCenterContract.CENTER_SHOUCANG_TAG, MyCollectActivity.class));
+//        menuBeans.add(new MyMenuBean("我的分享", 0, R.mipmap.my_share, MyCenterContract.CENTER_SHARE_TAG, MyCollectActivity.class));
+//        menuBeans.add(new MyMenuBean("我的发布", 0, R.mipmap.my_push, MyCenterContract.CENTER_FABU_TAG, MyPublishListActivity.class));
+//        menuBeans.add(new MyMenuBean("我的调解", 0, R.mipmap.my_concliation, MyCenterContract.CENTER_TIAOJIE_TAG, ConciliationListActivity.class));
+//        menuBeans.add(new MyMenuBean("我的消息", 0, R.mipmap.my_message, MyCenterContract.CENTER_MESSAGE_TAG, MyMessageActivity.class));
+//        menuBeans.add(new MyMenuBean("我的设备", 0, R.mipmap.my_device, MyCenterContract.CENTER_DEVICE_TAG, MyEquipmentListActivity.class));
         menuBeans.add(new MyMenuBean("个人设置", -1, R.mipmap.my_set_list, MyCenterContract.CENTER_SETTING_TAG, MySettingActivity.class));
+        menuBeans.add(new MyMenuBean("退出账号", -1, R.mipmap.mycenter_quite_icon, MyCenterContract.QUITE_ACCOUNT_TAG, MySettingActivity.class));
         getView().refreshAdapter();
     }
 

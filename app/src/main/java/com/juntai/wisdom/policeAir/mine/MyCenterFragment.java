@@ -4,6 +4,7 @@ package com.juntai.wisdom.policeAir.mine;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
 import com.juntai.wisdom.policeAir.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
+import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.mine.mycenter.MyMenuAdapter;
 import com.juntai.wisdom.policeAir.mine.myinfo.MyInformationActivity;
 import com.juntai.wisdom.policeAir.utils.AppUtils;
@@ -37,6 +39,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * 个人中心
+ *
  * @aouther ZhangZhenlong
  * @date 2020/3/9
  */
@@ -76,10 +79,8 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         mLoginOut = getView(R.id.login_out);
         mLoginOut.setOnClickListener(this);
         myMenuAdapter = new MyMenuAdapter(R.layout.item_my_center_menu, mPresenter.getMenuBeans());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
-        myMenuAdapter.setGridLayoutManager(gridLayoutManager);
-        mMenuRecycler.setLayoutManager(gridLayoutManager);
-        mMenuRecycler.addItemDecoration(new GridDividerItemDecoration(mContext));
+        getBaseActivity().initRecyclerview(mMenuRecycler, myMenuAdapter, LinearLayoutManager.VERTICAL);
+//        mMenuRecycler.addItemDecoration(new GridDividerItemDecoration(mContext));
         mMenuRecycler.setAdapter(myMenuAdapter);
         mStatusTopTitle.setText("个人中心");
 //        headUrl = MyApp.getUserHeadImg();
@@ -88,9 +89,9 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (myMenuAdapter.getData().get(position).getCls() != null) {
-                    if (!MyApp.isLogin()){
+                    if (!MyApp.isLogin()) {
                         MyApp.goLogin();
-                        return ;
+                        return;
                     }
                     switch (myMenuAdapter.getData().get(position).getTag()) {
                         case MyCenterContract.CENTER_SHOUCANG_TAG:
@@ -100,6 +101,9 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                         case MyCenterContract.CENTER_SHARE_TAG:
                             startActivity(new Intent(mContext, myMenuAdapter.getData().get(position).getCls())
                                     .putExtra("function", 2));
+                            break;
+                        case MyCenterContract.QUITE_ACCOUNT_TAG:
+                           mLoginOut.performClick();
                             break;
                         default:
                             startActivity(new Intent(mContext, myMenuAdapter.getData().get(position).getCls()));
@@ -120,17 +124,17 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
             public void onCountChanged(int count) {
                 imUnReadCount = count;
                 UnReadCountBean.DataBean unReadCountBean = MyApp.getUnReadCountBean();
-                if (unReadCountBean != null){
+                if (unReadCountBean != null) {
                     unReadCountBean.setImCount(imUnReadCount);
                     MyApp.setUnReadCountBean(unReadCountBean);
                     List<MyMenuBean> menuBeans = myMenuAdapter.getData();
                     for (int i = 0; i < menuBeans.size(); i++) {
                         MyMenuBean bean = menuBeans.get(i);
                         if (MyCenterContract.CENTER_MESSAGE_TAG.equals(bean.getTag())) {
-                            bean.setNumber(unReadCountBean.getMessageCount()+imUnReadCount);
+                            bean.setNumber(unReadCountBean.getMessageCount() + imUnReadCount);
                             myMenuAdapter.notifyItemChanged(i);
 //                            app角标
-                             ShortcutBadger.applyCount(mContext.getApplicationContext(), unReadCountBean.getMessageCount()+imUnReadCount);
+                            ShortcutBadger.applyCount(mContext.getApplicationContext(), unReadCountBean.getMessageCount() + imUnReadCount);
                             break;
                         }
                     }
@@ -149,12 +153,12 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-        if (MyApp.isLogin()){
-            mLoginOut.setVisibility(View.VISIBLE);
+        if (MyApp.isLogin()) {
+//            mLoginOut.setVisibility(View.VISIBLE);
             mPresenter.getUserData(MyCenterContract.USER_DATA_TAG);
 //            mPresenter.getUnReadCount(MyCenterContract.GET_UNREAD_COUNT);
-        }else {
-            mLoginOut.setVisibility(View.GONE);
+        } else {
+//            mLoginOut.setVisibility(View.GONE);
         }
     }
 
@@ -171,19 +175,19 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
 
     @Override
     public void onClick(View v) {
-        if (!MyApp.isLogin()){
+        if (!MyApp.isLogin()) {
             MyApp.goLogin();
             return;
         }
         switch (v.getId()) {
             case R.id.headImage:
                 //用户信息设置
-                if (userBean != null){
+                if (userBean != null) {
                     Intent intent = new Intent(mContext, MyInformationActivity.class);
                     intent.putExtra("user", userBean.getData());
                     intent.putExtra("headUrl", headUrl);
                     startActivity(intent);
-                }else {
+                } else {
                     mPresenter.getUserData(MyCenterContract.USER_DATA_TAG);
                 }
 //                startActivity(new Intent(mContext, TikTokActivity.class));
@@ -207,8 +211,8 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
             case MyCenterContract.USER_DATA_TAG:
                 userBean = (UserBean) o;
                 UserBean.DataBean dataBean = userBean.getData();
-                if (dataBean != null){
-                    mLoginOut.setVisibility(View.VISIBLE);
+                if (dataBean != null) {
+//                    mLoginOut.setVisibility(View.VISIBLE);
                     mNickname.setText(dataBean.getName());
                     mNickname.setAlpha(0.8f);
                     mTelNumber.setText(MyApp.getAccount());
@@ -217,12 +221,12 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                         headUrl = userBean.getData().getImg();
                         ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(), headUrl, mHeadImage, R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
                     }
-                    Hawk.put(AppUtils.SP_KEY_USER,userBean);
+                    Hawk.put(AppUtils.SP_KEY_USER, userBean);
                 }
                 break;
             case MyCenterContract.GET_UNREAD_COUNT:
-                UnReadCountBean countBean = (UnReadCountBean)o;
-                if (countBean.getData() != null){
+                UnReadCountBean countBean = (UnReadCountBean) o;
+                if (countBean.getData() != null) {
                     UnReadCountBean.DataBean unReadCountBean = countBean.getData();
                     unReadCountBean.setImCount(imUnReadCount);
                     MyApp.setUnReadCountBean(unReadCountBean);
@@ -233,7 +237,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                                 myMenuBean.setNumber(unReadCountBean.getMissionCount());
                                 break;
                             case MyCenterContract.CENTER_MESSAGE_TAG:
-                                myMenuBean.setNumber(unReadCountBean.getMessageCount()+ imUnReadCount);
+                                myMenuBean.setNumber(unReadCountBean.getMessageCount() + imUnReadCount);
                                 break;
                             default:
                                 break;
@@ -256,10 +260,11 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                 mNickname.setText("点击头像登录");
                 mNickname.setAlpha(0.3f);
                 mTelNumber.setVisibility(View.GONE);
-                mLoginOut.setVisibility(View.GONE);
+//                mLoginOut.setVisibility(View.GONE);
                 mPresenter.initList();
                 headUrl = "";
                 mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
+                startActivity(new Intent(mContext, LoginActivity.class));
                 break;
             default:
                 break;

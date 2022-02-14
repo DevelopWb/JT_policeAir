@@ -75,8 +75,8 @@ public class BadgeUtil {
         Notification notification = new NotificationCompat.Builder(context, "badge")
                 .setContentTitle(AppUtils.getAppName()).setContentText("您有" + count + "条未读消息")
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                        R.mipmap.app_jing_icon))
-                .setSmallIcon(R.mipmap.app_jing_icon)
+                        R.mipmap.app_icon))
+                .setSmallIcon(R.mipmap.app_icon)
                 .setAutoCancel(true).setContentIntent(pendingIntent)
                 .setChannelId("badge").setNumber(count)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).build();

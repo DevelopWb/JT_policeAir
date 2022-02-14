@@ -19,7 +19,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@mipmap/splash_jxb_bg</item>
+        <item name="android:windowBackground">@mipmap/splash_bg</item>
     </style>
 
     <style name="login_edittext_style">

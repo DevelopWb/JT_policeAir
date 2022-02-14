@@ -243,7 +243,7 @@ public class MyApp extends BaseApplication {
             //                    11,
             //                    "挂起",
             //                    BaseAppUtils.getAppName() + "服务正在运行",
-            //                    R.mipmap.app_jing_icon,
+            //                    R.mipmap.app_icon,
             //                    true,
             //                    new Intent(activity, MainActivity.class));
         } else {
