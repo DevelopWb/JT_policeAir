@@ -18,7 +18,7 @@
         app:tabIndicatorHeight="2dp"
         app:tabIndicatorFullWidth="false"
         android:layout_gravity="center_horizontal"/>
-    <com.juntai.wisdom.dgjxb.base.customview.CustomViewPager
+    <com.juntai.wisdom.policeAir.base.customview.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".base.MainActivity"
     android:id="@+id/main_layout">
-    <com.juntai.wisdom.dgjxb.base.customview.CustomViewPager
+    <com.juntai.wisdom.policeAir.base.customview.CustomViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

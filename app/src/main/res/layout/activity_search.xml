@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/fragment_serach_top"
-        class="com.juntai.wisdom.dgjxb.home_page.search.SearchFragment"
+        class="com.juntai.wisdom.policeAir.home_page.search.SearchFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></fragment>
 

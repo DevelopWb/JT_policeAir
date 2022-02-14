@@ -256,7 +256,7 @@
         android:layout_gravity="center_horizontal"
         android:paddingLeft="@dimen/page_margin"
         android:paddingRight="@dimen/page_margin"/>
-    <com.juntai.wisdom.dgjxb.base.customview.CustomViewPager
+    <com.juntai.wisdom.policeAir.base.customview.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

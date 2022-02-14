@@ -220,7 +220,7 @@
 
         <fragment
             android:id="@+id/photo_fg"
-            class="com.juntai.wisdom.dgjxb.base.selectPics.SelectPhotosFragment"
+            class="com.juntai.wisdom.policeAir.base.selectPics.SelectPhotosFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"

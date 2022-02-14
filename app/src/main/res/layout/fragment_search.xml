@@ -84,7 +84,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <com.juntai.wisdom.dgjxb.base.customview.flowlayout.TagFlowLayout
+    <com.juntai.wisdom.policeAir.base.customview.flowlayout.TagFlowLayout
         android:id="@+id/history_item_tfl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
         android:layout_marginRight="10dp"
        >
 
-    </com.juntai.wisdom.dgjxb.base.customview.flowlayout.TagFlowLayout>
+    </com.juntai.wisdom.policeAir.base.customview.flowlayout.TagFlowLayout>
 
     <ImageView
         android:id="@+id/show_more_arrow_iv"
