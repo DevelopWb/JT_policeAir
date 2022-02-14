@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.juntai.wisdom.basecomponent.utils.SPTools;
+import com.juntai.wisdom.dgjxb.MyApp;
 import com.juntai.wisdom.dgjxb.base.MainActivity;
 import com.juntai.wisdom.dgjxb.entrance.guide.GuideActivity;
 import com.juntai.wisdom.dgjxb.home_page.news.exoplayer_tiktok.TikTokActivity;
@@ -48,16 +49,12 @@ public class StartActivity extends RxAppCompatActivity {
                         } else {
                             //有一个权限没通过
                         }
-                        if (SPTools.getBoolean(StartActivity.this, "first_start", true)) {
-                            startActivity(new Intent(StartActivity.this, GuideActivity.class));
-                            finish();
-                        } else {
+                        if (MyApp.isLogin()) {
                             startActivity(new Intent(StartActivity.this, MainActivity.class));
-                            finish();
+                        }else {
+                            startActivity(new Intent(StartActivity.this, LoginActivity.class));
                         }
-//                        startActivity(new Intent(StartActivity.this, VideoNetPlayerActivity.class));
-//                                                    finish();
-
+                        finish();
                     }
                 }, new Consumer<Throwable>() {
                     @Override

@@ -46,7 +46,7 @@ public class MainPagePresent extends BasePresenter<IModel, MainPageContract.IMai
     @Override
     public void uploadHistory(String data, String tag) {
         AppNetModule.createrRetrofit()
-                .uploadHistory(MyApp.getAccount(), MyApp.getUserToken(), MyApp.getUid(), 1, data)
+                .uploadHistory(MyApp.getAccount(), MyApp.getUserToken(), MyApp.getUid(), data)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(null) {
                     @Override

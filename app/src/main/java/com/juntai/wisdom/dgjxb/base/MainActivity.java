@@ -100,7 +100,6 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
     PopupWindow popupWindow;
     final static Handler mHandler = new Handler();
-    List<LocationBean> cacheDatas = new ArrayList<>();//
 
     @Override
     public int getLayoutView() {
@@ -253,11 +252,6 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case MainPageContract.UPLOAD_HISTORY:
-                if (cacheDatas != null) {
-                    for (LocationBean locationBean : cacheDatas) {
-                        MyApp.getDaoSession().getLocationBeanDao().delete(locationBean);
-                    }
-                }
                 break;
             default:
                 break;
@@ -319,8 +313,8 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
                     LogUtil.d("888888", "-----------后台===发送通知");
                     //后台发通知
                     Notification notification = NotificationTool.sendNotifMessage(BaseApplication.app, new Random().nextInt(10000),
-                                    setNotificationTile(type), content, R.mipmap.app_jing_icon,
-                                    false, setNotificationIntent(type));
+                            setNotificationTile(type), content, R.mipmap.app_jing_icon,
+                            false, setNotificationIntent(type));
 
                 }
             }
@@ -625,13 +619,14 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
      * 登录后初始化，获取融云用户列表及开启轨迹上传任务
      */
     private void initForLogin() {
-        getIMUsers();
+//        getIMUsers();
         /**登录IM*/
         ModuleIm_Init.connectIM(MyApp.getUserRongYunToken());
-        if (MyApp.getUser().getData().getSettleStatus() == 2) {
-            //主线程中调用：
-            mHandler.postDelayed(runnable, 1000 * 1);//延时1秒
-        }
+        // TODO: 2022-02-14 以前的逻辑是实名认证通过之后才能上传位置信息  现在放开
+//        if (MyApp.getUser().getData().getSettleStatus() == 2) {
+        //主线程中调用：
+        mHandler.postDelayed(runnable, 1000 * 1);//延时1秒
+//        }
     }
 
     /**
@@ -649,15 +644,15 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
                 datas = new ArrayList<>();
             }
             Logger.e("historyDataSize", datas.size() + "");
-            if (datas.size() > 0 && datas.size() < 30) {
-                cacheDatas.clear();
-                cacheDatas.addAll(datas);
+            if (datas.size() > 0) {
                 mPresenter.uploadHistory(new Gson().toJson(datas), MainPageContract.UPLOAD_HISTORY);
+                //每隔1分钟循环执行run方法
+                mHandler.postDelayed(runnable, 1000 * 60 );
             } else {
-                MyApp.getDaoSession().getLocationBeanDao().deleteAll();
+                //如果还没有获取到定位数据 那就6秒之后再运行一次
+                mHandler.postDelayed(runnable, 1000 * 6);
             }
-            //每隔62s循环执行run方法
-            mHandler.postDelayed(runnable, 1000 * 62);
+
         }
     };
 }

@@ -25,6 +25,7 @@ import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.dgjxb.R;
 import com.juntai.wisdom.dgjxb.MyApp;
+import com.juntai.wisdom.dgjxb.base.MainActivity;
 import com.juntai.wisdom.dgjxb.bean.UserBean;
 import com.juntai.wisdom.dgjxb.entrance.regist.RegistActivity;
 import com.juntai.wisdom.dgjxb.entrance.sendcode.SendCodeModel;
@@ -145,7 +146,7 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                         Hawk.put(AppUtils.SP_KEY_TOKEN, loginBean.getData().getToken());
                         Hawk.put(AppUtils.SP_RONGYUN_TOKEN, loginBean.getData().getrOngYunToken());
                         EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
-                        onBackPressed();
+                        startActivity(new Intent(mContext, MainActivity.class));
                         LogUtil.d("token=" + MyApp.getUserToken());
                     } else if (loginBean.status == 1301) {
                         //未绑定 将第三方信息注册到平台
@@ -284,12 +285,12 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                     UserInfoManager.OTHER_NICK_NAME = platDB.getUserName();
                     otherHeadIcon = platDB.getUserIcon();
                     if (platform.getName().equals(QQ.NAME)) {
-                        String params ="access_token=" + platform.getDb().getToken() + "&unionid=1&fmt=json";
+                        String params = "access_token=" + platform.getDb().getToken() + "&unionid=1&fmt=json";
                         HttpUtil.sendGet("https://graph.qq.com/oauth2.0/me", params, new HttpUtil.NetCallBack() {
                             @Override
                             public void onSuccess(String str) {
                                 if (!TextUtils.isEmpty(str)) {
-                                    UnionidBean unionidBean = GsonTools.changeGsonToBean(str,UnionidBean.class);
+                                    UnionidBean unionidBean = GsonTools.changeGsonToBean(str, UnionidBean.class);
                                     UserInfoManager.QQ_ID = unionidBean.getUnionid();
                                     myHandler.sendEmptyMessage(1);
                                 }

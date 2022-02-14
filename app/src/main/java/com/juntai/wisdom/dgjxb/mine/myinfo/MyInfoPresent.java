@@ -148,7 +148,7 @@ public class MyInfoPresent extends BasePresenter<IModel, MyCenterContract.IMyInf
     @Override
     public void getUserData(String tag) {
         AppNetModule.createrRetrofit()
-                .getUserData(MyApp.getAccount(), MyApp.getUserToken(), MyApp.getUid(), 1)
+                .getUserData(MyApp.getAccount(), MyApp.getUserToken())
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<UserBean>(getView()) {
                     @Override

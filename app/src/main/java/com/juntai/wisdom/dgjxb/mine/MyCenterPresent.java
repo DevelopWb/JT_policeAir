@@ -51,7 +51,7 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     @Override
     public void getUserData(String tag) {
         AppNetModule.createrRetrofit()
-                .getUserData(MyApp.getAccount(), MyApp.getUserToken(), MyApp.getUid(), 1)
+                .getUserData(MyApp.getAccount(), MyApp.getUserToken())
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<UserBean>(null) {
                     @Override
@@ -104,10 +104,7 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     public void loginOut(String tag) {
         LogUtil.e("longitude:"+ MyApp.app.getMyLocation().longitude + "latitude"+ MyApp.app.getMyLocation().latitude);
         AppNetModule.createrRetrofit()
-                .loginOut(MyApp.getAccount(), MyApp.getUserToken(), MyApp.getUid(),
-                        String.valueOf(MyApp.app.getMyLocation().longitude),
-                        String.valueOf(MyApp.app.getMyLocation().latitude),
-                        1)
+                .loginOut(MyApp.getAccount(), MyApp.getUserToken())
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

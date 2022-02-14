@@ -102,15 +102,10 @@ public interface AppServer {
      *
      * @param account
      * @param password
-     * @param weChatId
-     * @param qqId
-     * @param source   app类型（1警小宝；2巡小管；3邻小帮）
      * @return
      */
     @POST(AppHttpPath.LOGIN)
-    Observable<UserBean> login(@Query("account") String account, @Query("password") String password,
-                               @Query("weChatId") String weChatId, @Query("qqId") String qqId,
-                               @Query("source") int source);
+    Observable<UserBean> login(@Query("account") String account, @Query("password") String password);
 
     /***************************************注册模块* ******************************************/
 
@@ -171,10 +166,7 @@ public interface AppServer {
      * @return
      */
     @POST(AppHttpPath.LOGIN_OUT)
-    Observable<BaseResult> loginOut(@Query("account") String account, @Query("token") String token,
-                                    @Query("userId") int userId,
-                                    @Query("longitude") String longitude, @Query("latitude") String latitude, @Query(
-                                            "source") int source);
+    Observable<BaseResult> loginOut(@Query("account") String account, @Query("token") String token);
 
     /**
      * 获取个人信息
@@ -183,12 +175,10 @@ public interface AppServer {
      *
      * @param account
      * @param token
-     * @param userId
      * @return
      */
     @POST(AppHttpPath.USERINFO)
-    Observable<UserBean> getUserData(@Query("account") String account, @Query("token") String token,
-                                     @Query("userId") int userId, @Query("source") int source);
+    Observable<UserBean> getUserData(@Query("account") String account, @Query("token") String token);
 
     /**
      * 上传头像
@@ -704,8 +694,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.USER_HISTORY_UPLOAD)
     Observable<BaseResult> uploadHistory(@Query("account") String account, @Query("token") String token, @Query(
-            "userId") int userId,
-                                         @Query("source") int source, @Query("json") String json);
+            "userId") int userId, @Query("json") String json);
 
     /*====================================================    天气
     ==============================================================*/

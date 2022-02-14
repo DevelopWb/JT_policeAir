@@ -416,7 +416,8 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         }
         mapMenuButtonRv = getView(R.id.menu_list);
         // entityListRv = getView(R.id.entity_list_rv);
-        mPresenter.getMenus(MapContract.GET_MENUS);
+        // TODO: 2022-02-14 地图图标的接口
+//        mPresenter.getMenus(MapContract.GET_MENUS);
         mapMenuButtonRv.setLayoutManager(new LinearLayoutManager(mContext));
         adapter = new MapMenuAdapter(R.layout.map_menu_button, new ArrayList());
         mapMenuButtonRv.setAdapter(adapter);
@@ -779,7 +780,8 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         };
 
         if (!closeMarquee) {
-            mPresenter.getBannerNews(MapContract.BANNER_NEWS);
+            // TODO: 2022-02-14 轮播的接口  关闭
+//            mPresenter.getBannerNews(MapContract.BANNER_NEWS);
         }
     }
 
@@ -1329,8 +1331,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
 
         //保存轨迹到本地
         if (MyApp.getUser() != null &&
-                MyApp.getUser().getData() != null &&
-                MyApp.getUser().getData().getSettleStatus() == 2){
+                MyApp.getUser().getData() != null){
             LocationBean locationBean = new LocationBean(bdLocation.getAddrStr()+"",
                     LocateAndUpload.getLocType(bdLocation),
                     bdLocation.getLongitude()+"",
