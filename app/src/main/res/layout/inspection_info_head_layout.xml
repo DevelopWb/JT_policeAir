@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/inspection_name_tv"
+            style="@style/item_title_style"
+            android:paddingLeft="0dp"
+            android:text="临沂市交通医药"
+            android:textSize="16dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/inspection_addr_iv"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@mipmap/address_small_icon"
+                app:layout_constraintBottom_toTopOf="@+id/inspection_phone_iv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/inspection_addr_tv"
+                style="@style/item_content_text_style_right"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="left"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@+id/inspection_addr_iv"
+                app:layout_constraintLeft_toRightOf="@+id/inspection_addr_iv"
+                app:layout_constraintRight_toLeftOf="@+id/inspection_navigation_iv"
+                app:layout_constraintTop_toTopOf="@+id/inspection_addr_iv" />
+
+            <ImageView
+                android:id="@+id/inspection_phone_iv"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="5dp"
+                android:src="@mipmap/phone_small_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/inspection_addr_iv"
+                app:layout_constraintTop_toBottomOf="@+id/inspection_addr_iv" />
+
+            <TextView
+                android:id="@+id/inspection_phone_tv"
+                style="@style/item_content_text_style_right"
+                android:layout_width="0dp"
+                android:gravity="left"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/inspection_phone_iv"
+                app:layout_constraintLeft_toRightOf="@+id/inspection_phone_iv"
+                app:layout_constraintRight_toLeftOf="@+id/inspection_navigation_iv"
+                app:layout_constraintTop_toTopOf="@+id/inspection_phone_iv" />
+
+
+            <ImageView
+                android:id="@+id/inspection_navigation_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/navigation_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inspection_record_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp">
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="12dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            style="@style/item_title_style"
+            android:paddingLeft="5dp"
+            android:text="巡检记录"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

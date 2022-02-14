@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".home_page.news.news_publish.preview.ImageTextPreActivity">
+    <TextView
+        android:id="@+id/info_title_tv"
+        style="@style/news_title_style"
+        android:layout_gravity="center"
+        android:text=""
+        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"/>
+    <FrameLayout
+        android:id="@+id/web_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="WebViewLayout"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+    </FrameLayout>
+</LinearLayout>

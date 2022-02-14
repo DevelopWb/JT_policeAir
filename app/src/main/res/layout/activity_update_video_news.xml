@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/item_title_style"
+            android:gravity="center_vertical"
+            android:text="修改视频封面"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_news_publish_rectangle">
+            <ImageView
+                android:id="@+id/video_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_news_publish_rectangle"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                style="@style/item_title_style"
+                android:gravity="center_vertical"
+                android:text="标题："
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/title_et"
+                android:background="@null"
+                style="@style/publish_input_tv_style"
+                android:gravity="center_vertical"
+                android:hint="起一个吸引人的名称让更多人看到哟"
+                android:textSize="14dp"
+                android:paddingLeft="0dp"
+                android:maxLength="30"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_news_publish_rectangle"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                style="@style/item_title_style"
+                android:gravity="center_vertical"
+                android:text="位置："
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/address_tv"
+                style="@style/publish_input_tv_style"
+                android:gravity="center_vertical"
+                android:hint="请选择发布位置"
+                android:textSize="14dp"
+                android:paddingLeft="0dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_news_publish_rectangle"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:maxLength="500"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:hint="简单介绍下视频吧"
+                android:padding="10dp"
+                android:minLines="5"
+                android:gravity="start"/>
+
+            <TextView
+                android:id="@+id/limit_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="已输入0/500"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                android:alpha="0.4"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="right"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:elevation="10dp"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/aaaaa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:padding="5dp"
+        android:text="实有人口"/>
+    <TextView
+        android:id="@+id/bbbb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:padding="5dp"
+        android:text="实有住房"/>
+    <TextView
+        android:id="@+id/cccc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:padding="5dp"
+        android:text="实有单位"/>
+</LinearLayout>

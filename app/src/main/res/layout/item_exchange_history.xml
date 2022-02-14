@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/item_iv"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/my_hint_head"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="标题"
+        android:textSize="16dp"
+        android:textColor="@color/text_title"
+        android:lines="2"
+        android:ellipsize="end"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/item_price"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="50积分"
+        android:textSize="16dp"
+        android:textColor="@color/orange"
+        app:layout_constraintTop_toBottomOf="@+id/item_name"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv"
+        app:layout_constraintBottom_toTopOf="@+id/item_date"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="2020-05-13 12:04:34"
+        android:textSize="14dp"
+        android:textColor="@color/text_content"
+        app:layout_constraintTop_toBottomOf="@+id/item_price"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="15dp"/>
+</android.support.constraint.ConstraintLayout>

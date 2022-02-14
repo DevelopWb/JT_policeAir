@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".entrance.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/app_jing_icon" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/stroke_gray_square_bg">
+
+
+            <EditText
+                android:id="@+id/regist_phone_et"
+                style="@style/login_edit_tv_style"
+                android:layout_width="match_parent"
+                android:drawableStart="@mipmap/login_phone"
+                android:hint="账号"
+                android:maxLength="11"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                style="@style/divider_style"
+                app:layout_constraintTop_toBottomOf="@+id/regist_phone_et"
+                tools:ignore="MissingConstraints"></View>
+
+
+            <EditText
+                android:id="@+id/password"
+                style="@style/login_edit_tv_style"
+                android:layout_width="match_parent"
+                android:drawableStart="@mipmap/login_pwd"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/is_show_pwd_sc"
+                app:layout_constraintTop_toBottomOf="@+id/regist_phone_et" />
+
+
+            <!--app:splitTrack="false"-->
+            <!--app:showText="false"-->
+            <!--app:trackTint="#00000000"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--app:thumbTint="#00000000"-->
+            <!--android:theme="@style/sc_style"-->
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/is_show_pwd_sc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/sc_style"
+                app:layout_constraintBottom_toBottomOf="@+id/password"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/password" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/login_tv"
+            style="@style/bt_bg_style"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="登录" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/regist_account_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="注册新用户"
+                android:textColor="@color/colorAccent"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/reback_pwd_tv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/reback_pwd_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="找回密码"
+                android:textColor="@color/colorAccent"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/regist_account_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/regist_account_tv"
+                app:layout_constraintTop_toTopOf="@+id/regist_account_tv" />
+
+
+            <TextView
+                android:id="@+id/other_login_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="其他登录方式"
+                android:textColor="@color/gray"
+                android:textSize="14dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/regist_account_tv" />
+
+            <View
+                android:visibility="visible"
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:background="@color/gray"
+                app:layout_constraintBottom_toBottomOf="@+id/other_login_type_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/other_login_type_tv"
+                app:layout_constraintTop_toTopOf="@+id/other_login_type_tv"/>
+
+            <View
+                android:visibility="visible"
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:background="@color/gray"
+                app:layout_constraintBottom_toBottomOf="@+id/other_login_type_tv"
+                app:layout_constraintLeft_toRightOf="@+id/other_login_type_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/other_login_type_tv"/>
+
+            <ImageView
+                android:visibility="visible"
+                android:id="@+id/login_by_wchat_iv"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/wchat_icon"
+                app:layout_constraintEnd_toStartOf="@+id/login_by_qq_iv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/other_login_type_tv" />
+
+            <ImageView
+                android:visibility="visible"
+                android:id="@+id/login_by_qq_iv"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@mipmap/qq_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/login_by_wchat_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/login_by_wchat_iv"
+                app:layout_constraintTop_toTopOf="@+id/login_by_wchat_iv" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+</LinearLayout>

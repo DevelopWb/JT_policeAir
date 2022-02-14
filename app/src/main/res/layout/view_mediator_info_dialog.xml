@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@drawable/shape_dialog_back_white"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/item_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="8dp"
+        android:src="@mipmap/close_gray"
+        android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/item_iv"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginBottom="5dp"
+            android:src="@mipmap/default_user_head_icon"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/item_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18763739973"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_phone_number"/>
+
+        <TextView
+            android:id="@+id/item_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minLines="5"
+            android:text="姓名"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_image4"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/sample_obverse_icon"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/item_bottom"/>
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/item_image4"
+            app:layout_constraintBottom_toTopOf="@id/item_photo_layout"/>
+
+        <LinearLayout
+            android:id="@+id/item_photo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_title"
+            app:layout_constraintBottom_toTopOf="@+id/item_bottom">
+            <ImageView
+                android:id="@+id/item_image1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="5dp"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/item_image2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_marginRight="5dp"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/item_image3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_photo_layout">
+            <TextView
+                android:id="@+id/item_des"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="中国军视网 \u30001评论 \u3000刚刚"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:alpha="0.6"/>
+
+            <ImageView
+                android:id="@+id/item_more"
+                android:layout_width="28dp"
+                android:layout_height="25dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@mipmap/item_more"
+                android:alpha="0.6"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <View style="@style/divider_light_style"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+</LinearLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".home_page.weather.SelectAddrActivity">
+
+    <TextView
+        android:id="@+id/select_addr_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:padding="15dp"
+        android:text="当前选择城市或地区"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/select_addr_privince_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/arrow_down_filled_black_icon"
+        android:layout_gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="当前选择城市或地区"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/select_addr_city_tv"
+        android:layout_width="wrap_content"
+        android:drawablePadding="10dp"
+
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/arrow_down_filled_black_icon"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="当前选择城市或地区"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/select_addr_confirm_tv"
+        style="@style/bt_bg_style"
+        android:layout_margin="20dp"
+        android:text="确定" />
+</LinearLayout>

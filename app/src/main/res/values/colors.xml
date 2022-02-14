@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="statusBarColor">#ffffff</color>
+    <color name="textColorPrimary">#5e000000</color>
+    <color name="colorAccent">#2C8FFC</color>
+    <color name="colorTheme">#58A4DB</color>
+    <color name="colorThemeDark">#2851CF</color>
+    <color name="color_bt_pressed">#7DB9FC</color>
+    <color name="gray_deeper">#8B8B8B</color>
+
+    <color name="color_bg_dark_blue">#2851CF</color>
+    <color name="pop_light_blue">#DDE4F2</color>
+
+    <color name="text_gray">#707070</color>
+    <color name="text_title">#555555</color>
+    <color name="text_content">#777777</color>
+    <color name="text_label">#AAABAB</color>
+    <color name="phone_bg">#D9DAEB</color>
+
+    <color name="transparent_black">#60000000</color>
+
+    <color name="green_lighter">#AA00b61e</color>
+    <color name="green_lighter_more">#EBF7E7</color>
+    <color name="green">#65C445</color>
+</resources>

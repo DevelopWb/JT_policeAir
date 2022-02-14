@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="match_parent"
+    android:background="#D8DDEB">
+
+    <TextView
+        android:id="@+id/dl_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="10dp"
+        android:text="地图模式" />
+
+    <RelativeLayout
+        android:id="@+id/normal_side"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/dl_tv"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/dituleixingbuju"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/twd_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/colorAccent">
+
+                    <ImageView
+                        android:id="@+id/erdpingmiantu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:src="@drawable/twdweixingtu" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/twd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="2D平面图"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/thd_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/sandfushitu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:src="@drawable/thdweixingtu" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/thd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="3D俯视图"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/weixing_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/weixingtu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:layout_margin="1dp"
+                        android:src="@drawable/weixingtu" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/weixing_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="卫星定位图"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/jiejing_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/jiejing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:layout_margin="1dp"
+                        android:src="@drawable/panorama" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/jiejing_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="街景"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/dituleixingbuju"
+            android:layout_marginTop="10dp"
+            android:background="#a4a4a4" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_margin="20dp"
+            android:collapseColumns="3,3"
+            android:orientation="vertical">
+            <!--<TableRow-->
+            <!--android:id="@+id/tableRow1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent" >-->
+            <!--<ImageView-->
+            <!--android:id="@+id/heaticon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:src="@drawable/heatmap" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/heatmaptv"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_toRightOf="@id/heaticon"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="城市热力图分布" />-->
+
+            <!--<Switch-->
+            <!--android:id="@+id/relitukaiguan"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_gravity="center" />-->
+
+            <!--</TableRow>-->
+
+            <RelativeLayout
+                android:id="@+id/relitubuju"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dituleixingbuju">
+
+                <ImageView
+                    android:id="@+id/heaticon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/heatmap" />
+
+                <TextView
+                    android:id="@+id/heatmaptv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/heaticon"
+                    android:paddingLeft="10dp"
+                    android:text="城市热力图分布" />
+
+                <Switch
+                    android:id="@+id/relitukaiguan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lukuangbuju"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relitubuju"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/roadstatus_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:paddingLeft="7dp"
+                    android:src="@drawable/road_status" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/roadstatus_icon"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:text="城市路况图" />
+
+                <Switch
+                    android:id="@+id/lukuangtukaiguan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:id="@+id/distance_util_btn"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_edit_bg"
+                android:layout_below="@id/lukuangbuju"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/distanceutil_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:paddingLeft="7dp"
+                    android:src="@drawable/mapdistanceutil" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/distanceutil_icon"
+                    android:paddingLeft="10dp"
+                    android:text="地图测距" />
+
+                <Switch
+                    android:id="@+id/map_distanceutil"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone">
+                <Button
+                    android:id="@+id/test1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="250dp"
+                    android:text="test1" />
+
+                <Button
+                    android:id="@+id/test2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/test1"
+                    android:layout_alignTop="@id/test1"
+                    android:layout_toRightOf="@id/test1"
+                    android:text="test2" />
+
+                <Button
+                    android:id="@+id/distance_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/test1"
+                    android:text="测距" />
+
+                <Button
+                    android:id="@+id/area_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/distance_switch"
+                    android:text="测面积" />
+            </RelativeLayout>
+        </TableLayout>
+    </RelativeLayout>
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:padding="10dp"-->
+<!--        android:layout_below="@id/normal_side"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <android.support.v7.widget.RecyclerView-->
+<!--            android:id="@+id/part_type_list"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
+
+<!--    </RelativeLayout>-->
+
+</RelativeLayout>

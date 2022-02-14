@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/push_case_nsv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_gray_square_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/item_title_style"
+                    android:layout_width="76dp"
+                    android:gravity="center_vertical"
+                    android:text="姓名"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:background="@null"
+                    android:id="@+id/name_tv"
+                    style="@style/publish_input_tv_style"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="15dp"
+                    android:hint="请输入姓名" />
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/item_title_style"
+                    android:layout_width="76dp"
+                    android:gravity="center_vertical"
+                    android:text="性别"
+                    android:textColor="@color/black" />
+                <RadioGroup
+                    android:id="@+id/rgSex"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                    <RadioButton
+                        android:id="@+id/radio_nan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="男" />
+                    <RadioButton
+                        android:id="@+id/radio_nv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="女"
+                        android:layout_marginLeft="20dp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/item_title_style"
+                    android:gravity="center_vertical"
+                    android:text="身份证号"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:background="@null"
+                    android:id="@+id/id_number_tv"
+                    style="@style/publish_input_tv_style"
+                    android:gravity="center_vertical"
+                    android:hint="请输入身份证号码"
+                    android:paddingLeft="0dp"
+                    android:maxLength="18"
+                    android:digits="0123456789xyzXYZ"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/item_title_style"
+                    android:gravity="center_vertical"
+                    android:text="居住地址"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/address_tv"
+                    style="@style/publish_input_tv_style"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:hint="请选择居住地址" />
+                <ImageView
+                    android:id="@+id/address_iv"
+                    style="@style/next_tag_style"
+                    android:src="@mipmap/ic_push_location"/>
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/item_title_style"
+                    android:gravity="center_vertical"
+                    android:text="联系电话"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:background="@null"
+                    android:id="@+id/phone_tv"
+                    style="@style/publish_input_tv_style"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:hint="请输入联系电话"
+                    android:maxLength="11"
+                    android:inputType="phone"/>
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/item_title_style"
+                    android:gravity="center_vertical"
+                    android:text="所属单位"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:background="@null"
+                    android:id="@+id/unit_name_tv"
+                    style="@style/publish_input_tv_style"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:hint="请输入所属单位"
+                    android:enabled="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <View style="@style/divider_style" />
+
+            <EditText
+                android:id="@+id/description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="start"
+                android:hint="请输入备注信息（选填）"
+                android:maxLength="200"
+                android:minLines="5"
+                android:padding="10dp"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/input_num_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="10dp"
+                android:text="已输入0/200"
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/item_title_style"
+            android:gravity="center_vertical"
+            android:paddingLeft="0dp"
+            android:text="照片上传（最多1张）" />
+
+        <FrameLayout
+            android:id="@+id/picture_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/item_title_style"
+            android:gravity="center_vertical"
+            android:paddingLeft="0dp"
+            android:text="视频上传（最多1个）" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_video_pic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                style="@style/picture_choose_style"
+                android:src="@mipmap/add_icons"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/item_video_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/play_button"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/delete_vedio_iv"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:visibility="gone"
+                android:background="@drawable/bg_btn_red_round"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_delete"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/ok_tv"
+            style="@style/bt_bg_style"
+            android:layout_margin="20dp"
+            android:text="确认"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+

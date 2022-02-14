@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:background="@drawable/stroke_gray_square_bg">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_phone" />
+
+            <EditText
+                android:id="@+id/phone_et"
+                style="@style/login_edit_tv_style"
+                android:hint="请输入注册手机号码"
+                android:inputType="phone"
+                android:maxLength="11" />
+        </LinearLayout>
+        <View style="@style/divider_style"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_check_code" />
+
+            <EditText
+                android:id="@+id/check_code_et"
+                style="@style/login_edit_tv_style"
+                android:layout_weight="1"
+                android:hint="请输入短信验证码"
+                android:inputType="number"
+                android:maxLength="6" />
+
+            <TextView
+                android:id="@+id/send_check_code_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/stroke_blue_square_bg"
+                android:paddingLeft="7dp"
+                android:paddingTop="5dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="5dp"
+                android:text="发送验证码"
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp" />
+        </LinearLayout>
+        <View style="@style/divider_style"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_pwd" />
+
+            <EditText
+                android:id="@+id/regist_check_pwd_et"
+                style="@style/login_edit_tv_style"
+                android:hint="请输入登录密码"
+                android:maxLength="20" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/binding_tv"
+        style="@style/bt_bg_style"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="绑定" />
+</LinearLayout>

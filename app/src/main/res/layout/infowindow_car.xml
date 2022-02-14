@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popwindow2">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pop_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/car_btn_rl"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/car_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#fff"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nopicture"
+            app:layout_constraintBottom_toBottomOf="@+id/car_infos"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/car_infos" />
+
+        <TextView
+            android:id="@+id/car_infos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:maxWidth="150dp"
+            android:singleLine="false"
+            android:text="@string/entity_info"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/car_img"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/car_btn_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pop_top"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pop_top">
+
+        <Button
+            android:id="@+id/car_contact"
+            style="@style/bt_small_button_style"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="指挥调度" />
+
+        <Button
+            android:id="@+id/car_history"
+            style="@style/bt_small_button_style"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/car_contact"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="轨迹回放" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/his_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/car_btn_rl"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pop_top">
+
+        <Button
+
+            android:id="@+id/today_history"
+            style="@style/bt_small_button_style"
+            android:text="今日轨迹" />
+
+        <Button
+            android:id="@+id/yesterday_history"
+            style="@style/bt_small_button_style"
+            android:layout_marginLeft="5dp"
+            android:text="昨日轨迹" />
+
+        <Button
+            android:id="@+id/zidingyi_history"
+            style="@style/bt_small_button_style"
+            android:layout_marginLeft="5dp"
+            android:text="自定义时间" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

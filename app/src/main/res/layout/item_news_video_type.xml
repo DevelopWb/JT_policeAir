@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="标题"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:layout_marginBottom="10dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <com.juntai.wisdom.video.Jzvd.MyJzvdStd
+            android:id="@+id/videoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/video_bg_frame"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/item_des"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="中国军视网 \u30001评论 \u3000刚刚"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            android:alpha="0.6"/>
+
+        <ImageView
+            android:id="@+id/item_more"
+            android:layout_width="28dp"
+            android:layout_height="25dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@mipmap/item_more"
+            android:alpha="0.6"/>
+    </LinearLayout>
+
+    <View style="@style/divider_light_style"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"/>
+</LinearLayout>

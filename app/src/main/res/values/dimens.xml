@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="info_title_size">23dp</dimen>
+    <dimen name="info_content_size">17dp</dimen>
+    <dimen name="info_name_size">12dp</dimen>
+    <dimen name="info_remark_size">12dp</dimen>
+
+    <dimen name="item_wight_publish">93dp</dimen>
+    <dimen name="page_margin">15dp</dimen>
+</resources>

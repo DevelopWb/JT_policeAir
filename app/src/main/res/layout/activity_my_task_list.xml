@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_content_sv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            app:iconifiedByDefault="false"
+            android:paddingLeft="-10dp"
+            app:searchIcon="@drawable/search_icon"
+            android:background="@drawable/stroke_blue_square_bg"
+            app:queryBackground="@null"
+            app:showDividers="none"
+            app:submitBackground="@null"
+            app:queryHint="搜索关键词"/>
+        <TextView
+            android:id="@+id/type_tv"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="全部"
+            android:textSize="14dp"
+            android:background="@drawable/stroke_blue_square_bg"/>
+    </LinearLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartrefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scrollbars="none"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

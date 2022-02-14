@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="15dp"
+        android:text="不知道"
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="2dp"
+        android:alpha="0.6"
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        android:text="你是哪个"
+        android:singleLine="true"/>
+</LinearLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popwindow2">
+
+    <RelativeLayout
+        android:id="@+id/pop_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/head_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nopicture" />
+
+        <TextView
+            android:id="@+id/people_infos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/head_image"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/head_image"
+            android:singleLine="false"
+            android:text="@string/entity_info"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/people_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pop_top">
+
+        <LinearLayout
+            android:id="@+id/people_origin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:id="@+id/people_chat"
+                style="@style/bt_small_button_style"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="人员调度"/>
+
+            <Button
+                android:id="@+id/people_history"
+                style="@style/bt_small_button_style"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/people_chat"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="历史轨迹" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/his_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/today_history"
+                style="@style/bt_small_button_style"
+                android:text="今日轨迹" />
+
+            <Button
+                android:id="@+id/yesterday_history"
+                style="@style/bt_small_button_style"
+                android:text="昨日轨迹"
+                android:layout_marginLeft="5dp"/>
+
+            <Button
+                android:id="@+id/zidingyi_history"
+                style="@style/bt_small_button_style"
+                android:text="自定义轨迹"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

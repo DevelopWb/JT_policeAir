@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/videoplayer_btn_bg"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/mSurfaceview_Rl"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content">
+        <SurfaceView
+            android:id="@+id/realplay_sv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <ImageView
+            android:id="@+id/player_cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"/>
+        <ImageButton
+            android:id="@+id/play_button"
+            android:background="#00FFFFFF"
+            android:src="@drawable/camera_play_button"
+            android:layout_width="90dp"
+            android:scaleType="fitCenter"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/cameraPlayProgressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:id="@+id/mSurfaceview_controllor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageButton
+            android:id="@+id/fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_centerVertical="true"
+            android:background="#fff"
+            android:src="@drawable/max" />
+
+        <ImageButton
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@+id/fullscreen"
+            android:id="@+id/mSurfaceview_play"
+            android:layout_width="wrap_content"
+            android:background="#fff"
+            android:src="@drawable/realplayer_play"
+            android:layout_centerVertical="true"
+            android:layout_height="38dp" />
+        <ImageButton
+            android:layout_marginLeft="4dp"
+            android:layout_centerVertical="true"
+            android:background="#fff"
+            android:src="@drawable/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_toRightOf="@id/mSurfaceview_play"
+            android:id="@+id/mSurfaceView_pause"/>
+
+        <ImageButton
+            android:layout_marginLeft="4dp"
+            android:id="@+id/mSurfaceview_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="#fff"
+            android:src="@drawable/capture"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/mSurfaceView_pause"/>
+
+        <ImageButton
+            android:id="@+id/sv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_toEndOf="@+id/mSurfaceview_capture"
+            android:layout_toRightOf="@+id/mSurfaceview_capture"
+            android:background="#fff"
+            android:src="@drawable/record" />
+
+        <ImageButton
+            android:layout_marginLeft="4dp"
+            android:id="@+id/saveTheNetStream"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="#fff"
+            android:src="@drawable/flow_pre"
+            android:layout_toRightOf="@id/sv_record"
+            android:textColor="@android:color/holo_green_dark"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/cameraInfoRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:id="@+id/deviceplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:text="设备位置:"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/devicestate"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/deviceplace"
+            android:layout_marginTop="5dp"
+            android:text="设备状态:"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartrefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:elevation="10dp"
+        android:focusable="true"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/comment_edittext"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            app:layout_constraintHorizontal_weight="5"
+            android:paddingLeft="10dp"
+            android:text="写评论···"
+            android:textColor="@color/text_gray"
+            android:drawablePadding="5dp"
+            android:background="@drawable/bg_edittext_round"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/info_comment_cnt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/info_comment_cnt"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:singleLine="true"
+            android:maxLength="4"
+            android:textSize="14dp"
+            android:textColor="@color/text_gray"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/comment_edittext"
+            app:layout_constraintRight_toLeftOf="@+id/info_like_cnt"/>
+
+        <TextView
+            android:id="@+id/info_like_cnt"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:singleLine="true"
+            android:maxLength="4"
+            android:textSize="14dp"
+            android:textColor="@color/text_gray"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/info_comment_cnt"
+            app:layout_constraintRight_toLeftOf="@+id/info_collect_cnt"/>
+
+        <TextView
+            android:id="@+id/info_collect_cnt"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="收藏"
+            android:textSize="13dp"
+            android:textColor="@color/text_gray"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:drawablePadding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/info_like_cnt"
+            app:layout_constraintRight_toLeftOf="@+id/info_share_cnt"/>
+
+
+        <TextView
+            android:id="@+id/info_share_cnt"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="分享"
+            android:textSize="13dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_gray"
+            android:drawablePadding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/info_collect_cnt"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

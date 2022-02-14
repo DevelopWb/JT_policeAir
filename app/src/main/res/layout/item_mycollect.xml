@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="15dp"
+    android:paddingLeft="10dp"
+    android:minHeight="70dp">
+
+    <CheckBox
+        android:id="@+id/item_collect_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/item_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/my_hint_head"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/item_collect_check"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="标题"
+        android:textSize="16dp"
+        android:textColor="@color/text_title"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/item_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/item_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="2020-05-13 12:04:34"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="12dp"
+        android:alpha="0.6"
+        android:textColor="@color/text_content"
+        app:layout_constraintTop_toBottomOf="@+id/item_name"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/item_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="审核通过"
+        android:textSize="12dp"
+        android:textColor="@color/success_color"
+        app:layout_constraintTop_toTopOf="@+id/item_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/item_content"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/item_more_iv"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:src="@mipmap/item_more"
+        android:padding="3dp"
+        android:alpha="0.6"
+        app:layout_constraintTop_toTopOf="@+id/item_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/item_content"
+        android:visibility="gone"/>
+
+</android.support.constraint.ConstraintLayout>

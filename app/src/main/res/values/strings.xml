@@ -1,0 +1,82 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">兰山警航定位</string>
+    <string name="people_name">姓名:</string>
+    <string name="people_age">年龄:</string>
+    <string name="people_depart">部门:</string>
+    <string name="people_phone">电话:</string>
+    <string name="people_sexual">性别:</string>
+    <string name="people_status">状态:</string>
+    <string name="people_history">历史轨迹</string>
+    <string name="people_talk">指挥调度</string>
+    <string name="people_number">编号:</string>
+    <string name="people_depaName">部门:</string>
+    <string name="police_status">状态:</string>
+    <string name="entity_info">信息:</string>
+    <string name="camera_num">编号:</string>
+    <string name="camera_addr">位置:</string>
+    <string name="camera_name">名称:</string>
+    <string name="camera_remark">备注:</string>
+    <string name="camera_play">实时画面</string>
+    <string name="case_num">案件编号:</string>
+    <string name="case_addr">案件地点:</string>
+    <string name="case_cate">案件类型:</string>
+    <string name="case_decontent">案件细节:</string>
+    <string name="case_date">报警时间:</string>
+    <string name="case_detail">详细信息</string>
+    <string name="case_navigate">导航</string>
+    <string name="car_name">名称:</string>
+    <string name="car_speed">速度:</string>
+    <string name="car_imei">编号:</string>
+    <string name="car_power">电量:</string>
+    <string name="search_transName">search</string>
+    <string name="protocal_notice1">我已阅读并同意《隐私协议》</string>
+    <string name="protocal_notice2">和《用户协议》</string>
+
+    <string name="agreement_user_xieyi">《用户协议》</string>
+    <string name="agreement_secret_xieyi">《隐私协议》</string>
+    <string name="secret_xieyi_url">http://www.kb167.com/yinsi/jxb-yinsi.html</string>
+    <string name="user_xieyi_url">http://www.kb167.com/yinsi/jxb-user.html</string>
+    <string name="logo_url">https://www.juntaikeji.com:17002/logo/jxblogo.jpeg</string>
+    <string name="agreement_xieyi_tag">
+        请务必审慎阅读、充分理解“用户协议”和“隐私协议”各项条款，包括但不限于：为了向你
+        提供景点资讯、内容分享等服务，我们需要收集你的设备信息、操作日志等个人信息。你可以在
+        “我的”中查看、变更个人信息。\n你可以阅读《用户协议》和《隐私协议》了解详细信息。如你同意，请点击“同意并进入”开始接受
+        我们的服务。
+    </string>
+    <string name="call_to_police_notice">警方提示:请放心填写,我们不会随意泄漏您的信息！</string>
+    <string name="id_card_notice">手持身份证照片（要求：必须看清身份证号码, 露出头部和手肘）</string>
+    <string name="verified_success">提交成功！\n  我们需要人工审核, 最长1-3个工作日\n如遇紧急事情，请及时拨打110！</string>
+    <string name="business_submit_success">提交成功！\n  我们需要人工审核, 最长1-3个工作日,\n请耐心等待。您可以到我的个人中心—业务办理中查看办理进度</string>
+    <string name="select_addr_title">当前选择城市或地区[ %s ]</string>
+    <string name="call_police_warn">谎报警情或骚扰警方，非法占用警力资源，对有限的警力是极大的浪费，会使真正身处危难情形需要紧急援助的人得不到及时的救援。不要随意拨打、更不能打报警骚扰电话。对谎报警情和多次骚扰的，将依照《治安管理处罚法》严肃处理，一经查实，公安机关将依据有关法律、法规严惩不贷！</string>
+    <!--空数据提示-->
+    <string name="none_share">很抱歉，您暂无分享</string>
+    <string name="none_message">很抱歉，您暂无消息</string>
+    <string name="none_collect">很抱歉，您暂无收藏</string>
+    <string name="none_publish">很抱歉，您暂无发布</string>
+    <string name="none_task">很抱歉，您暂无任务</string>
+    <string name="none_goods">很抱歉，暂无商品</string>
+    <string name="none_conciliation">很抱歉，您没有调解申请</string>
+    <string name="delete_waring">删除后无法恢复，确定删除？</string>
+    <string name="load_more">点击加载更多</string>
+    <string name="load_more_no_data">没有数据了</string>
+
+    <string name="request_float_permission">为了您更好的体验，请去设置悬浮窗、锁屏显示、后台打开界面等相关权限（如没有相关权限设置，请忽略）。</string>
+    <string name="fail_float_permission">相关权限未设置，可能无法及时收到推送信息。</string>
+
+    <string name="publish_success_tag">正在审核，请稍候！</string>
+    <string name="conciliation_des_hint">请简要描述您的调解，比如描述事发时间、地点、事件经过。</string>
+
+    <string name="exchange_success_remind">请携带个人身份证到 东关街派出所领取兑换奖品</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    资讯-->
+    <string name="news_publish_article_hint">请开始你的创作</string>
+    <!--    完善信息-->
+    <string name="complete_info_notice">请确保填写信息真实有效，如若有误，则可能无法收到有效推送信息。</string>
+    <string name="success_tag">我们会在1至3个工作日审核您的申请信息。您可以到 个人中心—我的调解申请列表中查看结果。</string>
+
+    <string name="online">在\u3000线：</string>
+    <string name="notice_report">请选择你想要举报的类型</string>
+
+</resources>

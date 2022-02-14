@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mine.exchange_mall.GoodsInfoActivity">
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:indicator_drawable_selected="@color/colorTheme"
+        app:indicator_drawable_unselected="@android:color/white"
+        app:indicator_height="4dp"
+        app:indicator_margin="4dp"
+        app:indicator_width="20dp" />
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30积分"
+        android:textSize="15dp"
+        android:textColor="@color/orange"
+        android:layout_below="@+id/banner"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即兑换"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_below="@+id/item_price"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:id="@+id/pay_btn"
+        android:text="立即兑换"
+        style="@style/bt_bg_style"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

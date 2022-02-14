@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mine.task.ReportDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/task_detail_addr_tv"
+            style="@style/item_title_style"
+            android:gravity="center_vertical"
+            android:text="所在位置:"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/item_text_list_right"
+            style="@style/item_content_text_style_right"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="照片和视频"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <fragment
+        android:id="@+id/photo_fg"
+        class="com.juntai.wisdom.dgjxb.base.selectPics.SelectPhotosFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+    <LinearLayout
+        android:id="@+id/score_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="质量打分"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+
+            <RatingBar
+                android:id="@+id/quality_star_rb"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressTint="@color/yellow"
+                android:rating="1"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="速度打分"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+
+            <RatingBar
+                android:id="@+id/speed_star_rb"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressTint="@color/yellow"
+                android:rating="1"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/show_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/fail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:paddingLeft="10dp"
+                android:text="拒绝原因"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/fail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="照片不清晰"
+                android:textColor="@color/text_content"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ok_tv"
+        style="@style/bt_bg_style"
+        android:layout_margin="20dp"
+        android:text="重新上报"
+        android:layout_gravity="bottom"
+        android:visibility="gone"/>
+
+</LinearLayout>

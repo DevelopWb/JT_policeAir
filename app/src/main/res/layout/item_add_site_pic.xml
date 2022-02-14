@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/select_pic_icon_iv"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/add_icons"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/delete_pushed_news_iv"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/bg_btn_red_round"
+        android:src="@mipmap/icon_delete"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="@+id/select_pic_icon_iv"
+        app:layout_constraintTop_toTopOf="@+id/select_pic_icon_iv" />
+
+    <TextView
+        android:id="@+id/select_pic_des_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="0dp"
+        android:text="房屋"
+        android:textColor="@color/red"
+        app:layout_constraintLeft_toLeftOf="@+id/select_pic_icon_iv"
+        app:layout_constraintRight_toRightOf="@+id/select_pic_icon_iv"
+        app:layout_constraintTop_toBottomOf="@+id/select_pic_icon_iv"/>
+</android.support.constraint.ConstraintLayout>

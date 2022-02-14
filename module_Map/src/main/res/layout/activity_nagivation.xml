@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nagivation_gd"
+        style="@style/nagivation_mune"
+        android:text="高德地图"/>
+    <TextView
+        android:id="@+id/nagivation_tx"
+        style="@style/nagivation_mune"
+        android:text="腾讯地图"/>
+    <TextView
+        android:id="@+id/nagivation_bd"
+        style="@style/nagivation_mune"
+        android:text="百度地图"/>
+    <TextView
+        android:id="@+id/nagivation_close"
+        style="@style/nagivation_mune"
+        android:text="取消"/>
+</LinearLayout>

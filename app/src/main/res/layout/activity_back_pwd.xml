@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".entrance.BackPwdActivity">
+
+    <LinearLayout
+        android:id="@+id/top_tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_white_only_bottom_gray_shape_1px">
+
+        <TextView
+            android:id="@+id/check_phone_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:gravity="center"
+            android:text="1.验证手机号码" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:alpha="0.07"
+            android:scaleType="fitXY"
+            android:src="@mipmap/back_pwd_arrow_right_tag" />
+
+        <TextView
+            android:id="@+id/set_pwd_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2.设置新密码" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_margin="20dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/check_phone_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    style="@style/regist_tag_style"
+                    android:src="@mipmap/regist_tag_phone" />
+
+                <EditText
+                    android:id="@+id/regist_phone_et"
+                    style="@style/login_edit_tv_style"
+                    android:hint="请输入注册手机号码"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+            </LinearLayout>
+            <View style="@style/divider_style"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    style="@style/regist_tag_style"
+                    android:src="@mipmap/regist_tag_check_code" />
+
+                <EditText
+                    android:id="@+id/regist_check_code_et"
+                    style="@style/login_edit_tv_style"
+                    android:layout_weight="1"
+                    android:hint="请输入短信验证码"
+                    android:inputType="number"
+                    android:maxLength="6" />
+
+                <TextView
+                    android:id="@+id/regist_send_check_code_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/stroke_blue_square_bg"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="5dp"
+                    android:text="发送验证码"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/set_new_pwd_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/set_pwd_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    style="@style/regist_tag_style"
+                    android:src="@mipmap/regist_tag_pwd" />
+
+                <EditText
+                    android:id="@+id/regist_set_pwd_et"
+                    style="@style/login_edit_tv_style"
+                    android:hint="请设置6-20位(字母数字下划线)密码"
+                    android:maxLength="20" />
+            </LinearLayout>
+
+            <View style="@style/divider_style"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    style="@style/regist_tag_style"
+                    android:src="@mipmap/regist_tag_pwd" />
+
+                <EditText
+                    android:id="@+id/regist_check_pwd_et"
+                    style="@style/login_edit_tv_style"
+                    android:hint="请再次确认密码"
+                    android:maxLength="20" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/regist_tv"
+        style="@style/bt_bg_style"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="下一步" />
+</LinearLayout>

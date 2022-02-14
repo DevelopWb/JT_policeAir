@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".home_page.map.HistoryTrack">
+
+    <com.baidu.lbsapi.panoramaview.PanoramaView
+        android:id="@+id/panorama"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:clickable="true" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.mapapi.map.TextureMapView
+            android:id="@+id/history_mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="10dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/position_addr_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ellipsize="end"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:text="地址："
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/locate_type_tv"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            <TextView
+                android:id="@+id/locate_type_tv"
+                android:layout_width="110dp"
+                android:paddingTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="定位类型：测试"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/position_addr_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/position_addr_tv"></TextView>
+
+            <TextView
+                android:id="@+id/car_gps_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/car_speed"
+                android:text="时间："
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="@+id/position_addr_tv"
+                app:layout_constraintRight_toLeftOf="@+id/car_speed"
+                app:layout_constraintTop_toBottomOf="@+id/position_addr_tv" />
+
+            <TextView
+                android:id="@+id/car_speed"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:text="速度："
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/car_gps_time"
+                app:layout_constraintLeft_toRightOf="@+id/car_gps_time"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/car_gps_time" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_white_only_top_gray_shape_1px"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/car_speed">
+
+                <SeekBar
+                    android:id="@+id/progress_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/play"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/play"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/play_button"
+                    app:layout_constraintBottom_toBottomOf="@+id/speed_value_tv"
+                    app:layout_constraintRight_toLeftOf="@+id/speed_value_tv"
+                    app:layout_constraintTop_toTopOf="@+id/speed_value_tv" />
+
+                <TextView
+                    android:id="@+id/speed_value_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="倍速"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/zoom_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/search_edit_bg"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/zoomplus"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/zoom_plus" />
+
+            <ImageView
+                android:id="@+id/zoomminus"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/zoom_minus" />
+        </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

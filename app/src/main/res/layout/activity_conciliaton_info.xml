@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            style="@style/item_title_style"
+            android:text="申请人信息"
+            android:paddingLeft="0dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_gray_square_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_tag_tv"
+                style="@style/item_title_style"
+                android:text="申请人姓名"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name_et"
+                style="@style/publish_input_tv_style"
+                android:hint="请填写申请人姓名"
+                android:maxLength="10"
+                app:layout_constraintBottom_toBottomOf="@+id/name_tag_tv"
+                app:layout_constraintLeft_toRightOf="@+id/name_tag_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/name_tag_tv" />
+
+            <View
+                android:id="@+id/id_tel_divider_tag"
+                style="@style/divider_style"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_tag_tv" />
+
+            <TextView
+                android:id="@+id/id_tel_tag_tv"
+                style="@style/item_title_style"
+                android:text="申请人电话"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_tel_divider_tag" />
+
+            <TextView
+                android:id="@+id/tel_et"
+                style="@style/publish_input_tv_style"
+                android:hint="请填写申请人电话"
+                android:maxLength="11"
+                app:layout_constraintBottom_toBottomOf="@+id/id_tel_tag_tv"
+                app:layout_constraintLeft_toRightOf="@+id/id_tel_tag_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/id_tel_tag_tv" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            style="@style/item_title_style"
+            android:text="被申请人信息"
+            android:paddingLeft="0dp"
+            android:layout_marginTop="10dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_gray_square_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_tag_tv_2"
+                style="@style/item_title_style"
+                android:text="被申请人姓名"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name_et_2"
+                style="@style/publish_input_tv_style"
+                android:hint="请填写被申请人姓名"
+                android:maxLength="10"
+                app:layout_constraintBottom_toBottomOf="@+id/name_tag_tv_2"
+                app:layout_constraintLeft_toRightOf="@+id/name_tag_tv_2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/name_tag_tv_2" />
+
+            <View
+                android:id="@+id/id_tel_divider_tag_2"
+                style="@style/divider_style"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_tag_tv_2" />
+
+            <TextView
+                android:id="@+id/id_tel_tag_tv_2"
+                style="@style/item_title_style"
+                android:text="被申请人电话"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_tel_divider_tag_2" />
+
+            <TextView
+                android:id="@+id/tel_et_2"
+                style="@style/publish_input_tv_style"
+                android:hint="请填写被申请人电话"
+                android:maxLength="11"
+                app:layout_constraintBottom_toBottomOf="@+id/id_tel_tag_tv_2"
+                app:layout_constraintLeft_toRightOf="@+id/id_tel_tag_tv_2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/id_tel_tag_tv_2" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            style="@style/item_title_style"
+            android:text="调解描述"
+            android:paddingLeft="0dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/description_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_gray_square_bg"
+            android:hint="@string/conciliation_des_hint"
+            android:minLines="5"
+            android:gravity="start"
+            android:padding="10dp"
+            android:maxLength="200"
+            android:textSize="16dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_gray_square_bg"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/type_name_tag"
+                style="@style/item_title_style"
+                android:text="调解类型"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/type_tv"
+                style="@style/publish_input_tv_style"
+                android:maxLength="10"
+                app:layout_constraintBottom_toBottomOf="@+id/type_name_tag"
+                app:layout_constraintLeft_toRightOf="@+id/type_name_tag"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/type_name_tag" />
+
+            <View
+                android:id="@+id/divider_1"
+                style="@style/divider_style"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/type_name_tag" />
+
+            <TextView
+                android:id="@+id/child_type_tag"
+                style="@style/item_title_style"
+                android:text="子&#8194;类&#8194;型"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+
+            <TextView
+                android:id="@+id/child_type_tv"
+                style="@style/publish_input_tv_style"
+                android:maxLength="11"
+                app:layout_constraintBottom_toBottomOf="@+id/child_type_tag"
+                app:layout_constraintLeft_toRightOf="@+id/child_type_tag"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/child_type_tag" />
+
+            <View
+                android:id="@+id/divider_2"
+                style="@style/divider_style"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/child_type_tag" />
+
+            <TextView
+                android:id="@+id/unit_tag"
+                style="@style/item_title_style"
+                android:text="调解单位"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_2" />
+
+            <TextView
+                android:id="@+id/unit_name_tv"
+                style="@style/publish_input_tv_style"
+                android:maxLength="11"
+                app:layout_constraintBottom_toBottomOf="@+id/unit_tag"
+                app:layout_constraintLeft_toRightOf="@+id/unit_tag"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/unit_tag" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lawyer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/zhengju_tag_tv"
+            style="@style/item_title_style"
+            android:text="证据材料"
+            android:paddingLeft="0dp"
+            android:layout_marginTop="10dp" />
+
+        <fragment
+            android:id="@+id/photo_fg"
+            class="com.juntai.wisdom.dgjxb.base.selectPics.SelectPhotosFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:id="@+id/ok_tv"
+            style="@style/bt_bg_style"
+            android:layout_margin="20dp"
+            android:text="进入调解室" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

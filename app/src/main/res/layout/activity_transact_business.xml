@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".home_page.business.transact_business.TransactBusinessActivity">
+    <TextView
+        style="@style/item_title_style"
+        android:paddingLeft="15dp"
+        android:text="申请信息"
+        android:textStyle="bold"
+        android:textSize="16dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/key_value_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        />
+    <TextView
+        android:id="@+id/need_info_tv"
+        style="@style/item_title_style"
+        android:paddingLeft="15dp"
+        android:text="所需材料"
+        android:textStyle="bold"
+        android:textSize="16dp" />
+</LinearLayout>

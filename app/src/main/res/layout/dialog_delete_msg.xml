@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/page_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_delete_dialog"
+        android:textColor="@color/black"
+        android:text="从消息列表删除"
+        android:textSize="17dp"
+        android:elevation="50dp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

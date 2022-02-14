@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/popwindow2">
+
+    <RelativeLayout
+        android:id="@+id/pop_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/head_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#fff"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nopicture" />
+
+        <TextView
+            android:id="@+id/entity_info"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/head_image"
+            android:layout_alignTop="@id/head_image"
+            android:singleLine="false"
+            android:text="@string/entity_info"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/camera_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:elevation="@dimen/dp_10"
+        android:layout_below="@id/pop_top"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/pop_camera_button"
+        android:textColor="@color/white" />
+</RelativeLayout>

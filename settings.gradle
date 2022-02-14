@@ -1,0 +1,4 @@
+include ':module_Base', ':module_Map', ':module_IM', ':module_Video',
+        ':app', ':banner',
+        ":pushpermission",
+        ':IMLib', ':CallLib', ':CallKit', ':IMKit', "RTCLib", ':jjdxm-ijkplayer', ':zXingLiteLib', ':richeditor', ':videocompressor', ':ruler', ':jiaozivideoplayer', ':videocache'

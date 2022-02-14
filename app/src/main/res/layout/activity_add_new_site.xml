@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home_page.law_case.PublishCaseActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/push_case_nsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_gray_square_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="单位名称"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_site_name_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入单位名称"
+                        android:maxLength="50"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="单位类型"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/item_site_type_tv"
+                        style="@style/publish_input_tv_style"
+                        android:gravity="center_vertical"
+                        android:hint="请选择单位类型"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="15dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="经营品类"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_run_type_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入经营品类"
+
+                        android:maxLength="50"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="所属区域"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/item_xiaqu_tv"
+                        style="@style/publish_input_tv_style"
+                        android:gravity="center_vertical"
+                        android:hint="请选择区域"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="15dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="所属网格"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/item_gridding_tv"
+                        style="@style/publish_input_tv_style"
+                        android:gravity="center_vertical"
+                        android:hint="请选择责任网格"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="15dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="单位地址"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/item_address_tv"
+                        style="@style/publish_input_tv_style"
+                        android:gravity="center_vertical"
+                        android:hint="请选择地点"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="15dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="联系人姓名"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_user_name_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入联系人姓名"
+                        android:maxLength="50"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="性别"
+                        android:textColor="@color/black" />
+
+                    <RadioGroup
+                        android:id="@+id/rgSex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_nan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="男" />
+
+                        <RadioButton
+                            android:id="@+id/radio_nv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="女" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="联系人电话"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_user_phone_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入联系人电话"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="客户来源"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/item_customer_source_tv"
+                        style="@style/publish_input_tv_style"
+                        android:gravity="center_vertical"
+                        android:hint="请选择客户来源"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="15dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="备用联系人"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_spare_user_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入备用联系人"
+                        android:maxLength="50"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/item_title_style"
+                        android:layout_width="@dimen/item_wight_publish"
+                        android:gravity="center_vertical"
+                        android:text="联系电话"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/item_spare_phone_et"
+                        style="@style/publish_input_tv_style"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请输入联系电话"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:paddingLeft="0dp" />
+                </LinearLayout>
+
+                <View style="@style/divider_style" />
+
+                <EditText
+                    android:id="@+id/jianjie_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="单位简介"
+                    android:maxLength="500"
+                    android:minLines="5"
+                    android:padding="10dp"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/jianjie_num_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="10dp"
+                    android:text="已输入0/500"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
+
+                <View style="@style/divider_style" />
+
+                <EditText
+                    android:id="@+id/description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="备注信息"
+                    android:maxLength="200"
+                    android:minLines="2"
+                    android:padding="10dp"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/description_num_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="10dp"
+                    android:text="已输入0/200"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/upload_pic_amount_tv"
+                style="@style/item_title_style"
+                android:gravity="center_vertical"
+                android:paddingLeft="0dp"
+                android:text="照片上传（最少1张最多9张）" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/item_pics_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/item_title_style"
+                android:gravity="center_vertical"
+                android:paddingLeft="0dp"
+                android:text="视频上传（最多1个）" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/item_video_pic"
+                    style="@style/picture_choose_style"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@mipmap/add_icons"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/item_video_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/play_button"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/delete_vedio_iv"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/bg_btn_red_round"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/icon_delete"
+                    android:visibility="gone"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/ok_tv"
+                style="@style/bt_bg_style"
+                android:layout_gravity="bottom"
+                android:layout_margin="20dp"
+                android:text="确认" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

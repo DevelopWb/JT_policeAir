@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home_page.map.DistanceUtilActivity">
+
+    <RelativeLayout
+        android:id="@+id/menu_rl"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/undo"
+            android:layout_width="30dp"
+            android:background="@color/white"
+            android:src="@mipmap/undo"
+            android:layout_height="30dp" />
+        <Button
+            android:layout_marginLeft="20dp"
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:text="清除"
+            android:textColor="@color/white"
+            android:layout_alignTop="@id/undo"
+            android:layout_alignBottom="@id/undo"
+            android:background="@drawable/bg_btn_theme"
+            android:layout_toRightOf="@id/undo"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/redo"
+            android:layout_width="30dp"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/undo"
+            android:background="@color/white"
+            android:src="@mipmap/redo"
+            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/distance_tv"
+            android:layout_width="wrap_content"
+            android:text="0公里"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="总距离:"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/distance_tv"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_below="@id/menu_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+</RelativeLayout>

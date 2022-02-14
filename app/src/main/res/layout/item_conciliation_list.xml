@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@drawable/bg_circle_white_line">
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/item_content"
+            app:layout_constraintRight_toLeftOf="@+id/item_status"/>
+
+        <TextView
+            android:id="@+id/item_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="申请时间：2020-05-13 12:04:34"
+            android:singleLine="true"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:alpha="0.6"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/item_name"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="审核通过"
+            android:textSize="14dp"
+            android:textColor="@color/text_content"
+            android:layout_marginLeft="40dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/item_name"/>
+
+        <TextView
+            android:id="@+id/item_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回修改"
+            android:textColor="@color/colorAccent"
+            android:textSize="14dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_circle_blue_line"
+            app:layout_constraintTop_toBottomOf="@+id/item_content"
+            app:layout_constraintRight_toLeftOf="@+id/item_agreement_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/item_agreement_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看协议书"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/app_bt_bg"
+            app:layout_constraintTop_toBottomOf="@+id/item_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"/>
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

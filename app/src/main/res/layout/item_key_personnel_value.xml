@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+    <TextView
+        android:id="@+id/item_text_list_left"
+        style="@style/item_title_style"
+        android:layout_width="100dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="16dp"
+        android:text="地点地点"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/item_text_list_right"
+        style="@style/item_content_text_style_right"
+        android:layout_marginRight="10dp"
+        android:text="哈哈刚"
+        android:gravity="center_vertical|start"/>
+</LinearLayout>

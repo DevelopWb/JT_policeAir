@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/case_detail_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/item_text_list_left"
+        style="@style/case_detail_text_left"
+        android:text="案件地点:"/>
+    <TextView
+        android:id="@+id/item_text_list_right"
+        style="@style/item_content_text_style_right"/>
+</LinearLayout>
