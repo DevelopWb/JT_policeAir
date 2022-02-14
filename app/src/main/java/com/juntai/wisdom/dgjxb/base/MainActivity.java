@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.juntai.wisdom.basecomponent.app.BaseApplication;
@@ -32,7 +31,6 @@ import com.juntai.wisdom.basecomponent.utils.ActionConfig;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.Logger;
 import com.juntai.wisdom.basecomponent.utils.NotificationTool;
-import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.SPTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.service.LocateAndUpload;
@@ -41,13 +39,10 @@ import com.juntai.wisdom.dgjxb.R;
 import com.juntai.wisdom.dgjxb.MyApp;
 import com.juntai.wisdom.dgjxb.base.update.UpdateActivity;
 import com.juntai.wisdom.dgjxb.bean.IMUsersBean;
-import com.juntai.wisdom.dgjxb.bean.UserBean;
 import com.juntai.wisdom.dgjxb.bean.history_track.LocationBean;
 import com.juntai.wisdom.dgjxb.bean.news.NewsDraftsBean;
-import com.juntai.wisdom.dgjxb.bean.weather.ResponseRealTimeWeather;
 import com.juntai.wisdom.dgjxb.entrance.BindingPhoneActivity;
 import com.juntai.wisdom.dgjxb.entrance.LoginActivity;
-import com.juntai.wisdom.dgjxb.entrance.StartActivity;
 import com.juntai.wisdom.dgjxb.home_page.MyMapFragment;
 import com.juntai.wisdom.dgjxb.home_page.QRScanActivity;
 import com.juntai.wisdom.dgjxb.home_page.law_case.CaseInfoActivity;
@@ -61,9 +56,9 @@ import com.juntai.wisdom.dgjxb.home_page.inspection.PublishInspectionActivity;
 import com.juntai.wisdom.dgjxb.home_page.law_case.PublishCaseActivity;
 import com.juntai.wisdom.dgjxb.mine.task.PublishTReportActivity;
 import com.juntai.wisdom.dgjxb.utils.AppUtils;
+import com.juntai.wisdom.dgjxb.utils.ObjectBox;
 import com.juntai.wisdom.dgjxb.utils.PermissionUtil;
 import com.juntai.wisdom.dgjxb.utils.StringTools;
-import com.juntai.wisdom.dgjxb.utils.UrlFormatUtil;
 import com.juntai.wisdom.dgjxb.utils.UserInfoManager;
 import com.juntai.wisdom.dgjxb.utils.ViewUtil;
 import com.juntai.wisdom.dgjxb.base.customview.CustomViewPager;
@@ -100,6 +95,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
     PopupWindow popupWindow;
     final static Handler mHandler = new Handler();
+    private List<LocationBean> locateData;
 
     @Override
     public int getLayoutView() {
@@ -252,6 +248,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case MainPageContract.UPLOAD_HISTORY:
+                ObjectBox.get().boxFor(LocationBean.class).remove(locateData);
                 break;
             default:
                 break;
@@ -636,16 +633,10 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         @Override
         public void run() {
             //do something
-            List<LocationBean> datas = null;
-            try {
-                datas = MyApp.getDaoSession().getLocationBeanDao().loadAll();
-            } catch (Exception e) {
-                e.printStackTrace();
-                datas = new ArrayList<>();
-            }
-            Logger.e("historyDataSize", datas.size() + "");
-            if (datas.size() > 0) {
-                mPresenter.uploadHistory(new Gson().toJson(datas), MainPageContract.UPLOAD_HISTORY);
+            locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
+            Logger.e("historyDataSize", locateData.size() + "");
+            if (locateData.size() > 0) {
+                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
                 //每隔1分钟循环执行run方法
                 mHandler.postDelayed(runnable, 1000 * 60 );
             } else {

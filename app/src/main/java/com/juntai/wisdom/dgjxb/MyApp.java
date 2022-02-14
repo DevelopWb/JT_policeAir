@@ -22,11 +22,10 @@ import com.juntai.wisdom.dgjxb.bean.UserBean;
 import com.juntai.wisdom.dgjxb.bean.message.UnReadCountBean;
 import com.juntai.wisdom.dgjxb.entrance.LoginActivity;
 import com.juntai.wisdom.dgjxb.entrance.complete_info.CompleteInfoActivity;
-import com.juntai.wisdom.dgjxb.greenDao.DaoMaster;
-import com.juntai.wisdom.dgjxb.greenDao.DaoSession;
 import com.juntai.wisdom.dgjxb.home_page.news.news_info.NewsNormalInfoActivity;
 import com.juntai.wisdom.dgjxb.home_page.news.news_info.NewsVideoInfoActivity;
 import com.juntai.wisdom.dgjxb.utils.AppUtils;
+import com.juntai.wisdom.dgjxb.utils.ObjectBox;
 import com.juntai.wisdom.dgjxb.utils.StringTools;
 import com.juntai.wisdom.im.ModuleIm_Init;
 import com.juntai.wisdom.im.UserIM;
@@ -54,8 +53,6 @@ public class MyApp extends BaseApplication {
     public BDLocation bdLocation;
     public static long lastClickTime;//上次点击按钮时间
     public static int timeLimit = 1000;
-    private static DaoSession daoSession;
-    private static final String DATA_BASE_NAME = "db_dgjxb";//数据库名称
 
     public static int BASE_REQUESR = 10086;
     public static int BASE_RESULT = 10087;
@@ -82,7 +79,7 @@ public class MyApp extends BaseApplication {
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
         initBugly();
-        initGreenDao();
+        ObjectBox.init(this);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -105,19 +102,6 @@ public class MyApp extends BaseApplication {
 
     }
 
-    /**
-     * 初始化GreenDao,直接在Application中进行初始化操作
-     */
-    private void initGreenDao() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, DATA_BASE_NAME);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-    }
-
-    public static DaoSession getDaoSession() {
-        return daoSession;
-    }
 
     public static UserBean getUser() {
         return Hawk.get(AppUtils.SP_KEY_USER);

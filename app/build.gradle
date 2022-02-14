@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'io.objectbox' // after applying Android plugin
 //// 依赖插件脚本
 //apply from: 'tinker-support.gradle'
 //mob sdk
@@ -70,13 +70,6 @@ android {
         pickFirst "**/libsqlite.so"
     }
 
-    greendao {
-        schemaVersion 1 //数据库版本号
-        daoPackage 'com.juntai.wisdom.dgjxb.greenDao'
-        targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
-        generateTests false //设置为true以自动生成单元测试。
-        targetGenDirTests 'src/main/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
-    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -99,8 +92,6 @@ dependencies {
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
     implementation project(':videocompressor')
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    //数据库框架
-    implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.haibin:calendarview:3.4.8'
     implementation project(path: ':ruler')
     implementation project(path: ':jjdxm-ijkplayer')

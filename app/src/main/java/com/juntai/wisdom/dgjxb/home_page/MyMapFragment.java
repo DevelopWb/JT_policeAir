@@ -101,6 +101,7 @@ import com.juntai.wisdom.dgjxb.home_page.site_manager.site_info.NewUnitDetailAct
 import com.juntai.wisdom.dgjxb.utils.AppUtils;
 import com.juntai.wisdom.dgjxb.utils.DateUtil;
 import com.juntai.wisdom.dgjxb.utils.ImageUtil;
+import com.juntai.wisdom.dgjxb.utils.ObjectBox;
 import com.juntai.wisdom.dgjxb.utils.StringTools;
 import com.juntai.wisdom.dgjxb.utils.UrlFormatUtil;
 import com.juntai.wisdom.im.ModuleIm_Init;
@@ -1337,7 +1338,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     bdLocation.getLongitude()+"",
                     bdLocation.getLatitude()+"",
                     DateUtil.getCurrentTime()+"");
-            MyApp.getDaoSession().getLocationBeanDao().save(locationBean);
+            ObjectBox.get().boxFor(LocationBean.class).put(locationBean);
         }
     }
 

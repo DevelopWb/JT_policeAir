@@ -1,9 +1,8 @@
 package com.juntai.wisdom.dgjxb.bean.history_track;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
+
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
 /**
  * Describe:本地位置缓存
@@ -13,13 +12,12 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class LocationBean {
-    @Id(autoincrement = true)
-    private Long id;
+    @Id
+    public long id;
     private String address;//地址
     private String posType;//卫星定位-GPS, 网络NET
     private String longitude;
     private String latitude;
-    @Unique
     private String gmtCreate;
 
     public LocationBean(String address, String posType, String longitude, String latitude, String gmtCreate) {
@@ -31,7 +29,6 @@ public class LocationBean {
     }
 
 
-    @Generated(hash = 1697911461)
     public LocationBean(Long id, String address, String posType, String longitude, String latitude,
             String gmtCreate) {
         this.id = id;
@@ -43,7 +40,6 @@ public class LocationBean {
     }
 
 
-    @Generated(hash = 516751439)
     public LocationBean() {
     }
 
