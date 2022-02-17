@@ -23,6 +23,7 @@ import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
 import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.policeAir.bean.history_track.LocationBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
 import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.mine.mycenter.MyMenuAdapter;
@@ -31,6 +32,7 @@ import com.juntai.wisdom.policeAir.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.GridDividerItemDecoration;
 import com.juntai.wisdom.im.IUnReadMessageLinstener;
 import com.juntai.wisdom.im.ModuleIm_Init;
+import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
@@ -250,6 +252,8 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                 break;
             case MyCenterContract.LOGIN_OUT_TAG:
                 ToastUtils.success(mContext, "退出成功");
+                //清除本地定位数据
+                ObjectBox.get().boxFor(LocationBean.class).removeAll();
                 ModuleIm_Init.logout();
                 SPTools.saveString(mContext, "login", "");
                 MyApp.app.clearUserData();//清理数据

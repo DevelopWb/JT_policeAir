@@ -45,6 +45,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.danikula.videocache2.LogU;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -116,6 +117,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 地图相关
@@ -146,6 +148,8 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     private TextView twdTv, thdTv, weixingTv, jiejingTv;
     private Switch heatMap, roadStatus, distanceUtil;
     private List<LatLng> heatMapItems = new ArrayList<>();
+    private boolean firstLoad = true;
+
     HeatMap mHeatMap = null;
     //==============================================
     NavigationDialog navigationDialog;
@@ -543,38 +547,38 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         mPresenter.getCameras(MapContract.GET_STREAM_CAMERAS);
                         break;
                     case 4://警情分布(案件)
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             clickCaseButton(view);
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                         break;
                     case 5://警员分布
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             mPresenter.getPolices(MapContract.GET_POLICE);
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                         break;
                     case 6://车辆分布
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             try {
                                 mPresenter.getPoliceCars(MapContract.GET_CARS);
                             } catch (Exception e) {
                                 ToastUtils.toast(mContext, "车辆服务异常,请联系后台人员");
                             }
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                         break;
                     case 7://场所管理
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             mPresenter.getSiteManagers(MapContract.GET_SITES);
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                         break;
@@ -583,10 +587,10 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         mPresenter.getInspection(MapContract.GET_INSPECTION);
                         break;
                     case 9://重点人员
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             mPresenter.getKeyPersonnels(MapContract.GET_KEY_PERSONNEL);
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                         break;
@@ -613,10 +617,10 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         item.setSelected(false);
                         break;
                     case 13://无人机
-                        if (MyApp.isCompleteUserInfo()){
+                        if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
                             mPresenter.getDrones(MapContract.GET_DRONE);
-                        }else {
+                        } else {
                             item.setSelected(false);
                         }
                     default:
@@ -773,10 +777,12 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
 
         areaUtilClick = new BaiduMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {}
+            public void onMapClick(LatLng latLng) {
+            }
 
             @Override
-            public void onMapPoiClick(MapPoi mapPoi) {}
+            public void onMapPoiClick(MapPoi mapPoi) {
+            }
         };
 
         if (!closeMarquee) {
@@ -1002,7 +1008,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         ResponseDrone.DroneBean droneBean = item.droneBean;
         startActivity(new Intent(mContext.getApplicationContext(), CarLiveActivity.class)
                 .putExtra(CarLiveActivity.STREAM_CAMERA_ID, droneBean.getId())
-                .putExtra(CarLiveActivity.STREAM_CAMERA_URL, UrlFormatUtil.getCarStream(droneBean.getId()+""))
+                .putExtra(CarLiveActivity.STREAM_CAMERA_URL, UrlFormatUtil.getCarStream(droneBean.getId() + ""))
                 .putExtra(CarLiveActivity.STREAM_CAMERA_NAME, droneBean.getName())
                 .putExtra(CarLiveActivity.STREAM_CAMERA_THUM_URL, droneBean.getImg()));
     }
@@ -1073,7 +1079,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 startActivity(new Intent(mContext, DistanceUtilActivity.class));
                 break;
             case R.id.search_ll:
-                if (MyApp.isCompleteUserInfo()){
+                if (MyApp.isCompleteUserInfo()) {
                     startActivity(new Intent(mContext, SearchActivity.class));
                 }
                 break;
@@ -1081,7 +1087,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 if ((System.currentTimeMillis() - currentTime) < 800) {
                     return;
                 }
-                if (!MyApp.isCompleteUserInfo()){
+                if (!MyApp.isCompleteUserInfo()) {
                     return;
                 }
                 currentTime = System.currentTimeMillis();
@@ -1090,7 +1096,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 break;
             //一键报警
             case R.id.call_police_iv:
-                if (!MyApp.isLogin()){
+                if (!MyApp.isLogin()) {
                     MyApp.goLogin();
                     return;
                 }
@@ -1160,9 +1166,9 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     if (1 == item.streamCamera.getFlag()) {
                         currentStreamCamera = item.streamCamera;
                         startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
-                                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
-                                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber())
-                                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, currentStreamCamera.getEzOpen()));
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber())
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, currentStreamCamera.getEzOpen()));
 //                        //打开流数据
 //                        mPresenter.openStream(item.streamCamera.getNumber(), "1", "rtmp", PlayContract.GET_URL_PATH);
                     }
@@ -1233,6 +1239,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         }
         return false;
     }
+
     /**
      * 设置显示在屏幕中的地理范围
      */
@@ -1331,12 +1338,17 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
 
         //保存轨迹到本地
         if (MyApp.getUser() != null &&
-                MyApp.getUser().getData() != null){
-            LocationBean locationBean = new LocationBean(bdLocation.getAddrStr()+"",
+                MyApp.getUser().getData() != null) {
+            LocationBean locationBean = new LocationBean(bdLocation.getAddrStr() + "",
                     LocateAndUpload.getLocType(bdLocation),
-                    bdLocation.getLongitude()+"",
-                    bdLocation.getLatitude()+"",
-                    DateUtil.getCurrentTime()+"");
+                    bdLocation.getLongitude() + "",
+                    bdLocation.getLatitude() + "",
+                    DateUtil.getCurrentTime() + "");
+            if (firstLoad) {
+                LogUtil.d("第一次启动  上传最新位置数据");
+                firstLoad = false;
+                ((MainActivity) Objects.requireNonNull(getActivity())).startUploadLocateData(500);
+            }
             ObjectBox.get().boxFor(LocationBean.class).put(locationBean);
         }
     }
@@ -1610,7 +1622,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void receiveMsg(String test) {
-        if (ActionConfig.BROAD_LOGIN_OUT.equals(test)){
+        if (ActionConfig.BROAD_LOGIN_OUT.equals(test)) {
             //刷新
             clearTheMap(mBaiduMap);
             if (clickedButton != -1) {

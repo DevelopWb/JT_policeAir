@@ -94,6 +94,8 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     final static Handler mHandler = new Handler();
     private List<LocationBean> locateData;
 
+
+
     @Override
     public int getLayoutView() {
         return R.layout.activity_main;
@@ -625,6 +627,18 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     }
 
     /**
+     * 上传位置
+     * @param time
+     */
+    public void  startUploadLocateData(long  time){
+        if (runnable != null) {
+            mHandler.postDelayed(runnable, time);
+
+        }
+
+    }
+
+    /**
      * 查询本地数据并上传
      */
     Runnable runnable = new Runnable() {
@@ -633,13 +647,12 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
             //do something
             locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
             Logger.e("historyDataSize", locateData.size() + "");
+            // TODO: 2022-02-17 这个地方有问题 如果数据过多  上传的时候就报异常  之前警小宝的逻辑是30以内上传  超过30 本地数据清零
             if (locateData.size() > 0) {
+                LogUtil.d("本地有数据 上传位置数据");
                 mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
                 //每隔1分钟循环执行run方法
-                mHandler.postDelayed(runnable, 1000 * 60 );
-            } else {
-                //如果还没有获取到定位数据 那就6秒之后再运行一次
-                mHandler.postDelayed(runnable, 1000 * 6);
+                startUploadLocateData(1000 * 60);
             }
 
         }

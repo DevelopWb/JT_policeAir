@@ -1,0 +1,162 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="io.rong.callkit"
+4    android:versionCode="2020021918"
+5    android:versionName="2.10.4 release" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="27" />
+9-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+11-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:6:5-80
+11-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:6:22-77
+12    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+12-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:7:5-74
+12-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:7:22-71
+13    <uses-permission android:name="android.permission.BLUETOOTH" />
+13-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:8:5-68
+13-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:8:22-65
+14    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+14-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:9:5-85
+14-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:9:22-82
+15    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+15-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:10:5-78
+15-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:10:22-75
+16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+16-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:11:5-81
+16-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:11:22-78
+17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+17-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:12:5-80
+17-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:12:22-77
+18
+19    <!-- 读取电话的状态信息的权限 -->
+20    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+20-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:15:5-75
+20-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:15:22-72
+21    <!-- 读取通话记录的权限 -->
+22    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+22-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:17:5-72
+22-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:17:22-69
+23
+24    <application>
+24-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:19:5-82:19
+25
+26        <!-- new voip config start -->
+27        <activity
+27-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:22:9-33:20
+28            android:name="io.rong.callkit.MultiVideoCallActivity"
+28-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:23:13-51
+29            android:exported="true"
+29-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:24:13-36
+30            android:launchMode="singleTop"
+30-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:25:13-43
+31            android:screenOrientation="portrait"
+31-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:26:13-49
+32            android:windowSoftInputMode="stateHidden|adjustResize" >
+32-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:27:13-67
+33            <intent-filter>
+33-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:28:13-32:29
+34                <action android:name="io.rong.intent.action.voip.MULTIVIDEO" />
+34-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:29:17-80
+34-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:29:25-77
+35
+36                <category android:name="android.intent.category.DEFAULT" />
+36-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:17-76
+36-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:27-73
+37            </intent-filter>
+38        </activity>
+39        <activity
+39-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:34:9-50:20
+40            android:name="io.rong.callkit.SingleCallActivity"
+40-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:35:13-47
+41            android:exported="true"
+41-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:36:13-36
+42            android:launchMode="singleTop"
+42-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:37:13-43
+43            android:screenOrientation="portrait"
+43-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:38:13-49
+44            android:windowSoftInputMode="stateHidden|adjustResize" >
+44-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:39:13-67
+45            <intent-filter>
+45-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:40:13-44:29
+46                <action android:name="io.rong.intent.action.voip.SINGLEVIDEO" />
+46-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:41:17-81
+46-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:41:25-78
+47
+48                <category android:name="android.intent.category.DEFAULT" />
+48-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:17-76
+48-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:27-73
+49            </intent-filter>
+50            <intent-filter>
+50-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:45:13-49:29
+51                <action android:name="io.rong.intent.action.voip.SINGLEAUDIO" />
+51-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:46:17-81
+51-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:46:25-78
+52
+53                <category android:name="android.intent.category.DEFAULT" />
+53-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:17-76
+53-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:27-73
+54            </intent-filter>
+55        </activity>
+56        <activity
+56-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:51:9-62:20
+57            android:name="io.rong.callkit.MultiAudioCallActivity"
+57-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:52:13-51
+58            android:exported="true"
+58-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:53:13-36
+59            android:launchMode="singleTop"
+59-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:54:13-43
+60            android:screenOrientation="portrait"
+60-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:55:13-49
+61            android:windowSoftInputMode="stateHidden|adjustResize" >
+61-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:56:13-67
+62            <intent-filter>
+62-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:57:13-61:29
+63                <action android:name="io.rong.intent.action.voip.MULTIAUDIO" />
+63-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:58:17-80
+63-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:58:25-77
+64
+65                <category android:name="android.intent.category.DEFAULT" />
+65-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:17-76
+65-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:31:27-73
+66            </intent-filter>
+67        </activity>
+68
+69        <!-- new voip config end -->
+70
+71
+72        <!-- Android Q 后台无法弹出Activity，通过通知栏提醒用户 -->
+73        <receiver android:name="io.rong.callkit.VoIPBroadcastReceiver" >
+73-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:67:9-73:20
+73-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:68:13-65
+74            <intent-filter>
+74-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:69:13-72:29
+75                <action android:name="action.push.CallInviteMessage" />
+75-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:70:17-72
+75-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:70:25-69
+76                <action android:name="action.push.CallInviteMessage.CLICKED" />
+76-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:71:17-79
+76-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:71:25-77
+77            </intent-filter>
+78        </receiver>
+79
+80        <activity android:name="io.rong.callkit.CallSelectMemberActivity" />
+80-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:75:9-71
+80-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:75:19-59
+81
+82        <receiver android:name="io.rong.callkit.util.RTCPhoneStateReceiver" >
+82-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:77:9-81:20
+82-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:77:19-61
+83            <intent-filter>
+83-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:78:13-80:29
+84                <action android:name="android.intent.action.PHONE_STATE" />
+84-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:79:17-75
+84-->D:\Project\policeAirLocate\CallKit\src\main\AndroidManifest.xml:79:25-73
+85            </intent-filter>
+86        </receiver>
+87    </application>
+88
+89</manifest>

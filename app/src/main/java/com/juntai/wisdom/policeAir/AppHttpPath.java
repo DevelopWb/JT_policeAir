@@ -4,8 +4,8 @@ public class AppHttpPath {
     /**
      * base
      */
-//    public static final String BASE = "https://www.dgjpcs.cn/server/dongGuanPoliceStation/";
-    public static final String BASE = "http://192.168.124.119:8080/lanshanUAV/u/app";
+    public static final String BASE = "https://wx.juntaikeji.com:19156/lanshanUAV/u/app";
+//    public static final String BASE = "http://192.168.124.119:8080/lanshanUAV/u/app";
 
     /**
      * 车辆流直播

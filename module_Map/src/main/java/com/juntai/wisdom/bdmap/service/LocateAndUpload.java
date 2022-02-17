@@ -107,45 +107,6 @@ public class LocateAndUpload extends Service {
 
         baiDuLocationUtils = new BaiDuLocationUtils(getApplicationContext());
         baiDuLocationUtils.start(bdAbstractLocationListener);
-//        Notification notification = NotificationTool.sendNotifLocService(getApplicationContext(),
-//                BaseAppUtils.getAppName(), "正在运行", BaseAppUtils.getAppLogo(), true);
-//        startForeground(111, notification);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (uploadLocation) {
-//                    if (startUploadLocation) {
-//                        startUploadLocation = false;
-//                        try {
-//                            body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), "");
-//                            String url =
-//                                    historyApiUrl + "?latitude=" + lat + "&longitude=" + lng + "&address=" + addr +
-//                                            "&posType=" + locType;
-//                            for (HashMap.Entry<String, String> entry : params.entrySet()) {
-//                                url += "&" + entry.getKey() + "=" + entry.getValue();
-//                            }
-//                            request = new Request.Builder().post(body).url(url).build();
-//                            Response rs = okHttpClient.newCall(request).execute();
-//                            JSONObject jsonObject = new JSONObject(rs.body().string());
-//                            //LogUtil.d("update Location ---> "+lat+","+lng);
-//                            if (!"200".equals(jsonObject.optString("status")) && isFirstWarning) {
-//                                //ToastUtils.toast(getApplicationContext(),"位置服务更新失败");
-//                                LogUtil.d("更新轨迹位置失败->" + "latitude=" + lat + "&longitude=" + lng);
-//                                isFirstWarning = false;
-//                            } else if ("200".equals(jsonObject.optString("status"))) {
-//                                LogUtil.d("上传轨迹位置->" + "latitude=" + lat + "&longitude=" + lng);
-//                                isFirstWarning = true;
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
-//        })
-//                .start();
     }
 
     /**

@@ -23,15 +23,19 @@ android {
             abiFilters "armeabi-v7a"//,"x86"//,"armeabi"////,"arm64-v8a","x86_64"
         }
     }
-
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "兰山警航-" + variant.versionCode + "-" + variant.versionName + ".apk"
+        }
+    }
     signingConfigs {
         release {
             //设置release的签名信息
-            //c204528aaa01367971e36f2b06a2dc25
-            storeFile file('jingxiaobao.jks')
-            storePassword "juntai2254"
-            keyAlias "key0"
-            keyPassword "jxb3312"
+            //sha1:  D8:8A:32:E8:3B:5A:37:B8:FF:BD:EC:39:8B:55:45:F4:5E:31:9F:20
+            storeFile file('juntaikey.jks')
+            storePassword "bugaosuni5156"
+            keyAlias "juntaikey"
+            keyPassword "bugaosuni5156"
             v1SigningEnabled true
             v2SigningEnabled true
         }
