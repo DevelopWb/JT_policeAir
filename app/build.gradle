@@ -85,21 +85,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':module_Base')
     implementation project(':module_Map')
-    implementation project(':module_IM')
     implementation project(':banner')
-    implementation project(':module_Video')
     implementation project(':pushpermission')
     implementation 'com.sunfusheng:MarqueeView:1.4.1'//跑马灯
     implementation 'com.github.AlexLiuSheng:CheckVersionLib:2.3.3.1_appcompat'
-    implementation project(':RTCLib')
-    implementation project(':richeditor')
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
-    implementation project(':videocompressor')
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.haibin:calendarview:3.4.8'
-    implementation project(path: ':ruler')
-    implementation project(path: ':jjdxm-ijkplayer')
-    implementation project(path: ':videocache')
 }
 
 configurations.all {

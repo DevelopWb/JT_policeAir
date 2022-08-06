@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.juntai.wisdom.basecomponent.BuildConfig;
 import com.juntai.wisdom.basecomponent.R;
+import com.juntai.wisdom.basecomponent.utils.BaseAppUtils;
+import com.juntai.wisdom.basecomponent.utils.CrashHandler;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.NavigationBarInfo;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -60,6 +62,8 @@ public abstract class BaseApplication extends Application {
         app = this;
 
         getScreen(this);
+        CrashHandler.getInstance().init(getApplicationContext(), BaseAppUtils.getAppName());
+
         if (BuildConfig.DEBUG) {
             //
             Logger.addLogAdapter(new AndroidLogAdapter(PrettyFormatStrategy.newBuilder().

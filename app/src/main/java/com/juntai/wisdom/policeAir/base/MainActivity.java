@@ -37,6 +37,7 @@ import com.juntai.wisdom.bdmap.service.LocateAndUpload;
 import com.juntai.wisdom.policeAir.AppNetModule;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.MyApp;
+import com.juntai.wisdom.policeAir.base.customview.CustomViewPager;
 import com.juntai.wisdom.policeAir.base.update.UpdateActivity;
 import com.juntai.wisdom.policeAir.bean.IMUsersBean;
 import com.juntai.wisdom.policeAir.bean.history_track.LocationBean;
@@ -44,24 +45,11 @@ import com.juntai.wisdom.policeAir.bean.news.NewsDraftsBean;
 import com.juntai.wisdom.policeAir.entrance.BindingPhoneActivity;
 import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.home_page.MyMapFragment;
-import com.juntai.wisdom.policeAir.home_page.law_case.CaseInfoActivity;
-import com.juntai.wisdom.policeAir.home_page.inspection.InspectionDetailActivity;
-import com.juntai.wisdom.policeAir.home_page.news.news_publish.PublishNewsActivity;
-import com.juntai.wisdom.policeAir.home_page.site_manager.site_add.AddNewSiteActivity;
 import com.juntai.wisdom.policeAir.mine.MyCenterFragment;
-import com.juntai.wisdom.policeAir.mine.task.ReportDetailActivity;
-import com.juntai.wisdom.policeAir.home_page.inspection.PublishInspectionActivity;
-import com.juntai.wisdom.policeAir.home_page.law_case.PublishCaseActivity;
-import com.juntai.wisdom.policeAir.mine.task.PublishTReportActivity;
 import com.juntai.wisdom.policeAir.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.PermissionUtil;
 import com.juntai.wisdom.policeAir.utils.StringTools;
-import com.juntai.wisdom.policeAir.utils.UserInfoManager;
-import com.juntai.wisdom.policeAir.utils.ViewUtil;
-import com.juntai.wisdom.policeAir.base.customview.CustomViewPager;
-import com.juntai.wisdom.im.ModuleIm_Init;
-import com.juntai.wisdom.im.UserIM;
 import com.mob.MobSDK;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -72,7 +60,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import cn.jzvd.Jzvd;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.pushperm.ResultCallback;
@@ -277,105 +264,10 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
                 ShortcutBadger.applyCount(mContext.getApplicationContext(), 0);
                 startActivity(new Intent(mContext, LoginActivity.class));
                 //                finish();
-            } else if (ActionConfig.BROAD_CASE_DETAILS.equals(intent.getAction())) {
-                LogUtil.d("RongYun-消息监听", "MainActivity-----------");
-                //案件指派
-                id22 = intent.getIntExtra("id", 0);
-                //推送类型：1案件指派，3巡检退回，7任务指派，8任务退回，9巡检完成推送（巡检记录审核通过）
-                type = intent.getIntExtra("type", 0);
-                content = intent.getStringExtra("content");
-                if (BaseApplication.app.isRun) {
-                    LogUtil.d("777777", "-----------前台");
-                    //前台发广播
-                    if (alertDialog != null) {
-                        alertDialog.dismiss();
-                    } else {
-                        alertDialog =
-                                new AlertDialog.Builder(MyApp.app.getNowActivity()).setPositiveButton("查看",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                startActivity(setNotificationIntent(type));
-                                            }
-                                        }).setNegativeButton("取消", null).create();
-                    }
-
-                    alertDialog.setTitle(setNotificationTile(type));
-                    if (StringTools.isStringValueOk(content)) {
-                        alertDialog.setMessage(type == 1 ? "要求：" + content : "说明：" + content);
-                    }
-                    alertDialog.show();
-                } else {
-                    LogUtil.d("888888", "-----------后台===发送通知");
-                    //后台发通知
-                    Notification notification = NotificationTool.sendNotifMessage(BaseApplication.app, new Random().nextInt(10000),
-                            setNotificationTile(type), content, R.mipmap.app_icon,
-                            false, setNotificationIntent(type));
-
-                }
             }
         }
     }
 
-    /**
-     * 设置标题
-     *
-     * @param titleType
-     * @return
-     */
-    public String setNotificationTile(int titleType) {
-        String title = "通知消息";
-        switch (titleType) {
-            case 1:
-                title = "案件指派";
-                break;
-            case 3:
-                title = "巡检退回";
-                break;
-            case 7:
-                title = "任务指派";
-                break;
-            case 8:
-                title = "任务退回";
-                break;
-            case 9:
-                title = "巡检完成";
-                break;
-        }
-        return title;
-    }
-
-    /**
-     * 设置跳转Intent
-     *
-     * @param titleType
-     * @return
-     */
-    public Intent setNotificationIntent(int titleType) {
-        Intent intent;
-        switch (titleType) {
-            case 1:
-                intent = new Intent(mContext, CaseInfoActivity.class).putExtra("id", id22);
-                break;
-            case 3:
-                intent = new Intent(mContext, InspectionDetailActivity.class).putExtra("id", id22);
-                break;
-            case 7:
-                intent = new Intent(mContext, PublishTReportActivity.class).putExtra("id", id22);
-                break;
-            case 8:
-                intent = new Intent(mContext, ReportDetailActivity.class).putExtra("reportId",
-                        id22);
-                break;
-            case 9:
-                intent = new Intent(mContext, InspectionDetailActivity.class).putExtra("id", id22);
-                break;
-            default:
-                intent = new Intent(mContext, MainActivity.class);
-                break;
-        }
-        return intent;
-    }
 
 
     @Override
@@ -397,9 +289,6 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
 
     @Override
     public void onBackPressed() {
-        if (Jzvd.backPress()) {
-            return;
-        }
         new AlertDialog.Builder(mContext)
                 .setMessage("请选择退出方式")
                 .setPositiveButton("退出", new DialogInterface.OnClickListener() {
@@ -426,30 +315,9 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
 
     @Override
     public void onPause() {
-        Jzvd.releaseAllVideos();
         super.onPause();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == AppUtils.QR_SCAN_NOMAL && resultCode == RESULT_OK) {
-            if (data != null) {
-                String result = data.getStringExtra("result");
-                Intent intent = new Intent(this, PublishInspectionActivity.class);
-                intent.putExtra("result", result);
-                startActivity(intent);
-            }
-
-        } else if (requestCode == AppUtils.QR_SCAN_FOR_XUANJIAN && resultCode == RESULT_OK) {
-            if (data != null) {
-                String result = data.getStringExtra("result");
-                Intent intent = new Intent(this, PublishInspectionActivity.class);
-                intent.putExtra("result", result);
-                startActivity(intent);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     /**
      * drawerlayout 开启
@@ -566,22 +434,25 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         @Override
         public void run() {
             //do something
-//            locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
-//            Logger.e("historyDataSize", locateData.size() + "");
-//            // : 2022-02-17 这个地方有问题 如果数据过多  上传的时候就报异常  之前警小宝的逻辑是30以内上传  超过30 本地数据清零
-//            if (locateData.size() > 0 && locateData.size() < 30) {
-//                LogUtil.d("本地有数据 上传位置数据");
-//                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
-//                //每隔1分钟循环执行run方法
-//                startUploadLocateData(1000 * 60);
-//            } else {
-//// : 2022-02-19 超过30条  这时候一下上传所有的位置数据可能会失败  如果大于30条 就取出30条上传
-//
-//                locateData= locateData.subList(0,30);
-//                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
-//                //每隔5秒循环执行run方法
-//                startUploadLocateData(1000 * 5);
-//            }
+            locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
+            Logger.e("historyDataSize", locateData.size() + "");
+            // : 2022-02-17 这个地方有问题 如果数据过多  上传的时候就报异常  之前警小宝的逻辑是30以内上传  超过30 本地数据清零
+            if (locateData == null||locateData.isEmpty()) {
+                return;
+            }
+            if (locateData.size() > 0 && locateData.size() < 30) {
+                LogUtil.d("本地有数据 上传位置数据");
+                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
+                //每隔1分钟循环执行run方法
+                startUploadLocateData(1000 * 60);
+            } else {
+// : 2022-02-19 超过30条  这时候一下上传所有的位置数据可能会失败  如果大于30条 就取出30条上传
+
+                locateData= locateData.subList(0,30);
+                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
+                //每隔5秒循环执行run方法
+                startUploadLocateData(1000 * 5);
+            }
 
         }
     };

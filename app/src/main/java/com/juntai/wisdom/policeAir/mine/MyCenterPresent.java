@@ -14,14 +14,7 @@ import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
 import com.juntai.wisdom.policeAir.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
-import com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_list.ConciliationListActivity;
-import com.juntai.wisdom.policeAir.home_page.equipment.my_equipment.MyEquipmentListActivity;
-import com.juntai.wisdom.policeAir.mine.mycollect.MyCollectActivity;
-import com.juntai.wisdom.policeAir.mine.message.MyMessageActivity;
-import com.juntai.wisdom.policeAir.mine.mypublish.MyPublishListActivity;
-import com.juntai.wisdom.policeAir.mine.score.MyScoreActivity;
 import com.juntai.wisdom.policeAir.mine.setting.MySettingActivity;
-import com.juntai.wisdom.policeAir.mine.task.MyTaskListActivity;
 import com.juntai.wisdom.policeAir.utils.RxScheduler;
 
 import java.util.ArrayList;

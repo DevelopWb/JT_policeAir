@@ -12,7 +12,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
-import com.danikula.videocache2.HttpProxyCacheServer;
 import com.juntai.wisdom.basecomponent.app.BaseApplication;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -21,23 +20,10 @@ import com.juntai.wisdom.policeAir.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
 import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.entrance.complete_info.CompleteInfoActivity;
-import com.juntai.wisdom.policeAir.home_page.news.news_info.NewsNormalInfoActivity;
-import com.juntai.wisdom.policeAir.home_page.news.news_info.NewsVideoInfoActivity;
 import com.juntai.wisdom.policeAir.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.StringTools;
-import com.juntai.wisdom.im.ModuleIm_Init;
-import com.juntai.wisdom.im.UserIM;
-import com.juntai.wisdom.video.ModuleVideo_Init;
-import com.mob.MobSDK;
 import com.orhanobut.hawk.Hawk;
-import com.tencent.bugly.crashreport.CrashReport;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
-import cn.rongcloud.rtc.initRoom.IMRoom_Init;
 
 /**
  * @aouther Ma
@@ -55,20 +41,12 @@ public class MyApp extends BaseApplication {
 
     public static int BASE_REQUESR = 10086;
     public static int BASE_RESULT = 10087;
-    //缓存代理服务
-    private HttpProxyCacheServer proxy = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         Hawk.init(this).build();
-//        MobSDK.init(this);
-//        //Im模块初始化
-//        ModuleIm_Init.init(this);
-//        IMRoom_Init.init(this);
-//        //Video模块初始化
-//        ModuleVideo_Init.init();
         //百度地图初始化
         SDKInitializer.initialize(this);
         //        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
@@ -77,29 +55,10 @@ public class MyApp extends BaseApplication {
 
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
-//        initBugly();
         ObjectBox.init(this);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    /**
-     * 初始化bugly
-     */
-    private void initBugly() {
-        //        // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
-        //        Bugly.init(this, BUGLY_APPID, false);
-        //
-        //bug上传
-        // 获取当前包名
-        String packageName = getPackageName();
-        // 获取当前进程名
-        String processName = getProcessName(android.os.Process.myPid());
-        // 设置是否为上报进程
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
-        strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        CrashReport.initCrashReport(this, BUGLY_APPID, false);
-
-    }
 
 
     public static UserBean getUser() {
@@ -119,14 +78,6 @@ public class MyApp extends BaseApplication {
         return Hawk.get(AppUtils.SP_KEY_TOKEN);
     }
 
-    /**
-     * 获取融云token
-     *
-     * @return
-     */
-    public static String getUserRongYunToken() {
-        return Hawk.get(AppUtils.SP_RONGYUN_TOKEN);
-    }
 
     public static boolean isLogin() {
         if (getUser() == null) {
@@ -267,16 +218,6 @@ public class MyApp extends BaseApplication {
         FileCacheUtils.clearVideo();
     }
 
-    /**
-     * 更新im用户信息
-     *
-     * @param id
-     * @param name
-     * @param image
-     */
-    public static void addImUserInfo(String id, String name, String image) {
-        ModuleIm_Init.setUser(new UserIM(id, name, image));
-    }
 
     /**
      * 退出登录清理缓存配置
@@ -303,66 +244,6 @@ public class MyApp extends BaseApplication {
         return false;
     }
 
-    /**
-     * 获取进程号对应的进程名
-     *
-     * @param pid 进程号
-     * @return 进程名
-     */
-    private static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 跳转资讯详情
-     */
-    public static void gotoNewsInfo(int type, int newsId, Context context) {
-        Intent newsIntent = null;
-        if (type == 1) {//视频
-            newsIntent = new Intent(context, NewsVideoInfoActivity.class).putExtra(AppUtils.ID_KEY, newsId);
-        } else {
-            newsIntent = new Intent(context, NewsNormalInfoActivity.class).putExtra(AppUtils.ID_KEY, newsId);
-        }
-        context.startActivity(newsIntent);
-    }
-
-    /**
-     * 跳转资讯详情
-     */
-    public static void gotoNewsInfo(int type, int newsId, String newsTitle, String newsContent, Context context) {
-        Intent newsIntent = null;
-        if (type == 1) {//视频
-            newsIntent = new Intent(context, NewsVideoInfoActivity.class).putExtra(AppUtils.ID_KEY, newsId);
-        } else {
-            newsIntent = new Intent(context, NewsNormalInfoActivity.class).putExtra(AppUtils.ID_KEY, newsId);
-            if (StringTools.isStringValueOk(newsContent)){
-                newsIntent.putExtra(NewsNormalInfoActivity.NEWS_CONTENT, newsContent);
-            }
-            if (StringTools.isStringValueOk(newsTitle)){
-                newsIntent.putExtra(NewsNormalInfoActivity.NEWS_TITLE, newsTitle);
-            }
-        }
-        context.startActivity(newsIntent);
-    }
 
     /**
      * 是否已完善用户信息
@@ -391,19 +272,5 @@ public class MyApp extends BaseApplication {
             return true;
         }
         return false;
-    }
-
-    //获取缓存代理。
-    public static HttpProxyCacheServer getProxy(Context context) {
-        MyApp app = (MyApp) context.getApplicationContext();
-        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
-    }
-    //缓存1G,30个视频
-    private HttpProxyCacheServer newProxy() {
-        return new HttpProxyCacheServer(this);
-//        return new HttpProxyCacheServer.Builder(this)
-////                .maxCacheSize(1024 * 1024 * 1024)
-//                .maxCacheFilesCount(30)
-//                .build();
     }
 }

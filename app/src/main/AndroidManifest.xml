@@ -213,9 +213,6 @@
             android:name="com.juntai.wisdom.policeAir.home_page.news.news_comment.CommentChildActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.QRScanActivity"
-            android:launchMode="singleTop" />
-        <activity
             android:name="com.juntai.wisdom.policeAir.home_page.inspection.PublishInspectionActivity"
             android:launchMode="singleTop" />
         <activity

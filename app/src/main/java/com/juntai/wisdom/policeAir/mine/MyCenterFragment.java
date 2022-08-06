@@ -29,9 +29,6 @@ import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.mine.mycenter.MyMenuAdapter;
 import com.juntai.wisdom.policeAir.mine.myinfo.MyInformationActivity;
 import com.juntai.wisdom.policeAir.utils.AppUtils;
-import com.juntai.wisdom.policeAir.utils.GridDividerItemDecoration;
-import com.juntai.wisdom.im.IUnReadMessageLinstener;
-import com.juntai.wisdom.im.ModuleIm_Init;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.orhanobut.hawk.Hawk;
 

@@ -1,7 +1,0 @@
-package cn.rongcloud.rtc.util;
-
-import android.support.v4.content.FileProvider;
-
-public class RTCFileProvider extends FileProvider {
-
-}

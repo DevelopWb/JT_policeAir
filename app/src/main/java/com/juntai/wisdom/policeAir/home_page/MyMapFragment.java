@@ -45,7 +45,6 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.danikula.videocache2.LogU;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -78,13 +77,6 @@ import com.juntai.wisdom.policeAir.bean.map.ResponsePeople;
 import com.juntai.wisdom.policeAir.bean.history_track.LocationBean;
 import com.juntai.wisdom.policeAir.bean.stream.StreamCameraBean;
 import com.juntai.wisdom.policeAir.bean.UserBean;
-import com.juntai.wisdom.policeAir.home_page.call_to_police.CallToPoliceActivity;
-import com.juntai.wisdom.policeAir.home_page.call_to_police.VerifiedActivity;
-import com.juntai.wisdom.policeAir.home_page.camera.PlayContract;
-import com.juntai.wisdom.policeAir.home_page.camera.ijkplayer.CarLiveActivity;
-import com.juntai.wisdom.policeAir.home_page.camera.ijkplayer.PlayerLiveActivity;
-import com.juntai.wisdom.policeAir.home_page.key_personnel.KeyPersonnelInfoActivity;
-import com.juntai.wisdom.policeAir.home_page.law_case.CaseInfoActivity;
 import com.juntai.wisdom.policeAir.home_page.map.DistanceUtilActivity;
 import com.juntai.wisdom.policeAir.home_page.map.HistoryTrack;
 import com.juntai.wisdom.policeAir.home_page.map.MapBottomListDialog;
@@ -93,18 +85,13 @@ import com.juntai.wisdom.policeAir.home_page.map.MapMenuAdapter;
 import com.juntai.wisdom.policeAir.home_page.map.MapPresenter;
 import com.juntai.wisdom.policeAir.home_page.map.PanoramaActivity;
 import com.juntai.wisdom.policeAir.home_page.map.SelectTime;
-import com.juntai.wisdom.policeAir.home_page.search.SearchActivity;
 import com.juntai.wisdom.policeAir.home_page.weather.WeatherActivity;
-import com.juntai.wisdom.policeAir.home_page.inspection.InspectionInfoActivity;
-import com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_publish.PublishConciliationActivity;
-import com.juntai.wisdom.policeAir.home_page.site_manager.site_info.NewUnitDetailActivity;
 import com.juntai.wisdom.policeAir.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.DateUtil;
 import com.juntai.wisdom.policeAir.utils.ImageUtil;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.StringTools;
 import com.juntai.wisdom.policeAir.utils.UrlFormatUtil;
-import com.juntai.wisdom.im.ModuleIm_Init;
 import com.orhanobut.hawk.Hawk;
 import com.sunfusheng.marqueeview.MarqueeView;
 
@@ -228,12 +215,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     @Override
     protected void initView() {
         marqueeView = (MarqueeView) getView(R.id.marqueeView);
-        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, TextView textView) {
-                MyApp.gotoNewsInfo(noticeList.get(position).getTypeId(), noticeList.get(position).getId(), mContext);
-            }
-        });
         sideViewNormal = getView(R.id.normal_side);
         mMarqueeCl = getView(R.id.marqueeView_cl);
         mDeleteNews = getView(R.id.delete_icon);
@@ -604,18 +585,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         clearTheMap(mBaiduMap);
                         mPresenter.getNews(MapContract.GET_NEWS);
                         break;
-                    case 12://调解法庭
-                        if (MyApp.getUser() != null) {
-                            //实名认证状态（0：未提交）（1：提交审核中）（2：审核通过）（3：审核失败）
-                            int status = MyApp.getUser().getData().getRealNameStatus();
-                            if (2 != status) {
-                                startActivity(new Intent(mContext, VerifiedActivity.class).putExtra(VerifiedActivity.VERIFIED_STATUS, status));
-                            } else {
-                                startActivity(new Intent(mContext, PublishConciliationActivity.class));
-                            }
-                        }
-                        item.setSelected(false);
-                        break;
                     case 13://无人机
                         if (MyApp.isCompleteUserInfo()) {
                             clearTheMap(mBaiduMap);
@@ -815,10 +784,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     mCase.getLongitude(),
                     mCase.getAddress());
         });
-        infowindowPeople.findViewById(R.id.case_follow).setOnClickListener(v -> {
-            startActivity(new Intent(mContext, CaseInfoActivity.class).putExtra("id",
-                    mCase.getId()));
-        });
         MapViewLayoutParams params2 = new MapViewLayoutParams.Builder()
                 .layoutMode(MapViewLayoutParams.ELayoutMode.mapMode)
                 .position(caseLocation)
@@ -829,82 +794,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         mMapView.addView(infowindowPeople, params2);
     }
 
-    /**
-     * 地图点车辆
-     */
-    private void clickCarItem(MapClusterItem item, BaiduMap map) {
-        PoliceCarBean.DataBean car = item.car;
-        LatLng peopleLocation = new LatLng(car.getLat(), car.getLng());
-        MapUtil.mapMoveTo(map, peopleLocation);
-        InfoWindow pinfo;
-        infowindowPeople = View.inflate(mContext, R.layout.infowindow_car, null);
-        //将一个布局文件转换成一个view对象
-        String powerValue = "";
-        if (car.getPowerValue() == null) {
-            powerValue = "null";
-        }
-        StringBuffer strb = new StringBuffer(car.getDeviceName());
-        StringBuffer strb2 = new StringBuffer(car.getImei());
-        if (car.getDeviceName().length() > 12) {
-            strb.insert(12, " ");
-        }
-        if (car.getImei().length() > 12) {
-            strb2.insert(12, " ");
-        }
-        StringBuilder carInfo = new StringBuilder();
-        carInfo.append(mContext.getString(R.string.car_name)).append(strb.toString()).append("\n");
-        if (StringTools.isStringValueOk(car.getSpeed())) {
-            carInfo.append(mContext.getString(R.string.car_speed)).append(car.getSpeed()).append(
-                    "km/h").append("\n");
-        }
-        carInfo.append(mContext.getString(R.string.car_imei)).append(strb2.toString()).append("\n");
-        if (StringTools.isStringValueOk(powerValue)) {
-            carInfo.append(mContext.getString(R.string.car_power)).append(powerValue);
-        }
-        ((TextView) infowindowPeople.findViewById(R.id.car_infos)).setText(carInfo.toString());
-        ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), car.getImg(),
-                infowindowPeople.findViewById(R.id.car_img));
-        infowindowPeople.findViewById(R.id.car_contact).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, CarLiveActivity.class)
-                        .putExtra(CarLiveActivity.STREAM_CAMERA_NAME, car.getDeviceName())
-                        .putExtra(CarLiveActivity.STREAM_CAMERA_URL, UrlFormatUtil.getCarStream(car.getImei()))
-                );
-//                ToastUtils.warning(mContext, "暂未开放");
-            }
-        });
-
-        infowindowPeople.findViewById(R.id.car_history).setOnClickListener(v -> {
-            infowindowPeople.findViewById(R.id.his_ll).setVisibility(View.VISIBLE);
-            infowindowPeople.findViewById(R.id.car_btn_rl).setVisibility(View.INVISIBLE);
-            infowindowPeople.findViewById(R.id.today_history).setOnClickListener(v1 -> {
-                startActivity(new Intent(mContext, HistoryTrack.class)
-                        .putExtra("type", HistoryTrack.CAR)
-                        .putExtra("time", HistoryTrack.TODAY)
-                        .putExtra("carImei", car.getImei()));
-            });
-            infowindowPeople.findViewById(R.id.yesterday_history).setOnClickListener(v1 -> {
-                startActivity(new Intent(mContext, HistoryTrack.class)
-                        .putExtra("type", HistoryTrack.CAR)
-                        .putExtra("time", HistoryTrack.YESTERDAY)
-                        .putExtra("carImei", car.getImei()));
-            });
-            infowindowPeople.findViewById(R.id.zidingyi_history).setOnClickListener(v1 -> {
-                startActivity(new Intent(mContext, SelectTime.class)
-                        .putExtra("type", HistoryTrack.CAR)
-                        .putExtra("carImei", car.getImei()));
-            });
-        });
-        MapViewLayoutParams params2 = new MapViewLayoutParams.Builder()
-                .layoutMode(MapViewLayoutParams.ELayoutMode.mapMode)
-                .position(peopleLocation)
-                .width(MapViewLayoutParams.WRAP_CONTENT)
-                .height(MapViewLayoutParams.WRAP_CONTENT)
-                .yOffset(-item.getBd().getBitmap().getHeight() * clickType)
-                .build();
-        mMapView.addView(infowindowPeople, params2);
-    }
 
     /**
      * 地图点警员
@@ -964,53 +853,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 .yOffset(-item.getBd().getBitmap().getHeight() * clickType)
                 .build();
         mMapView.addView(infowindowPeople, params2);
-    }
-
-    /**
-     * 地图点巡检
-     */
-    private void clickInspectionItem(MapClusterItem item, BaiduMap map) {
-        ResponseInspection.DataBean inspection = item.inspection;
-        startActivity(new Intent(mContext, InspectionInfoActivity.class).putExtra("id",
-                inspection.getId()));
-    }
-
-    /**
-     * 地图点资讯
-     */
-    private void clickNewsItem(MapClusterItem item, BaiduMap map) {
-        ResponseNews.News news = item.news;
-        MyApp.gotoNewsInfo(news.getTypeId(), news.getId(), mContext);
-    }
-
-    /**
-     * 地图点重点人员
-     */
-    private void clickKeyPersonnelItem(MapClusterItem item, BaiduMap map) {
-        ResponseKeyPersonnel.DataBean keyPersonnel = item.keyPersonnel;
-        startActivity(new Intent(mContext, KeyPersonnelInfoActivity.class).putExtra("id", keyPersonnel.getId()));
-    }
-
-    /**
-     * 场所管理
-     */
-    private void clickSiteItem(MapClusterItem item) {
-        ResponseSiteBean.DataBean dataBean = item.site;
-        startActivity(new Intent(mContext, NewUnitDetailActivity.class)
-                .putExtra(AppUtils.ID_KEY, dataBean.getId())
-                .putExtra(NewUnitDetailActivity.UNIT_NAME, dataBean.getName()));
-    }
-
-    /**
-     * 地图点无人机
-     */
-    private void clickDroneItem(MapClusterItem item, BaiduMap map) {
-        ResponseDrone.DroneBean droneBean = item.droneBean;
-        startActivity(new Intent(mContext.getApplicationContext(), CarLiveActivity.class)
-                .putExtra(CarLiveActivity.STREAM_CAMERA_ID, droneBean.getId())
-                .putExtra(CarLiveActivity.STREAM_CAMERA_URL, UrlFormatUtil.getCarStream(droneBean.getId() + ""))
-                .putExtra(CarLiveActivity.STREAM_CAMERA_NAME, droneBean.getName())
-                .putExtra(CarLiveActivity.STREAM_CAMERA_THUM_URL, droneBean.getImg()));
     }
 
     private boolean panoramaSwitch = false;
@@ -1078,43 +920,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
             case R.id.distance_util_btn:
                 startActivity(new Intent(mContext, DistanceUtilActivity.class));
                 break;
-            case R.id.search_ll:
-                if (MyApp.isCompleteUserInfo()) {
-                    startActivity(new Intent(mContext, SearchActivity.class));
-                }
-                break;
-            case R.id.scan_iv:
-                if ((System.currentTimeMillis() - currentTime) < 800) {
-                    return;
-                }
-                if (!MyApp.isCompleteUserInfo()) {
-                    return;
-                }
-                currentTime = System.currentTimeMillis();
-                getActivity().startActivityForResult(new Intent(getActivity(),
-                        QRScanActivity.class), AppUtils.QR_SCAN_NOMAL);
-                break;
-            //一键报警
-            case R.id.call_police_iv:
-                if (!MyApp.isLogin()) {
-                    MyApp.goLogin();
-                    return;
-                }
-                UserBean userBean = Hawk.get(AppUtils.SP_KEY_USER);
-                if (userBean != null) {
-                    if (1 == userBean.getData().getBlacklist()) {
-                        ToastUtils.toast(mContext, "您已被加入黑名单！");
-                        return;
-                    }
-                    //实名认证状态（0：未提交）（1：提交审核中）（2：审核通过）（3：审核失败）
-                    int status = userBean.getData().getRealNameStatus();
-                    if (2 != status) {
-                        startActivity(new Intent(mContext, VerifiedActivity.class).putExtra(VerifiedActivity.VERIFIED_STATUS, status));
-                    } else {
-                        startActivity(new Intent(mContext, CallToPoliceActivity.class));
-                    }
-                }
-                break;
             case R.id.delete_icon:
                 closeMarquee = true;
                 marqueeView.stopFlipping();
@@ -1162,17 +967,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.camera_tip);
                     updateMarkerIcon(item.streamCamera.getEzOpen());
                 }
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.streamCamera.getNumber()))) {
-                    if (1 == item.streamCamera.getFlag()) {
-                        currentStreamCamera = item.streamCamera;
-                        startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
-                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
-                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber())
-                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, currentStreamCamera.getEzOpen()));
-//                        //打开流数据
-//                        mPresenter.openStream(item.streamCamera.getNumber(), "1", "rtmp", PlayContract.GET_URL_PATH);
-                    }
-                }
                 nowMarkerId = String.valueOf(item.streamCamera.getNumber());
                 break;
             case MapClusterItem.PEOPLE:
@@ -1189,52 +983,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     clickCaseItem(item, mBaiduMap);
                 }
                 nowMarkerId = String.valueOf(item.mcase.getId());
-                break;
-            case MapClusterItem.CAR:
-                updateMarkerIcon(item.car.getImg());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.car.getImei()))) {
-                    clickCarItem(item, mBaiduMap);
-                }
-                nowMarkerId = item.car.getImei();
-                break;
-            case MapClusterItem.INSPECTION:
-                //巡检
-                updateMarkerIcon(item.inspection.getLogoUrl());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.inspection.getId()))) {
-                    clickInspectionItem(item, mBaiduMap);
-                }
-                nowMarkerId = String.valueOf(item.inspection.getId());
-                break;
-            case MapClusterItem.NEWS:
-                //资讯
-                updateMarkerIcon(item.news.getPicture());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.news.getId()))) {
-                    clickNewsItem(item, mBaiduMap);
-                }
-                nowMarkerId = String.valueOf(item.news.getId());
-                break;
-            case MapClusterItem.SITE:
-                updateMarkerIcon(item.site.getLogoUrl());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.site.getId()))) {
-                    clickSiteItem(item);
-                }
-                nowMarkerId = String.valueOf(item.site.getId());
-                break;
-            case MapClusterItem.KEY_PERSONNEL:
-                //重点人员
-                updateMarkerIcon(item.keyPersonnel.getHeadPortrait());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.keyPersonnel.getId()))) {
-                    clickKeyPersonnelItem(item, mBaiduMap);
-                }
-                nowMarkerId = String.valueOf(item.keyPersonnel.getId());
-                break;
-            case MapClusterItem.DRONE:
-                //资讯
-                updateMarkerIcon(item.droneBean.getImg());
-                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.droneBean.getId()))) {
-                    clickDroneItem(item, mBaiduMap);
-                }
-                nowMarkerId = String.valueOf(item.droneBean.getId());
                 break;
         }
         return false;
@@ -1389,9 +1137,8 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
             case MapContract.GET_MENUS://获取地图菜单按钮
                 MapMenuButton mapMenuButton = (MapMenuButton) o;
                 MyApp.setMapMenuButton(mapMenuButton);
-                addMapMenuButton(mapMenuButton.getData());
+//                addMapMenuButton(mapMenuButton.getData());
                 break;
-            case PlayContract.GET_URL_PATH:
 //                OpenLiveBean openLiveBean = (OpenLiveBean) o;
 //                int errorCode = openLiveBean.getErrcode();
 //                if (errorCode < 0) {
@@ -1412,7 +1159,6 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
 //                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_URL, playUrl)
 //                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_SESSION_ID, strsessionid)
 //                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber()));
-                break;
             case MapContract.BANNER_NEWS:
                 BannerNewsBean bannerNewsBean = (BannerNewsBean) o;
                 if (bannerNewsBean != null) {
