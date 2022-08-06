@@ -151,7 +151,7 @@ public class MyInformationActivity extends BaseMvpActivity<MyInfoPresent> implem
                     ToastUtils.success(mContext, "修改成功");
                     headUrl = baseResult.message;
                     ImageLoadUtil.loadCircularImage(getApplicationContext(), headUrl,R.mipmap.default_user_head_icon,R.mipmap.default_user_head_icon, imageView);
-                    MyApp.addImUserInfo(MyApp.getUser().getData().getAccount(), MyApp.getUser().getData().getName(),headUrl);
+//                    MyApp.addImUserInfo(MyApp.getUser().getData().getAccount(), MyApp.getUser().getData().getName(),headUrl);
                     break;
                 case MyCenterContract.USER_DATA_TAG:
                     UserBean user = (UserBean) o;

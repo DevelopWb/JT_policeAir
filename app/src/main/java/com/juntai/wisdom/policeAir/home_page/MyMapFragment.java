@@ -155,7 +155,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     NavigationDialog navigationDialog;
     private ProgressDialog progressDialog;
     private SharedPreferencesUtil mapSP = null;
-    private MyOrientationListener myOrientationListener = null;
+//    private MyOrientationListener myOrientationListener = null;
     private float direct = 0, locationRadius = 0;
     private String province = null, city = null, area = null;
     private Button backToMyLocation = null;
@@ -321,7 +321,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         //地图
         mMapView = getView(R.id.map_view_tmv);
         mBaiduMap = mMapView.getMap();
-        initLocateOritation();
+//        initLocateOritation();
         initUiSetting();
         clusterManager = new ClusterManager<>(mContext, mBaiduMap);
         clusterManager.setOnClusterItemClickListener(MyMapFragment.this);//点点击
@@ -435,18 +435,18 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     }
 
     private void initLocateOritation() {
-        //获取方向
-        myOrientationListener = new MyOrientationListener(mContext);
-        myOrientationListener.setOnOrientationListener(x -> {
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(locationRadius)
-                    .direction(direct)// 此处设置开发者获取到的方向信息，顺时针0-360
-                    .latitude(myLocation.latitude)
-                    .longitude(myLocation.longitude).build();
-            mBaiduMap.setMyLocationData(locData);
-            direct = x;
-        });
-        myOrientationListener.start();
+//        //获取方向
+//        myOrientationListener = new MyOrientationListener(mContext);
+//        myOrientationListener.setOnOrientationListener(x -> {
+//            MyLocationData locData = new MyLocationData.Builder()
+//                    .accuracy(locationRadius)
+//                    .direction(direct)// 此处设置开发者获取到的方向信息，顺时针0-360
+//                    .latitude(myLocation.latitude)
+//                    .longitude(myLocation.longitude).build();
+//            mBaiduMap.setMyLocationData(locData);
+//            direct = x;
+//        });
+//        myOrientationListener.start();
     }
 
     private void initUiSetting() {
@@ -926,11 +926,11 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 people.getHeadPortrait(),
                 (ImageView) infowindowPeople.findViewById(R.id.head_image));
         infowindowPeople.findViewById(R.id.people_chat).setOnClickListener(v -> {
-            try {
-                ModuleIm_Init.chat(mContext, people.getAccount(), "指挥调度:" + people.getNickname());
-            } catch (IllegalArgumentException e) {
-                ToastUtils.toast(mContext, "通讯参数错误");
-            }
+//            try {
+//                ModuleIm_Init.chat(mContext, people.getAccount(), "指挥调度:" + people.getNickname());
+//            } catch (IllegalArgumentException e) {
+//                ToastUtils.toast(mContext, "通讯参数错误");
+//            }
         });
         infowindowPeople.findViewById(R.id.people_history).setOnClickListener(v -> {
             infowindowPeople.findViewById(R.id.his_ll).setVisibility(View.VISIBLE);
@@ -1301,7 +1301,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         mBaiduMap.setMyLocationEnabled(false);
         mMapView.onDestroy();
         mMapView = null;
-        myOrientationListener.stop();
+//        myOrientationListener.stop();
         super.onDestroy();
     }
 

@@ -121,30 +121,30 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         mPresenter.initList();
         mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
         /**设置im未读消息监听*/
-        ModuleIm_Init.setUnReadMessageListener(new IUnReadMessageLinstener() {
-            @Override
-            public void onCountChanged(int count) {
-                imUnReadCount = count;
-                UnReadCountBean.DataBean unReadCountBean = MyApp.getUnReadCountBean();
-                if (unReadCountBean != null) {
-                    unReadCountBean.setImCount(imUnReadCount);
-                    MyApp.setUnReadCountBean(unReadCountBean);
-                    List<MyMenuBean> menuBeans = myMenuAdapter.getData();
-                    for (int i = 0; i < menuBeans.size(); i++) {
-                        MyMenuBean bean = menuBeans.get(i);
-                        if (MyCenterContract.CENTER_MESSAGE_TAG.equals(bean.getTag())) {
-                            bean.setNumber(unReadCountBean.getMessageCount() + imUnReadCount);
-                            myMenuAdapter.notifyItemChanged(i);
-//                            app角标
-                            ShortcutBadger.applyCount(mContext.getApplicationContext(), unReadCountBean.getMessageCount() + imUnReadCount);
-                            break;
-                        }
-                    }
-                    LogUtil.e("refresh-->");
-                    EventManager.sendStringMsg(ActionConfig.UN_READ_MESSAG_TAG);
-                }
-            }
-        });
+//        ModuleIm_Init.setUnReadMessageListener(new IUnReadMessageLinstener() {
+//            @Override
+//            public void onCountChanged(int count) {
+//                imUnReadCount = count;
+//                UnReadCountBean.DataBean unReadCountBean = MyApp.getUnReadCountBean();
+//                if (unReadCountBean != null) {
+//                    unReadCountBean.setImCount(imUnReadCount);
+//                    MyApp.setUnReadCountBean(unReadCountBean);
+//                    List<MyMenuBean> menuBeans = myMenuAdapter.getData();
+//                    for (int i = 0; i < menuBeans.size(); i++) {
+//                        MyMenuBean bean = menuBeans.get(i);
+//                        if (MyCenterContract.CENTER_MESSAGE_TAG.equals(bean.getTag())) {
+//                            bean.setNumber(unReadCountBean.getMessageCount() + imUnReadCount);
+//                            myMenuAdapter.notifyItemChanged(i);
+////                            app角标
+//                            ShortcutBadger.applyCount(mContext.getApplicationContext(), unReadCountBean.getMessageCount() + imUnReadCount);
+//                            break;
+//                        }
+//                    }
+//                    LogUtil.e("refresh-->");
+//                    EventManager.sendStringMsg(ActionConfig.UN_READ_MESSAG_TAG);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -254,7 +254,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                 ToastUtils.success(mContext, "退出成功");
                 //清除本地定位数据
                 ObjectBox.get().boxFor(LocationBean.class).removeAll();
-                ModuleIm_Init.logout();
+//                ModuleIm_Init.logout();
                 SPTools.saveString(mContext, "login", "");
                 MyApp.app.clearUserData();//清理数据
                 ShortcutBadger.applyCount(mContext.getApplicationContext(), 0);
@@ -287,7 +287,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
 
     @Override
     public void onDestroyView() {
-        ModuleIm_Init.setUnReadMessageListener(null);
+//        ModuleIm_Init.setUnReadMessageListener(null);
         super.onDestroyView();
     }
 }

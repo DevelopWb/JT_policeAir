@@ -51,7 +51,7 @@ public class MyMessageActivity extends BaseActivity implements ViewPager.OnPageC
         getTitleRightTv().setText("全部已读");
         getTitleRightTv().setOnClickListener(v -> {
             if (nowFragment == 1){
-                ModuleIm_Init.readAllMessage();
+//                ModuleIm_Init.readAllMessage();
 //                MyApp.getUser().getData().setImCount(0);
 //                setUnReadView(mCollectTablayout.getTabAt(1),0);
             }else {

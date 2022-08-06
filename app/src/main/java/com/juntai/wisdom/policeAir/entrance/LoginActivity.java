@@ -196,10 +196,6 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                     ToastUtils.error(mContext, "账号不可为空");
                     return;
                 }
-                if (!SendCodeModel.isMobileNO(account)) {
-                    ToastUtils.error(mContext, "手机号码格式不正确");
-                    return;
-                }
                 if (password.isEmpty()) {
                     ToastUtils.error(mContext, "登录密码不能为空");
                     return;

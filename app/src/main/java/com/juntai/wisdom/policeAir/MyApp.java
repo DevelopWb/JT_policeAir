@@ -63,12 +63,12 @@ public class MyApp extends BaseApplication {
         super.onCreate();
         app = this;
         Hawk.init(this).build();
-        MobSDK.init(this);
-        //Im模块初始化
-        ModuleIm_Init.init(this);
-        IMRoom_Init.init(this);
-        //Video模块初始化
-        ModuleVideo_Init.init();
+//        MobSDK.init(this);
+//        //Im模块初始化
+//        ModuleIm_Init.init(this);
+//        IMRoom_Init.init(this);
+//        //Video模块初始化
+//        ModuleVideo_Init.init();
         //百度地图初始化
         SDKInitializer.initialize(this);
         //        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
@@ -77,7 +77,7 @@ public class MyApp extends BaseApplication {
 
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
-        initBugly();
+//        initBugly();
         ObjectBox.init(this);
     }
 

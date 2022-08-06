@@ -35,7 +35,6 @@ public class StartActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
         new RxPermissions(this)
                 .request(permissions)
-                .delay(1, TimeUnit.SECONDS)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new Consumer<Boolean>() {
                     @Override

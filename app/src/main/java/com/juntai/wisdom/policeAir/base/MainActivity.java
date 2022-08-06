@@ -85,7 +85,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     private LinearLayout mainLayout;
     private CustomViewPager mainViewpager;
     private TabLayout mainTablayout;
-    private String[] title = new String[]{"首页",  "我的"};
+    private String[] title = new String[]{"首页", "我的"};
     private int[] tabDrawables = new int[]{R.drawable.home_index, R.drawable.home_msg};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
@@ -93,7 +93,6 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     PopupWindow popupWindow;
     final static Handler mHandler = new Handler();
     private List<LocationBean> locateData;
-
 
 
     @Override
@@ -115,7 +114,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         //
         getToolbar().setVisibility(View.GONE);
         mBaseRootCol.setFitsSystemWindows(false);
-        mainViewpager.setOffscreenPageLimit(5);
+        mainViewpager.setOffscreenPageLimit(2);
         initTab();
         //注册广播
         IntentFilter intentFilter = new IntentFilter();
@@ -268,7 +267,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         public void onReceive(Context context, Intent intent) {
             if (ActionConfig.BROAD_LOGIN.equals(intent.getAction())) {
                 //退出IM登录
-                ModuleIm_Init.logout();
+//                ModuleIm_Init.logout();
                 //登录信息设置为空
                 String error = intent.getStringExtra("error");
                 ToastUtils.info(MyApp.app, error);
@@ -378,85 +377,6 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         return intent;
     }
 
-    /**
-     * 发布的popupwindow
-     *
-     * @param view
-     */
-    public void initPopTypePublish(View view) {
-        if (!MyApp.isLogin()) {
-            MyApp.goLogin();
-            return;
-        }
-        View viewPop = LayoutInflater.from(mContext).inflate(R.layout.publish_menu_layout, null);
-        //背景颜色
-        view.setBackgroundColor(Color.WHITE);
-        TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);
-        shadowTv.setOnClickListener(this);
-        popupWindow = new PopupWindow(viewPop, ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewUtil.getScreenHeight(this) - mainTablayout.getLayoutParams().height - MyApp.statusBarH, true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mImmersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init();
-            }
-        });
-        //显示（自定义位置）
-        popupWindow.showAtLocation(mainTablayout, Gravity.TOP, 0, 0);
-        if (popupWindow.isShowing()) {
-            mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
-        }
-        viewPop.findViewById(R.id.anjian_btn).setOnClickListener(v -> {
-            if (UserInfoManager.getAccountStatus() != 1) {
-                //没有绑定手机号
-                startActivity(new Intent(mContext, BindingPhoneActivity.class));
-                return;
-            }
-            startActivity(new Intent(this, PublishCaseActivity.class));
-            popupWindow.dismiss();
-        });
-        viewPop.findViewById(R.id.zixun_btn).setOnClickListener(v -> {
-            if (UserInfoManager.getAccountStatus() != 1) {
-                //没有绑定手机号
-                startActivity(new Intent(mContext, BindingPhoneActivity.class));
-                return;
-            }
-            startActivity(new Intent(this, PublishNewsActivity.class));
-            popupWindow.dismiss();
-        });
-        viewPop.findViewById(R.id.site_iv).setOnClickListener(v -> {
-            if (MyApp.isCompleteUserInfo()) {
-                startActivity(new Intent(this, AddNewSiteActivity.class));
-            }
-            popupWindow.dismiss();
-        });
-    }
-
-    /**
-     * 获取im - - users
-     */
-    public void getIMUsers() {
-        AppNetModule.createrRetrofit()
-                .getIMUsers(MyApp.getUserToken(), MyApp.getAccount())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new BaseObserver<IMUsersBean>(null) {
-                    @Override
-                    public void onSuccess(IMUsersBean o) {
-                        ArrayList<UserIM> arrayList = new ArrayList<>();
-                        for (IMUsersBean.DataBean bean : o.getData()) {
-                            arrayList.add(new UserIM(bean.getAccount(), bean.getRealName(), bean.getHeadPortrait()));
-                        }
-                        ModuleIm_Init.setUsers(arrayList);
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        ToastUtils.error(MyApp.app, msg);
-                    }
-                });
-    }
 
     @Override
     protected MainPagePresent createPresenter() {
@@ -486,7 +406,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MyApp.app.isFinish = true;
-                        ModuleIm_Init.logout();
+//                        ModuleIm_Init.logout();
                         finish();
                     }
                 })
@@ -618,7 +538,7 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
     private void initForLogin() {
 //        getIMUsers();
         /**登录IM*/
-        ModuleIm_Init.connectIM(MyApp.getUserRongYunToken());
+//        ModuleIm_Init.connectIM(MyApp.getUserRongYunToken());
         // TODO: 2022-02-14 以前的逻辑是实名认证通过之后才能上传位置信息  现在放开
 //        if (MyApp.getUser().getData().getSettleStatus() == 2) {
         //主线程中调用：
@@ -628,9 +548,10 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
 
     /**
      * 上传位置
+     *
      * @param time
      */
-    public void  startUploadLocateData(long  time){
+    public void startUploadLocateData(long time) {
         if (runnable != null) {
             mHandler.postDelayed(runnable, time);
 
@@ -645,15 +566,22 @@ public class MainActivity extends UpdateActivity<MainPagePresent> implements Vie
         @Override
         public void run() {
             //do something
-            locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
-            Logger.e("historyDataSize", locateData.size() + "");
-            // TODO: 2022-02-17 这个地方有问题 如果数据过多  上传的时候就报异常  之前警小宝的逻辑是30以内上传  超过30 本地数据清零
-            if (locateData.size() > 0) {
-                LogUtil.d("本地有数据 上传位置数据");
-                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
-                //每隔1分钟循环执行run方法
-                startUploadLocateData(1000 * 60);
-            }
+//            locateData = ObjectBox.get().boxFor(LocationBean.class).getAll();
+//            Logger.e("historyDataSize", locateData.size() + "");
+//            // : 2022-02-17 这个地方有问题 如果数据过多  上传的时候就报异常  之前警小宝的逻辑是30以内上传  超过30 本地数据清零
+//            if (locateData.size() > 0 && locateData.size() < 30) {
+//                LogUtil.d("本地有数据 上传位置数据");
+//                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
+//                //每隔1分钟循环执行run方法
+//                startUploadLocateData(1000 * 60);
+//            } else {
+//// : 2022-02-19 超过30条  这时候一下上传所有的位置数据可能会失败  如果大于30条 就取出30条上传
+//
+//                locateData= locateData.subList(0,30);
+//                mPresenter.uploadHistory(new Gson().toJson(locateData), MainPageContract.UPLOAD_HISTORY);
+//                //每隔5秒循环执行run方法
+//                startUploadLocateData(1000 * 5);
+//            }
 
         }
     };
