@@ -147,6 +147,7 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                         Hawk.put(AppUtils.SP_RONGYUN_TOKEN, loginBean.getData().getrOngYunToken());
                         EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
                         startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
                         LogUtil.d("token=" + MyApp.getUserToken());
                     } else if (loginBean.status == 1301) {
                         //未绑定 将第三方信息注册到平台
