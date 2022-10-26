@@ -24,6 +24,7 @@ import com.videoaudiocall.bean.BaseWsMessageBean;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.bean.VideoActivityMsgBean;
 import com.videoaudiocall.library.R;
+import com.videoaudiocall.videocall.ReceiveVideoCallService;
 import com.videoaudiocall.videocall.VideoRequestActivity;
 
 import java.util.ArrayList;
@@ -124,12 +125,11 @@ public class MyWsManager {
                         if (VideoRequestActivity.EVENT_CAMERA_REQUEST.equals(messageBody.getEvent())) {
                             Log.d(TAG, "MyWsManager-----onMessage---视频通话消息");
                             Intent intent =
-                                    new Intent(mContext, VideoRequestActivity.class)
-                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    new Intent(mContext, ReceiveVideoCallService.class)
                                             .putExtra(VideoRequestActivity.IS_SENDER, false)
                                             .putExtra(BaseActivity.BASE_PARCELABLE,
                                                     messageBody);
-                            mContext.startActivity(intent);
+                            mContext.startService(intent);
                         } else {
                             EventManager.getEventBus().post(new VideoActivityMsgBean(messageBody));
                         }

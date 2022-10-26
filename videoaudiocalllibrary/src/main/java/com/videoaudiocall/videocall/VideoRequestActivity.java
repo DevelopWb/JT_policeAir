@@ -620,7 +620,9 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
     protected void onDestroy() {
         super.onDestroy();
 //        doLeave();
-
+        if (audioManager != null) {
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+        }
         mRootEglBase.releaseSurface();
         mRootEglBase.release();
         if (mPeerConnection != null) {
