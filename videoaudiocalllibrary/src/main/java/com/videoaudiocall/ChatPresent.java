@@ -6,11 +6,11 @@ import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
+import com.juntai.wisdom.basecomponent.bean.BaseMenuBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.mvp.IView;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
-import com.orhanobut.hawk.Hawk;
 import com.videoaudiocall.library.R;
 
 import org.webrtc.Camera1Enumerator;
@@ -60,7 +60,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void requestVideoCall(RequestBody body, String tag) {
-        AppNetModule.createrRetrofit()
+        AppNetModuleSocket.createrRetrofit()
                 .requestVideoCall(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
@@ -85,7 +85,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void accessVideoCall(RequestBody body, String tag) {
-        AppNetModule.createrRetrofit()
+        AppNetModuleSocket.createrRetrofit()
                 .accessVideoCall(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
@@ -110,7 +110,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void rejectVideoCall(RequestBody body, String tag) {
-        AppNetModule.createrRetrofit()
+        AppNetModuleSocket.createrRetrofit()
                 .rejectVideoCall(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
@@ -139,7 +139,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void sendPrivateMessage(RequestBody body, String tag) {
-        AppNetModule.createrRetrofit()
+        AppNetModuleSocket.createrRetrofit()
                 .sendMessage(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(null) {
@@ -245,11 +245,4 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
         return calls;
     }
 
-
-    public List<MyMenuBean> getBoottomEditMsgAdapterData() {
-        List<MyMenuBean> arrays = new ArrayList<>();
-        arrays.add(new MyMenuBean(EDIT_MSG_FORWARD, R.mipmap.forward_black_icon));
-        arrays.add(new MyMenuBean(EDIT_MSG_DELETE, R.mipmap.delete_black_icon));
-        return arrays;
-    }
 }

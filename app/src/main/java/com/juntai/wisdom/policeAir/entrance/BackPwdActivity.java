@@ -14,10 +14,10 @@ import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.entrance.regist.RegistContract;
 import com.juntai.wisdom.policeAir.entrance.regist.RegistPresent;
 import com.juntai.wisdom.policeAir.entrance.sendcode.SmsCheckCodeActivity;
-import com.juntai.wisdom.policeAir.utils.AppUtils;
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.basecomponent.utils.MD5;
 import com.juntai.wisdom.policeAir.utils.StringTools;
-import com.juntai.wisdom.policeAir.utils.UserInfoManager;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.List;

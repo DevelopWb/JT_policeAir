@@ -244,7 +244,7 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
     private void imageCompress(List<String> paths) {
         compressedSize = 0;
         getBaseActivity().showLoadingDialog(getContext());
-        Luban.with(mContext).load(paths).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath()).filter(new CompressionPredicate() {
+        Luban.with(mContext).load(paths).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath(true)).filter(new CompressionPredicate() {
             @Override
             public boolean apply(String path) {
                 return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
@@ -286,7 +286,7 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
      */
     private void imageCompress(String path) {
         getBaseActivity().showLoadingDialog(getContext());
-        Luban.with(mContext).load(path).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath()).filter(new CompressionPredicate() {
+        Luban.with(mContext).load(path).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath(true)).filter(new CompressionPredicate() {
             @Override
             public boolean apply(String path) {
                 return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));

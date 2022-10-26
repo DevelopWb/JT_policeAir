@@ -12,7 +12,7 @@ import com.juntai.wisdom.policeAir.AppNetModule;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
 import com.juntai.wisdom.policeAir.mine.setting.MySettingActivity;
 import com.juntai.wisdom.policeAir.utils.RxScheduler;

@@ -9,7 +9,7 @@ import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.mvp.IView;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.policeAir.AppNetModule;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.utils.RxScheduler;
 
 import io.reactivex.functions.Consumer;

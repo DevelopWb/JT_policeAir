@@ -14,7 +14,7 @@ import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.GlideEngine4;
 import com.juntai.wisdom.policeAir.AppNetModule;
 import com.juntai.wisdom.policeAir.MyApp;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.mine.MyCenterContract;
 import com.juntai.wisdom.policeAir.utils.RxScheduler;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -111,7 +111,7 @@ public class MyInfoPresent extends BasePresenter<IModel, MyCenterContract.IMyInf
         Luban.with((MyInformationActivity)getView())
                 .load(path)
                 .ignoreBy(100)
-                .setTargetDir(FileCacheUtils.getAppImagePath())
+                .setTargetDir(FileCacheUtils.getAppImagePath(true))
                 .filter(new CompressionPredicate() {
                     @Override
                     public boolean apply(String path) {

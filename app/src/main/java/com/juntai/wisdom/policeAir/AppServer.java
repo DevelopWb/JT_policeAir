@@ -73,7 +73,7 @@ import com.juntai.wisdom.policeAir.bean.SearchResultBean;
 import com.juntai.wisdom.policeAir.bean.task.TaskDetailBean;
 import com.juntai.wisdom.policeAir.bean.task.TaskListBean;
 import com.juntai.wisdom.policeAir.bean.task.TaskSubmitedBean;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.UserScoreListBean;
 import com.juntai.wisdom.policeAir.bean.business.MyBusinessDetailBean;
 import com.juntai.wisdom.policeAir.bean.exchang_mall.GoodsInfoBean;

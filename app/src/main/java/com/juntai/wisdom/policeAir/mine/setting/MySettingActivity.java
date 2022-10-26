@@ -26,16 +26,14 @@ import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.entrance.BackPwdActivity;
-import com.juntai.wisdom.policeAir.entrance.BindingPhoneActivity;
 import com.juntai.wisdom.policeAir.entrance.EntranceContract;
 import com.juntai.wisdom.policeAir.entrance.EntrancePresent;
-import com.juntai.wisdom.policeAir.mine.AboutActivity;
 import com.juntai.wisdom.policeAir.mine.MyCenterContract;
 import com.juntai.wisdom.policeAir.base.update.UpdateActivity;
 import com.juntai.wisdom.policeAir.utils.StringTools;
-import com.juntai.wisdom.policeAir.utils.UserInfoManager;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -115,10 +113,11 @@ public class MySettingActivity extends UpdateActivity<EntrancePresent> implement
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        RxScheduler.doTask(MySettingActivity.this, new RxTask<String>("清理成功") {
+                                        RxScheduler.doTask(MySettingActivity.this, new RxTask<String>() {
                                             @Override
-                                            public void doOnIoThread() {
+                                            public String doOnIoThread() {
                                                 FileCacheUtils.clearAll(mContext.getApplicationContext());
+                                                return "清理成功";
                                             }
 
                                             @Override

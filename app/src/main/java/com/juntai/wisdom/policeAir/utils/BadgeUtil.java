@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.basecomponent.utils.BaseAppUtils;
 import com.juntai.wisdom.basecomponent.utils.RomUtil;
 import com.juntai.wisdom.policeAir.R;

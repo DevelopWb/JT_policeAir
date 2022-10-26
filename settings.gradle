@@ -1,4 +1,4 @@
 include ':module_Base', ':module_Map',
         ':app', ':banner',
-        ":pushpermission", ':module_Video', ':zXingLiteLib', ':indexlib', ':zhihu_matisse', ':appbase'
+        ":pushpermission"
 include ':videoaudiocalllibrary'

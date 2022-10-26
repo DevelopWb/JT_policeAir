@@ -20,7 +20,7 @@ import com.juntai.wisdom.policeAir.AppHttpPath;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.UpdateBean;
-import com.juntai.wisdom.policeAir.utils.AppUtils;
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
 
 /**
  * Created by Ma
@@ -58,7 +58,7 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
                         version = upgradeBean.getData().getVersionsName();
                         isForceUpdate = upgradeBean.getData().isConstraintUpdate();
                         if (AppUtils.getVersionCode(mContext) < upgradeBean.getData().getVersionsCode()) {
-                            downloadBuilder.setDownloadAPKPath(FileCacheUtils.getAppPath())//自定义下载路径
+                            downloadBuilder.setDownloadAPKPath(FileCacheUtils.getAppPath(true))//自定义下载路径
                                            .setApkName(upgradeBean.getData().getFileName());
                             return UIData.create()
                                     .setTitle(upgradeBean.getData().getFileName())

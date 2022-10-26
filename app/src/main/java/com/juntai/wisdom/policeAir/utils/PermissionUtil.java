@@ -9,6 +9,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
+
 /**
  *
  * @aouther ZhangZhenlong

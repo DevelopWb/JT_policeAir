@@ -127,7 +127,7 @@ public abstract class BaseSelectPicsActivity <P extends BasePresenter>  extends 
     private void imageCompress(List<String> paths) {
         compressedSize = 0;
        showLoadingDialog(mContext);
-        Luban.with(mContext).load(paths).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath()).filter(new CompressionPredicate() {
+        Luban.with(mContext).load(paths).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath(true)).filter(new CompressionPredicate() {
             @Override
             public boolean apply(String path) {
                 return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
@@ -170,7 +170,7 @@ public abstract class BaseSelectPicsActivity <P extends BasePresenter>  extends 
      */
     private void imageCompress(String path) {
         showLoadingDialog(mContext);
-        Luban.with(mContext).load(path).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath()).filter(new CompressionPredicate() {
+        Luban.with(mContext).load(path).ignoreBy(100).setTargetDir(FileCacheUtils.getAppImagePath(true)).filter(new CompressionPredicate() {
             @Override
             public boolean apply(String path) {
                 return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));

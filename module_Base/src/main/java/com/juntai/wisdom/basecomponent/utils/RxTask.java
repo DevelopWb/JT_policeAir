@@ -9,19 +9,8 @@ public abstract class RxTask<T> {
 
     private T t;
 
-    public RxTask(T t) {
-        this.t = t;
-    }
 
-    public T getT() {
-        return t;
-    }
-
-    public void setT(T t) {
-        this.t = t;
-    }
-
-    public abstract void doOnIoThread();
+    public abstract T doOnIoThread();
 
     public abstract void doOnUIThread(T t);
 

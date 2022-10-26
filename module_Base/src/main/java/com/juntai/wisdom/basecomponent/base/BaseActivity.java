@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.juntai.wisdom.basecomponent.R;
+import com.juntai.wisdom.basecomponent.bean.BaseMenuBean;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.DividerItemDecoration;
 import com.juntai.wisdom.basecomponent.utils.EventManager;
@@ -48,6 +49,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -548,53 +550,32 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     }
 
     /**
-     * 压缩图片
-     * @param path  图片路径
-     * @param saveDirName  保存本地图片的目录
-     * @param onImageCompressedPath
-     * @param saveFileName  保存文件的名称
+     * @return
      */
-    public void  compressImage(String path, String saveDirName,
-                               String saveFileName,OnImageCompressedPath onImageCompressedPath) {
-//        showLoadingDialog(mContext);
-        Luban.with(mContext).load(path).ignoreBy(100)
-                .setTargetDir(FileCacheUtils.getAppImagePath(saveDirName))
-                .filter(new CompressionPredicate() {
-            @Override
-            public boolean apply(String path) {
-                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
-            }
-        }).setRenameListener(new OnRenameListener() {
-            @Override
-            public String rename(String filePath) {
-                return TextUtils.isEmpty(saveFileName)||saveFileName==null?System.currentTimeMillis()+".jpg":
-                        saveFileName+".jpg";
-            }
-        })
-                .setCompressListener(new OnCompressListener() {
-            @Override
-            public void onStart() {
-                //  压缩开始前调用，可以在方法内启动 loading UI
-
-            }
-
-            @Override
-            public void onSuccess(File file) {
-                //  压缩成功后调用，返回压缩后的图片文件
-                if (onImageCompressedPath != null) {
-                    onImageCompressedPath.compressedImagePath(file);
-                }
-                stopLoadingDialog();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                LogUtil.e("push-图片压缩失败");
-                stopLoadingDialog();
-            }
-        }).launch();
+    public List<BaseMenuBean> getBaseBottomDialogMenus(String... names) {
+        List<BaseMenuBean> calls = new ArrayList<>();
+        if (names.length == 0) {
+            return null;
+        }
+        for (String name : names) {
+            calls.add(new BaseMenuBean(name));
+        }
+        return calls;
     }
 
+    /**
+     * @return
+     */
+    public List<BaseMenuBean> getBaseBottomDialogMenus(BaseMenuBean... menus) {
+        List<BaseMenuBean> calls = new ArrayList<>();
+        if (menus.length == 0) {
+            return null;
+        }
+        for (BaseMenuBean menu : menus) {
+            calls.add(menu);
+        }
+        return calls;
+    }
     /**
      * 图片压缩成功回调
      */

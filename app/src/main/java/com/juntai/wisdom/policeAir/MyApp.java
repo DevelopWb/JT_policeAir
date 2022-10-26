@@ -3,10 +3,8 @@ package com.juntai.wisdom.policeAir;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.text.TextUtils;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.CoordType;
@@ -16,13 +14,12 @@ import com.juntai.wisdom.basecomponent.app.BaseApplication;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.policeAir.bean.MapMenuButton;
-import com.juntai.wisdom.policeAir.bean.UserBean;
+import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
 import com.juntai.wisdom.policeAir.entrance.LoginActivity;
 import com.juntai.wisdom.policeAir.entrance.complete_info.CompleteInfoActivity;
-import com.juntai.wisdom.policeAir.utils.AppUtils;
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
-import com.juntai.wisdom.policeAir.utils.StringTools;
 import com.orhanobut.hawk.Hawk;
 
 /**
@@ -54,7 +51,7 @@ public class MyApp extends BaseApplication {
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
         //创建压缩图片存放目录
-        FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
+        FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath(true));
         ObjectBox.init(this);
     }
 
@@ -210,13 +207,6 @@ public class MyApp extends BaseApplication {
     //    }
 
 
-    /**
-     * 上传成功后删除压缩图片和视频缓存
-     */
-    public static void delCache() {
-        FileCacheUtils.clearImage();
-        FileCacheUtils.clearVideo();
-    }
 
 
     /**

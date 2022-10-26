@@ -16,6 +16,8 @@ import com.juntai.wisdom.basecomponent.utils.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
+import com.juntai.wisdom.basecomponent.utils.UrlFormatUtil;
+import com.videoaudiocall.AppHttpPathSocket;
 import com.videoaudiocall.ChatPresent;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.FinishVideoActivityMsgBean;
@@ -254,7 +256,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_OFFER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.SEND_MSG);
+                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
             }
         }, mediaConstraints);
     }
@@ -266,7 +268,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         LinkedList<PeerConnection.IceServer> iceServers = new LinkedList<PeerConnection.IceServer>();
 
         PeerConnection.IceServer ice_server =
-                PeerConnection.IceServer.builder(AppHttpPath.CHAT_VIDEO_URL)
+                PeerConnection.IceServer.builder(AppHttpPathSocket.CHAT_VIDEO_URL)
                         .setPassword("jtkj2020")
                         .setUsername("juntai")
                         .createIceServer();
@@ -338,7 +340,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
-            mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.SEND_MSG);
+            mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
             pause();
         }
 
@@ -412,7 +414,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                  */
                 mMessageBodyBean.setFaceTimeType(1);
                 mMessageBodyBean.setEvent(EVENT_CAMERA_REQUEST);
-                mPresenter.requestVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.REQUEST_VIDEO_CALL);
+                mPresenter.requestVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.REQUEST_VIDEO_CALL);
             } else {
                 /**
                  * 第二步 被叫 收到通话申请  接收EVENT_CAMERA_REQUEST   弹出通话界面
@@ -725,7 +727,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setFaceTimeType(1);
             mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
             callOnSuccess();
-            mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.ACCESS_VIDEO_CALL);
+            mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
             if (mPeerConnection == null) {
                 mPeerConnection = createPeerConnection();
             }
@@ -849,7 +851,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.SEND_MSG);
+                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
             }
 
             @Override

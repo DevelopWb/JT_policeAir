@@ -104,7 +104,7 @@ public class ImageCropActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btClip:
                 //裁剪
-                File file = new File(FileCacheUtils.getAppImagePath()+"head.png");//将要保存图片的路径
+                File file = new File(FileCacheUtils.getAppImagePath(true)+"head.png");//将要保存图片的路径
                 try {
                     FileOutputStream  bos = new FileOutputStream (file);
 //                    Bitmap cropBitmap = likeView.clip();

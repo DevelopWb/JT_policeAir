@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.videocall.VideoRequestActivity;
 
@@ -40,7 +41,7 @@ public class OperateMsgUtil {
         MessageBodyBean messageBody = new MessageBodyBean();
         messageBody.setContent(content);
         messageBody.setCreateTime(String.valueOf(System.currentTimeMillis()));
-        messageBody.setFromAccount(UserInfoManager.getUserUUID());
+//        messageBody.setFromAccount(UserInfoManager.getUserUUID());
         messageBody.setFromNickname(UserInfoManager.getUserNickName());
         messageBody.setFromHead(UserInfoManager.getHeadPic());
         messageBody.setFromUserId(UserInfoManager.getUserId());

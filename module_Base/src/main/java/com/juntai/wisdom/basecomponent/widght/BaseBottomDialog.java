@@ -2,7 +2,6 @@ package com.juntai.wisdom.basecomponent.widght;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.wisdom.basecomponent.R;
+import com.juntai.wisdom.basecomponent.bean.BaseMenuBean;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -33,25 +33,29 @@ import java.util.List;
  */
 public class BaseBottomDialog extends DialogFragment implements View.OnClickListener {
 
-    private List<String> arrays = new ArrayList<>();
+    private List<BaseMenuBean> arrays = new ArrayList<>();
     private RecyclerView mBaseBottomDialogRv;
     private OnItemClick onItemClick;
+
+    private BaseQuickAdapter adapter;
+    private LinearLayoutManager manager;
     /**
      * 取消
      */
     private TextView mBaseBottomDialogCancelTv;
-    private BottomDialogAdapter adapter;
 
-    public BaseBottomDialog setOnBottomDialogCallBack(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-        return this;
-    }
 
-    public void setData(List<String> arrays) {
+    public void initBottomDg(List<BaseMenuBean> arrays, BaseQuickAdapter adapter, LinearLayoutManager manager, OnItemClick onItemClick) {
         this.arrays = arrays;
+        this.adapter = adapter;
+        this.manager = manager;
+        this.onItemClick = onItemClick;
 
     }
+
+
     private static final String SAVED_DIALOG_STATE_TAG = "android:savedDialogState";
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         if (getShowsDialog()) {
@@ -86,6 +90,7 @@ public class BaseBottomDialog extends DialogFragment implements View.OnClickList
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(wlp);
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,6 +103,7 @@ public class BaseBottomDialog extends DialogFragment implements View.OnClickList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
     @Override
     public void show(FragmentManager manager, String tag) {
         try {
@@ -116,7 +122,7 @@ public class BaseBottomDialog extends DialogFragment implements View.OnClickList
             Field field = Dialog.class.getDeclaredField("mListenersHandler");
             field.setAccessible(true);
             Handler mListenersHandler = (Handler) field.get(getDialog());
-            if (mListenersHandler != null){
+            if (mListenersHandler != null) {
                 mListenersHandler.removeCallbacksAndMessages(null);
             }
         } catch (Exception e) {
@@ -134,32 +140,24 @@ public class BaseBottomDialog extends DialogFragment implements View.OnClickList
         mBaseBottomDialogRv = (RecyclerView) view.findViewById(R.id.base_bottom_dialog_rv);
         mBaseBottomDialogCancelTv = (TextView) view.findViewById(R.id.base_bottom_dialog_cancel_tv);
         mBaseBottomDialogCancelTv.setOnClickListener(this);
-        adapter = new BottomDialogAdapter(R.layout.single_text_layout);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        if (adapter == null) {
+            adapter = new BottomDialogAdapter(R.layout.single_text_layout);
+        }
+        if (manager == null) {
+            manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        }
         mBaseBottomDialogRv.setAdapter(adapter);
         mBaseBottomDialogRv.setLayoutManager(manager);
+        adapter.setNewData(arrays);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (onItemClick != null) {
-                    onItemClick.onItemClick(adapter,view,position);
+                    onItemClick.onItemClick(adapter, view, position);
                 }
             }
         });
-        adapter.setNewData(arrays);
-        setCancelable(true);
-        getDialog().setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                dismiss();
-            }
-        });
-        getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                dismiss();
-            }
-        });
+        setCancelable(false);
     }
 
     @Override
@@ -169,7 +167,7 @@ public class BaseBottomDialog extends DialogFragment implements View.OnClickList
         }
     }
 
-    public  interface OnItemClick{
-        void  onItemClick(BaseQuickAdapter adapter, View view, int position);
+    public interface OnItemClick {
+        void onItemClick(BaseQuickAdapter adapter, View view, int position);
     }
 }

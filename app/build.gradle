@@ -86,6 +86,7 @@ dependencies {
     implementation project(':module_Base')
     implementation project(':module_Map')
     implementation project(':banner')
+    implementation project(':videoaudiocalllibrary')
     implementation project(':pushpermission')
     implementation 'com.sunfusheng:MarqueeView:1.4.1'//跑马灯
     implementation 'com.github.AlexLiuSheng:CheckVersionLib:2.3.3.1_appcompat'

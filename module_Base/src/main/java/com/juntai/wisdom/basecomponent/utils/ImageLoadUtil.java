@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.juntai.wisdom.basecomponent.R;
+import com.juntai.wisdom.basecomponent.mvp.IView;
 
 import java.io.File;
 
@@ -92,7 +94,96 @@ public class ImageLoadUtil {
                 .transform(new RoundedCorners(15)).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(view);
 
     }
+    public static void loadSquareImage(Context mContext, String url, ImageView imageView) {
+        loadPicToLocalCatch(mContext, url, imageView, R.drawable.empty_pic, false, false);
+    }
+    /**
+     * 加载图片  缓存到本地
+     *
+     * @param mContext
+     * @param picUrl
+     * @param imageView
+     * @param defaultRes
+     * @param isCircle
+     * @param hasCorner
+     */
+    private static void loadPicToLocalCatch(Context mContext, String picUrl, ImageView imageView, int defaultRes, boolean isCircle, boolean hasCorner) {
+        String content = null;
+        if (TextUtils.isEmpty(picUrl)) {
+            return;
+        }
+        if (picUrl.contains("/")) {
+            content = picUrl.substring(picUrl.lastIndexOf("/") + 1, picUrl.length());
+        }
+        if (!FileCacheUtils.isFileExists(FileCacheUtils.getAppImagePath(true) + content)) {
+            //本地没有缓存
+            if (isCircle) {
+                ImageLoadUtil.loadCirImgNoCrash(mContext, picUrl, imageView, defaultRes);
+            } else {
+                if (hasCorner) {
+                    Glide.with(mContext).load(picUrl).apply(new RequestOptions()
+                            .error(defaultRes).placeholder(defaultRes)
+                            .transform(new RoundedCorners(15)).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+                } else {
+                    Glide.with(mContext).load(picUrl).apply(new RequestOptions()
+                            .error(defaultRes).placeholder(defaultRes).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+                }
 
+            }
+
+            ImageLoadUtil.setGlideDownloadFileToLocal(null, mContext, picUrl, true);
+
+        } else {
+            //本地有缓存
+            if (isCircle) {
+                ImageLoadUtil.loadCirImgWithCrash(mContext, FileCacheUtils.getAppImagePath(true) + content, imageView, defaultRes);
+            } else {
+                if (hasCorner) {
+                    Glide.with(mContext).load(FileCacheUtils.getAppImagePath(true) + content).apply(new RequestOptions()
+                            .error(defaultRes).placeholder(defaultRes)
+                            .transform(new RoundedCorners(15)).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)).into(imageView);
+                } else {
+                    Glide.with(mContext).load(FileCacheUtils.getAppImagePath(true) + content).apply(new RequestOptions()
+                            .error(defaultRes).placeholder(defaultRes).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+                }
+
+            }
+
+        }
+    }
+    /**
+     * @param url 缓存到本地
+     */
+    public static void setGlideDownloadFileToLocal(IView iView, Context context, String url, boolean isCatch) {
+        if (TextUtils.isEmpty(url) || !url.contains("/")) {
+            return;
+        }
+        String fileName = url.substring(url.lastIndexOf("/") + 1, url.length());
+        RxScheduler.doTask(iView, new RxTask<File>() {
+            @Override
+            public File doOnIoThread() {
+                try {
+                    return Glide.with(context)
+                            .load(url)
+                            .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
+                } catch (Exception ex) {
+                    return null;
+                }
+            }
+
+            @Override
+            public void doOnUIThread(File result) {
+                if (result == null) {
+                    return;
+                }
+                //这里得到的就是我们要的文件了，接下来是保存文件。
+                //filepath是目标保存文件的路径，根据自己的项目需要去配置
+                //最后一步就是复制文件咯
+                FileCacheUtils.copyFile(iView, result.getAbsolutePath(), FileCacheUtils.getAppImagePath(isCatch) + fileName, isCatch);
+            }
+        });
+    }
 
     /**
      * @param context
@@ -168,6 +259,26 @@ public class ImageLoadUtil {
     public static void loadCirImgNoCrash(Context context, String url, ImageView view, int placeholder, int error) {
         Glide.with(context).load(url).apply(new RequestOptions().error(error).placeholder(placeholder).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(view);
     }
+    /**
+     * 加载圆形图片,无缓存
+     *
+     * @param context
+     * @param url
+     * @param view
+     * @param placeholder
+     */
+    public static void loadCirImgNoCrash(Context context, String url, ImageView view, int placeholder) {
+        Glide.with(context).load(url).apply(new RequestOptions().error(placeholder).placeholder(placeholder).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(view);
+    }
+
+    /**
+     * 加载圆形图
+     */
+    public static void loadCirImgWithCrash(Context context, String url, ImageView view,int defauleDrawble) {
+        Glide.with(context).load(url).apply(new RequestOptions().error(defauleDrawble).placeholder(defauleDrawble).circleCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).skipMemoryCache(false)).into(view);
+    }
+
+
 
     /**
      * 加载圆形图

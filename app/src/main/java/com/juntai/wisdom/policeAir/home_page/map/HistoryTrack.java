@@ -424,23 +424,23 @@ public class HistoryTrack extends BaseMvpActivity<MapPresenter> implements View.
      */
     public void initBottomDialog(List<String> arrays) {
 
-        if (baseBottomDialog == null) {
-            baseBottomDialog = new BaseBottomDialog();
-            baseBottomDialog.setOnBottomDialogCallBack(new BaseBottomDialog.OnItemClick() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    String value = (String) adapter.getData().get(position);
-                    mSpeedValue.setText(value);
-                    if (value.contains("X")) {
-                        value = value.replace("X", "");
-                    }
-                    intervalTime = defaultIntervalTime / Double.parseDouble(value);
-                    baseBottomDialog.dismiss();
-                }
-            });
-        }
-        baseBottomDialog.setData(arrays);
-        baseBottomDialog.show(getSupportFragmentManager(), "arrays");
+//        if (baseBottomDialog == null) {
+//            baseBottomDialog = new BaseBottomDialog();
+//            baseBottomDialog.setOnBottomDialogCallBack(new BaseBottomDialog.OnItemClick() {
+//                @Override
+//                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                    String value = (String) adapter.getData().get(position);
+//                    mSpeedValue.setText(value);
+//                    if (value.contains("X")) {
+//                        value = value.replace("X", "");
+//                    }
+//                    intervalTime = defaultIntervalTime / Double.parseDouble(value);
+//                    baseBottomDialog.dismiss();
+//                }
+//            });
+//        }
+//        baseBottomDialog.setData(arrays);
+//        baseBottomDialog.show(getSupportFragmentManager(), "arrays");
 
     }
 
@@ -449,12 +449,12 @@ public class HistoryTrack extends BaseMvpActivity<MapPresenter> implements View.
      */
     private void releaseDialog() {
         if (baseBottomDialog != null) {
-            if (baseBottomDialog.isAdded()) {
-                baseBottomDialog.setOnBottomDialogCallBack(null);
-                if (baseBottomDialog.getDialog().isShowing()){
-                    baseBottomDialog.dismiss();
-                }
-            }
+//            if (baseBottomDialog.isAdded()) {
+//                baseBottomDialog.setOnBottomDialogCallBack(null);
+//                if (baseBottomDialog.getDialog().isShowing()){
+//                    baseBottomDialog.dismiss();
+//                }
+//            }
         }
         baseBottomDialog = null;
     }

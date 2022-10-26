@@ -22,7 +22,7 @@ import com.juntai.wisdom.policeAir.entrance.regist.RegistContract;
 import com.juntai.wisdom.policeAir.entrance.regist.RegistPresent;
 import com.juntai.wisdom.policeAir.entrance.sendcode.SmsCheckCodeActivity;
 import com.juntai.wisdom.policeAir.utils.StringTools;
-import com.juntai.wisdom.policeAir.utils.UserInfoManager;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
