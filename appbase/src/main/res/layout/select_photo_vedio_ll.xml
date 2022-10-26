@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/upload_pic_amount_tv"
+        style="@style/item_title_style"
+        android:gravity="center_vertical"
+        android:paddingLeft="0dp"
+        android:text="照片上传（最多3张）" />
+
+    <FrameLayout
+        android:id="@+id/picture_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        style="@style/item_title_style"
+        android:gravity="center_vertical"
+        android:paddingLeft="0dp"
+        android:text="视频上传（最多1个）" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_video_pic"
+            style="@style/picture_choose_style"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/add_icons" />
+
+        <ImageView
+            android:id="@+id/item_video_tag"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/play_button"
+            android:visibility="gone"
+
+            />
+
+        <ImageView
+            android:id="@+id/push_case_delete_vedio_iv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/selecter_red_circle"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_delete"
+            android:visibility="gone" />
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -34,7 +34,7 @@ public abstract class BaseFragment extends RxFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        EventManager.getLibraryEvent().register(this);//注册
+        EventManager.getEventBus().register(this);//注册
     }
 
     @Nullable
@@ -73,7 +73,7 @@ public abstract class BaseFragment extends RxFragment {
 
     @Override
     public void onDestroyView() {
-        EventManager.getLibraryEvent().unregister(this);//解除注册
+        EventManager.getEventBus().unregister(this);//解除注册
         initLeakCanary();
         super.onDestroyView();
         this.mContext = null;

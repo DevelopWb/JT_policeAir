@@ -13,6 +13,18 @@ import com.juntai.wisdom.basecomponent.utils.RxScheduler;
 import com.orhanobut.hawk.Hawk;
 import com.videoaudiocall.library.R;
 
+import org.webrtc.Camera1Enumerator;
+import org.webrtc.Camera2Enumerator;
+import org.webrtc.CameraEnumerator;
+import org.webrtc.DefaultVideoDecoderFactory;
+import org.webrtc.DefaultVideoEncoderFactory;
+import org.webrtc.EglBase;
+import org.webrtc.Logging;
+import org.webrtc.PeerConnectionFactory;
+import org.webrtc.VideoCapturer;
+import org.webrtc.VideoDecoderFactory;
+import org.webrtc.VideoEncoderFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +132,32 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
 
 
 
+    /**
+     * 发送私聊消息
+     *
+     * @param body
+     * @param tag
+     */
+    public void sendPrivateMessage(RequestBody body, String tag) {
+        AppNetModule.createrRetrofit()
+                .sendMessage(body)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(null) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
 
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:gravity="center"
+    android:id="@+id/edit_alert_ll"
+    android:paddingBottom="15dp"
+    android:background="@drawable/sp_filled_white_10dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/alert_title_tv"
+        android:layout_width="match_parent"
+        android:drawableRight="@mipmap/close_black"
+        android:padding="15dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/content_et"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        android:gravity="left|top"
+        android:maxLength="200"
+        android:padding="5dp"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/commit_tv"
+        style="@style/app_normal_bt"
+        android:layout_gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:layout_marginTop="15dp"
+        android:text="确定" />
+</LinearLayout>

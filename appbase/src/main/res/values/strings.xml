@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">项目名称</string>
+    <string name="agreement_user_xieyi">《用户协议》</string>
+    <string name="agreement_secret_xieyi">《隐私协议》</string>
+    <string name="secret_xieyi_url">https://www.kb167.com/yinsi/zhcl-yinsi.html</string>
+    <string name="user_xieyi_url">https://www.kb167.com/yinsi/zhcl-user.html</string>
+
+</resources>

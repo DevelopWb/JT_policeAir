@@ -79,6 +79,19 @@ public class ImageLoadUtil {
     public static void loadImageNoCache(Context context, String url, ImageView view) {
         Glide.with(context).load(url).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).error(R.drawable.nopicture).into(view);
     }
+    /**
+     * 加载圆角方形图片
+     *
+     * @param context
+     * @param res
+     * @param view
+     */
+    public static void loadSquareImage(Context context, int res, ImageView view) {
+        Glide.with(context).load(res).apply(new RequestOptions()
+                .error(R.drawable.nopicture).placeholder(R.drawable.nopicture)
+                .transform(new RoundedCorners(15)).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(view);
+
+    }
 
 
     /**

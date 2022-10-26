@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+
+def configs = rootProject.ext.android
+def librarys = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion configs.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion configs.minSdkVersion
+        targetSdkVersion configs.targetSdkVersion
+        versionCode configs.versionCode
+        versionName configs.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:24.2.1'
+    implementation 'com.android.support:recyclerview-v7:24.2.1'
+    implementation 'com.github.promeg:tinypinyin:1.0.0' // ~80KB
+}

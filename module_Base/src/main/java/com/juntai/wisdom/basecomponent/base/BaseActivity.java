@@ -63,6 +63,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     public abstract void initView();
 
     public abstract void initData();
+    public final String TAG = getClass().getSimpleName();
+    public static String BASE_PARCELABLE = "parcelable";//请求的回执
+    public static String BASE_STRING = "baseString";//
 
     public Context mContext;
     public Toast toast;
@@ -80,7 +83,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventManager.getLibraryEvent().register(this);//注册
+        EventManager.getEventBus().register(this);//注册
         mContext = this;
         mImmersionBar = ImmersionBar.with(this);
 //        initWidows();
@@ -101,7 +104,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         mBackTv = findViewById(R.id.back_tv);
         titleName = findViewById(R.id.title_name);
         titleRightTv = findViewById(R.id.title_rightTv);
-        initToolbarAndStatusBar();
+        initToolbarAndStatusBar(true);
         initLeftBackTv(true);
         initView();
         initData();
@@ -147,18 +150,27 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         return res;
     }
 
+
     /**
      * 警小宝 东关派出所版本 初始化toolbar和状态栏
      */
-    protected void initToolbarAndStatusBar() {
-        getToolbar().setVisibility(View.VISIBLE);
-        getToolbar().setNavigationIcon(null);
-        getToolbar().setBackgroundResource(R.drawable.bg_white_only_bottom_gray_shape_1px);
-        //状态栏配置
-        mBaseRootCol.setFitsSystemWindows(true);
-        mImmersionBar.statusBarColor(R.color.white)
-                .statusBarDarkFont(true)
-                .init();
+    protected void initToolbarAndStatusBar(boolean visible) {
+        if (visible) {
+            getToolbar().setVisibility(View.VISIBLE);
+            getToolbar().setNavigationIcon(null);
+            getToolbar().setBackgroundResource(R.drawable.sp_filled_gray_lighter);
+            //状态栏配置
+            mBaseRootCol.setFitsSystemWindows(true);
+            mImmersionBar.statusBarColor(R.color.gray_light)
+                    .statusBarDarkFont(true)
+                    .init();
+        } else {
+            getToolbar().setVisibility(View.GONE);
+            //状态栏配置
+            mBaseRootCol.setFitsSystemWindows(false);
+            mImmersionBar.reset().transparentStatusBar().init();
+        }
+
     }
 
     /**
@@ -366,7 +378,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
     @Override
     protected void onDestroy() {
-        EventManager.getLibraryEvent().unregister(this);//解除注册
+        EventManager.getEventBus().unregister(this);//解除注册
         super.onDestroy();
         if (mImmersionBar != null) {
             mImmersionBar.destroy();  //必须调用该方法，防止内存泄漏，不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态

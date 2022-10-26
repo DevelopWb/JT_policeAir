@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.appbase" >
+    <application>
+        <activity android:name=".base.displayPicVideo.DisplayPicAndVideosActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".scan.QRScanActivity"
+            android:launchMode="singleTop"/>
+    </application>
+</manifest>

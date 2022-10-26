@@ -9,11 +9,15 @@ android {
     defaultConfig {
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
-        versionCode configs.versionCode
-        versionName configs.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+    }
     buildTypes {
         release {
             consumerProguardFiles 'proguard-rules.pro'
@@ -31,6 +35,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'org.webrtc:google-webrtc:1.0.32006'
+    implementation 'com.rabtman.wsmanager:wsmanager:1.0.2'
 
     implementation project(':module_Base')
 

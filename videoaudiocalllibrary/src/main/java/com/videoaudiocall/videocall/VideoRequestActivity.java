@@ -3,24 +3,50 @@ package com.videoaudiocall.videocall;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.AudioTrack;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.juntai.wisdom.basecomponent.mvp.IView;
 import com.juntai.wisdom.basecomponent.utils.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.videoaudiocall.ChatPresent;
+import com.videoaudiocall.OperateMsgUtil;
+import com.videoaudiocall.bean.FinishVideoActivityMsgBean;
+import com.videoaudiocall.bean.MessageBodyBean;
+import com.videoaudiocall.bean.VideoActivityMsgBean;
 import com.videoaudiocall.library.R;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.webrtc.AudioSource;
+import org.webrtc.AudioTrack;
+import org.webrtc.DataChannel;
+import org.webrtc.EglBase;
+import org.webrtc.IceCandidate;
+import org.webrtc.Logging;
+import org.webrtc.MediaConstraints;
+import org.webrtc.MediaStream;
+import org.webrtc.MediaStreamTrack;
+import org.webrtc.PeerConnection;
+import org.webrtc.PeerConnectionFactory;
+import org.webrtc.RendererCommon;
+import org.webrtc.RtpReceiver;
+import org.webrtc.SdpObserver;
+import org.webrtc.SessionDescription;
+import org.webrtc.SurfaceTextureHelper;
+import org.webrtc.SurfaceViewRenderer;
+import org.webrtc.VideoCapturer;
+import org.webrtc.VideoSource;
+import org.webrtc.VideoTrack;
 
-import java.security.acl.Group;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +57,7 @@ import java.util.List;
  * @description 描述  视频请求的界面
  * @date 2020/12/3 15:11
  */
-public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> implements View.OnClickListener, MainContract.IBaseView {
+public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> implements View.OnClickListener, IView {
 
     private ImageView mHandDownIv;
     /**
@@ -629,92 +655,80 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.switch_camera_iv:
-                if (mVideoCapturer != null) {
-                    mVideoCapturer.dispose();
-                    mVideoCapturer = null;
-                }
-                isFront = !isFront;
-                // TODO: 2022/6/2 镜面问题  感觉这个地方得发个消息告诉对方更改镜面  就是切换摄像头之后 告诉对方 需要更改镜面
-                MessageBodyBean messageBodyBean =OperateMsgUtil.getPrivateMsg(11, mMessageBodyBean.getToUserId(), mMessageBodyBean.getToAccount(), mMessageBodyBean.getToNickname(), mMessageBodyBean.getToHead(), isFront?"0":"1");
-                messageBodyBean.setEvent("switchcamera");
-                if (isFront) {
-                    mBigSurfaceView.setMirror(true);
+        int id = v.getId();
+        if (id == R.id.switch_camera_iv) {
+            if (mVideoCapturer != null) {
+                mVideoCapturer.dispose();
+                mVideoCapturer = null;
+            }
+            isFront = !isFront;
+            // TODO: 2022/6/2 镜面问题  感觉这个地方得发个消息告诉对方更改镜面  就是切换摄像头之后 告诉对方 需要更改镜面
+            MessageBodyBean messageBodyBean = OperateMsgUtil.getPrivateMsg(11, mMessageBodyBean.getToUserId(), mMessageBodyBean.getToAccount(), mMessageBodyBean.getToNickname(), mMessageBodyBean.getToHead(), isFront ? "0" : "1");
+            messageBodyBean.setEvent("switchcamera");
+            if (isFront) {
+                mBigSurfaceView.setMirror(true);
+            } else {
+                mBigSurfaceView.setMirror(false);
+            }
+            MyWsManager.getInstance().sendDataD(GsonTools.createGsonString(messageBodyBean));
+            mVideoCapturer = mPresenter.createVideoCapturer(getApplicationContext(), isFront);
+            mVideoCapturer.initialize(mSurfaceTextureHelper, getApplicationContext(), videoSource.getCapturerObserver());
+            mVideoCapturer.startCapture(VIDEO_RESOLUTION_WIDTH, VIDEO_RESOLUTION_HEIGHT, VIDEO_FPS);
+        } else if (id == R.id.hand_down_iv) {//挂断或者取消
+            LogUtil.e("挂断消息  是否是发起者" + isSender);
+            if (isSender) {
+                //发起者挂断通话
+                //取消
+                if (isCallOn) {
+                    //已经接通了 这时候挂断
+                    mSenderMessageBodyBean.setFaceTimeType(4);
+                    mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
                 } else {
-                    mBigSurfaceView.setMirror(false);
+                    mSenderMessageBodyBean.setFaceTimeType(2);
+                    mSenderMessageBodyBean.setDuration(null);
                 }
-                MyWsManager.getInstance().sendDataD( GsonTools.createGsonString(messageBodyBean));
-                mVideoCapturer = mPresenter.createVideoCapturer(getApplicationContext(), isFront);
-                mVideoCapturer.initialize(mSurfaceTextureHelper, getApplicationContext(), videoSource.getCapturerObserver());
-                mVideoCapturer.startCapture(VIDEO_RESOLUTION_WIDTH, VIDEO_RESOLUTION_HEIGHT, VIDEO_FPS);
+                mSenderMessageBodyBean.setEvent(EVENT_CAMERA_FINISH_SENDER);
+                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(mSenderMessageBodyBean).build(), EVENT_CAMERA_FINISH_SENDER);
 
-
-                break;
-            default:
-                break;
-            case R.id.hand_down_iv:
-                //挂断或者取消
-                LogUtil.e("挂断消息  是否是发起者" + isSender);
-                if (isSender) {
-                    //发起者挂断通话
-                    //取消
-                    if (isCallOn) {
-                        //已经接通了 这时候挂断
-                        mSenderMessageBodyBean.setFaceTimeType(4);
-                        mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
-                    } else {
-                        mSenderMessageBodyBean.setFaceTimeType(2);
-                        mSenderMessageBodyBean.setDuration(null);
-                    }
-                    mSenderMessageBodyBean.setEvent(EVENT_CAMERA_FINISH_SENDER);
-                    mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(mSenderMessageBodyBean).build(), EVENT_CAMERA_FINISH_SENDER);
-
+            } else {
+                //挂断
+                //被发起者挂断
+                // : 2021-12-01 被发起者挂断 生成被发起者的历史记录
+                //这个地方必须这么写  为了生存历史记录  不要怀疑 逻辑是对的
+                if (isCallOn) {
+                    //已经接通了 这时候挂断
+                    mReceiverMessageBodyBean.setFaceTimeType(4);
+                    mReceiverMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
                 } else {
-                    //挂断
-                    //被发起者挂断
-                    // : 2021-12-01 被发起者挂断 生成被发起者的历史记录
-                    //这个地方必须这么写  为了生存历史记录  不要怀疑 逻辑是对的
-                    if (isCallOn) {
-                        //已经接通了 这时候挂断
-                        mReceiverMessageBodyBean.setFaceTimeType(4);
-                        mReceiverMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
-                    } else {
-                        mReceiverMessageBodyBean.setFaceTimeType(2);
-                        mReceiverMessageBodyBean.setDuration(null);
-
-                    }
-                    MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, mReceiverMessageBodyBean.getFromUserId(), mReceiverMessageBodyBean.getFromAccount(), mReceiverMessageBodyBean.getFromNickname(), mReceiverMessageBodyBean.getFromHead(), "");
-                    if (isCallOn) {
-                        //已经接通了 这时候挂断
-                        bodyBean.setFaceTimeType(4);
-                    } else {
-                        bodyBean.setFaceTimeType(2);
-                    }
-                    bodyBean.setEvent(EVENT_CAMERA_FINISH_RECEIVER);
-                    mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(bodyBean).build(), EVENT_CAMERA_FINISH_RECEIVER);
-
+                    mReceiverMessageBodyBean.setFaceTimeType(2);
+                    mReceiverMessageBodyBean.setDuration(null);
 
                 }
-
-
-                break;
-            case R.id.hand_up_iv:
-                isCallOn = true;
-                /**
-                 * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
-                 */
-                mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromUserId(), mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
-                mMessageBodyBean.setFaceTimeType(1);
-                mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
-                callOnSuccess();
-                mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.ACCESS_VIDEO_CALL);
-                if (mPeerConnection == null) {
-                    mPeerConnection = createPeerConnection();
+                MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, mReceiverMessageBodyBean.getFromUserId(), mReceiverMessageBodyBean.getFromAccount(), mReceiverMessageBodyBean.getFromNickname(), mReceiverMessageBodyBean.getFromHead(), "");
+                if (isCallOn) {
+                    //已经接通了 这时候挂断
+                    bodyBean.setFaceTimeType(4);
+                } else {
+                    bodyBean.setFaceTimeType(2);
                 }
-                break;
+                bodyBean.setEvent(EVENT_CAMERA_FINISH_RECEIVER);
+                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(bodyBean).build(), EVENT_CAMERA_FINISH_RECEIVER);
 
 
+            }
+        } else if (id == R.id.hand_up_iv) {
+            isCallOn = true;
+            /**
+             * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
+             */
+            mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromUserId(), mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
+            mMessageBodyBean.setFaceTimeType(1);
+            mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
+            callOnSuccess();
+            mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPath.ACCESS_VIDEO_CALL);
+            if (mPeerConnection == null) {
+                mPeerConnection = createPeerConnection();
+            }
         }
     }
 

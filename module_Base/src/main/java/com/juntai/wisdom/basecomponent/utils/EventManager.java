@@ -14,7 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 public class EventManager {
     private static final EventBus libraryEvent = EventBus.builder().build();
 
-    public static EventBus getLibraryEvent() {
+    public static EventBus getEventBus() {
         return libraryEvent;
     }
 
