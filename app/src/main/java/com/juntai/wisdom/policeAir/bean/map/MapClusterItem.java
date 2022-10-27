@@ -5,6 +5,7 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.model.LatLng;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.bdmap.utils.clusterutil.clustering.ClusterItem;
+import com.juntai.wisdom.policeAir.bean.FlyOperatorsBean;
 import com.juntai.wisdom.policeAir.bean.PoliceCarBean;
 import com.juntai.wisdom.policeAir.bean.case_bean.CaseDesBean;
 import com.juntai.wisdom.policeAir.bean.stream.StreamCameraBean;
@@ -25,6 +26,7 @@ public class MapClusterItem implements ClusterItem, Comparable<MapClusterItem> {
     public ResponseSiteBean.DataBean site;//一标三实
     public ResponseInspection.DataBean inspection;
     public ResponseNews.News news;
+    public FlyOperatorsBean.DataBean flyOperator;
     public ResponseKeyPersonnel.DataBean keyPersonnel;
     public ResponseDrone.DroneBean droneBean;
 
@@ -33,6 +35,10 @@ public class MapClusterItem implements ClusterItem, Comparable<MapClusterItem> {
     public static final String CASE= "case";
     public static final String PEOPLE = "people";
     public static final String CAR = "car";
+    /**
+     * 飞手
+     */
+    public static final String FLY_OPERAOTR = "FLY_OPERAOTR";
     public static final String SITE= "site";//一标三实
     public static final String INSPECTION = "inspection";
     public static final String NEWS = "news";
@@ -69,9 +75,14 @@ public class MapClusterItem implements ClusterItem, Comparable<MapClusterItem> {
         this.mcase = mcase;
     }
 
+    public MapClusterItem( FlyOperatorsBean.DataBean flyOperator) {
+        Bd = BitmapDescriptorFactory.fromResource(R.mipmap.fly_operator_tip);
+        this.latLng =  new LatLng(Double.parseDouble(flyOperator.getLatitude()), Double.parseDouble(flyOperator.getLongitude()));
+        this.type = FLY_OPERAOTR;
+        this.flyOperator = flyOperator;
+    }
     public MapClusterItem(LatLng latLng, PoliceCarBean.DataBean car) {
         Bd = BitmapDescriptorFactory.fromResource(R.mipmap.car_tip);
-//        this.isClicked = false;
         this.latLng = latLng;
         this.type = CAR;
         this.car = car;

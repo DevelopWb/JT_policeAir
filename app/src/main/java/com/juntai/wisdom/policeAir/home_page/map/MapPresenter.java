@@ -7,6 +7,7 @@ import com.juntai.wisdom.policeAir.AppNetModule;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.base.BaseAppPresent;
 import com.juntai.wisdom.policeAir.bean.BannerNewsBean;
+import com.juntai.wisdom.policeAir.bean.FlyOperatorsBean;
 import com.juntai.wisdom.policeAir.bean.case_bean.CaseDesBean;
 import com.juntai.wisdom.policeAir.bean.case_bean.CaseInfoBean;
 import com.juntai.wisdom.policeAir.bean.history_track.HistoryTrackBean;
@@ -153,6 +154,26 @@ public class MapPresenter extends BaseAppPresent<IModel, MapContract.View> imple
                 .subscribe(new BaseObserver<HistoryTrackBean>(getView()) {
                     @Override
                     public void onSuccess(HistoryTrackBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getAllOperators(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getAllOperators(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<FlyOperatorsBean>(getView()) {
+                    @Override
+                    public void onSuccess(FlyOperatorsBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

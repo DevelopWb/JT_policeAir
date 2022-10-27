@@ -45,6 +45,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -59,10 +60,12 @@ import com.juntai.wisdom.bdmap.utils.MapUtil;
 import com.juntai.wisdom.bdmap.utils.SharedPreferencesUtil;
 import com.juntai.wisdom.bdmap.utils.clusterutil.clustering.Cluster;
 import com.juntai.wisdom.bdmap.utils.clusterutil.clustering.ClusterManager;
+import com.juntai.wisdom.policeAir.AppHttpPath;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.base.MainActivity;
 import com.juntai.wisdom.policeAir.bean.BannerNewsBean;
+import com.juntai.wisdom.policeAir.bean.FlyOperatorsBean;
 import com.juntai.wisdom.policeAir.bean.case_bean.CaseDesBean;
 import com.juntai.wisdom.policeAir.bean.map.MapClusterItem;
 import com.juntai.wisdom.policeAir.bean.MapMenuButton;
@@ -90,6 +93,9 @@ import com.juntai.wisdom.policeAir.utils.ImageUtil;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.StringTools;
 import com.sunfusheng.marqueeview.MarqueeView;
+import com.videoaudiocall.OperateMsgUtil;
+import com.videoaudiocall.bean.MessageBodyBean;
+import com.videoaudiocall.videocall.VideoRequestActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -101,6 +107,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.DoubleToIntFunction;
 
 /**
  * 地图相关
@@ -129,7 +136,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     private ConstraintLayout mMarqueeCl;
     private RelativeLayout twdBg, thdBg, weixingBg, jiejingBg;
     private TextView twdTv, thdTv, weixingTv, jiejingTv;
-    private Switch heatMap, roadStatus, distanceUtil;
+    private Switch heatMap, roadStatus;
     private List<LatLng> heatMapItems = new ArrayList<>();
     private boolean firstLoad = true;
 
@@ -138,15 +145,15 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     NavigationDialog navigationDialog;
     private ProgressDialog progressDialog;
     private SharedPreferencesUtil mapSP = null;
-//    private MyOrientationListener myOrientationListener = null;
+    //    private MyOrientationListener myOrientationListener = null;
     private float direct = 0, locationRadius = 0;
     private String province = null, city = null, area = null;
     private Button backToMyLocation = null;
     private ImageView zoomPlus, zoomMinus;
     private ImageView satelliteMap = null, twdMap = null, thdMap = null, jiejing = null;
     private BaiduMap.OnMapClickListener normalClick;
-    private BaiduMap.OnMapClickListener distanceUtilClick;
-    private BaiduMap.OnMapClickListener areaUtilClick;
+    //    private BaiduMap.OnMapClickListener distanceUtilClick;
+//    private BaiduMap.OnMapClickListener areaUtilClick;
     private Boolean distanceUtilSwitch = false;
     private String headUrl = "";
     List<LatLng> distancePoints = new ArrayList<>();
@@ -234,7 +241,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         weixingTv = getView(R.id.weixing_tv);
         heatMap = getView(R.id.relitukaiguan);
         roadStatus = getView(R.id.lukuangtukaiguan);
-        distanceUtil = getView(R.id.map_distanceutil);
+//        distanceUtil = getView(R.id.map_distanceutil);
         //热力图监听
         heatMap.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -267,17 +274,17 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 mBaiduMap.setTrafficEnabled(false);
             }
         });
-        //地图测距
-        distanceUtil.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                mBaiduMap.setOnMapClickListener(distanceUtilClick);
-            } else {
-                mBaiduMap.setOnMapClickListener(normalClick);
-                distance = 0;
-                clearTheMap(mBaiduMap);
-                distancePoints.clear();
-            }
-        });
+//        //地图测距
+//        distanceUtil.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                mBaiduMap.setOnMapClickListener(distanceUtilClick);
+//            } else {
+//                mBaiduMap.setOnMapClickListener(normalClick);
+//                distance = 0;
+//                clearTheMap(mBaiduMap);
+//                distancePoints.clear();
+//            }
+//        });
         //===========================================================
         backToMyLocation = getView(R.id.mylocation);
         zoomMinus = getView(R.id.zoomminus);
@@ -395,20 +402,28 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         if ((child instanceof ImageView || child instanceof ZoomControls)) {
             child.setVisibility(View.INVISIBLE);
         }
-        mapMenuButtonRv = getView(R.id.menu_list);
-        // entityListRv = getView(R.id.entity_list_rv);
-        // TODO: 2022-02-14 地图图标的接口
-//        mPresenter.getMenus(MapContract.GET_MENUS);
-        mapMenuButtonRv.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new MapMenuAdapter(R.layout.map_menu_button, new ArrayList());
-        mapMenuButtonRv.setAdapter(adapter);
-
+        initRecyclerview();
         mSearchLl = (LinearLayout) getView(R.id.search_ll);
         mSearchLl.setOnClickListener(this);
         mScanIv = (ImageView) getView(R.id.scan_iv);
         mScanIv.setOnClickListener(this);
         mCallPoliceIv = (ImageView) getView(R.id.call_police_iv);
         mCallPoliceIv.setOnClickListener(this);
+    }
+
+    private void initRecyclerview() {
+        mapMenuButtonRv = getView(R.id.menu_list);
+        // entityListRv = getView(R.id.entity_list_rv);
+        // TODO: 2022-02-14 地图图标的接口
+//        mPresenter.getMenus(MapContract.GET_MENUS);
+
+        mapMenuButtonRv.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter = new MapMenuAdapter(R.layout.map_menu_button, new ArrayList());
+        mapMenuButtonRv.setAdapter(adapter);
+        MapMenuButton.DataBean dataBean = new MapMenuButton.DataBean(888, R.mipmap.fly_operater_unselect, R.mipmap.fly_operater_select, true);
+        List<MapMenuButton.DataBean> arrays = new ArrayList<>();
+        arrays.add(dataBean);
+        addMapMenuButton(arrays);
     }
 
     private void initLocateOritation() {
@@ -588,6 +603,9 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         } else {
                             item.setSelected(false);
                         }
+                    case 888://飞手
+                        clearTheMap(mBaiduMap);
+                        mPresenter.getAllOperators(mPresenter.getBaseFormBodyBuilder().build(), AppHttpPath.ALL_OPERATORS);
                     default:
                         break;
                 }
@@ -682,78 +700,119 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     //每次显示都加载
     @Override
     protected void initData() {
-        distanceUtilClick = new BaiduMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                //                ToastUtils.toast(mContext, "click");
-                if (distancePoints.size() < 1) {
-                    //                    distance = DistanceUtil.getDistance()
-                    OverlayOptions mTextOptions = new TextOptions()
-                            .text("起点") //文字内容
-                            .bgColor(0xffFFFFFF) //背景色
-                            .fontSize(32) //字号
-                            .fontColor(0xff5EA7FF) //文字颜色
-                            //                        .rotate(-30) //旋转角度
-                            .position(latLng);
-                    //在地图上显示文字覆盖物
-                    Overlay mText = mBaiduMap.addOverlay(mTextOptions);
-                    distancePoints.add(latLng);
-                } else {
-                    if (distancePoints.size() == 2)
-                        distancePoints.remove(0);
-                    distancePoints.add(latLng);
-                    distance =
-                            distance + DistanceUtil.getDistance(distancePoints.get(distancePoints.size() - 1),
-                                    distancePoints.get(distancePoints.size() - 2));
-                    DecimalFormat df = new DecimalFormat("#.0");
-                    String disStr = df.format(distance / 1000);
-                    TextView child = new TextView(mContext);
-                    child.setTextSize(15);
-                    child.setBackgroundColor(Color.parseColor("#ffffff"));
-                    child.setTextColor(Color.parseColor("#ff5ea7ff"));
-                    child.setText(disStr + "公里");
-                    // 调用一个参数的addView方法
-                    MapViewLayoutParams params2;
-                    InfoWindow pinfo;
-                    if (distancePoints.get(1).latitude > distancePoints.get(0).latitude) {
-                        pinfo = new InfoWindow(child, latLng, -10);
-                    } else {
-                        pinfo = new InfoWindow(child, latLng, 70);
-                    }
-                    mBaiduMap.showInfoWindow(pinfo);
-                }
-                //在地图上绘制折线
-                //mPloyline 折线对象
-                if (distancePoints.size() > 1) {
-                    //设置折线的属性
-                    OverlayOptions mOverlayOptions = new PolylineOptions()
-                            .width(10)
-                            .color(0xff5ea7ff)
-                            .points(distancePoints);
-                    Overlay mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
-                }
-            }
 
-            @Override
-            public void onMapPoiClick(MapPoi mapPoi) {
-                onMapClick(mapPoi.getPosition());
-            }
-        };
+        mPresenter.getAllOperators(mPresenter.getBaseFormBodyBuilder().build(), AppHttpPath.ALL_OPERATORS);
 
-        areaUtilClick = new BaiduMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-            }
-
-            @Override
-            public void onMapPoiClick(MapPoi mapPoi) {
-            }
-        };
+//        distanceUtilClick = new BaiduMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                //                ToastUtils.toast(mContext, "click");
+//                if (distancePoints.size() < 1) {
+//                    //                    distance = DistanceUtil.getDistance()
+//                    OverlayOptions mTextOptions = new TextOptions()
+//                            .text("起点") //文字内容
+//                            .bgColor(0xffFFFFFF) //背景色
+//                            .fontSize(32) //字号
+//                            .fontColor(0xff5EA7FF) //文字颜色
+//                            //                        .rotate(-30) //旋转角度
+//                            .position(latLng);
+//                    //在地图上显示文字覆盖物
+//                    Overlay mText = mBaiduMap.addOverlay(mTextOptions);
+//                    distancePoints.add(latLng);
+//                } else {
+//                    if (distancePoints.size() == 2)
+//                        distancePoints.remove(0);
+//                    distancePoints.add(latLng);
+//                    distance =
+//                            distance + DistanceUtil.getDistance(distancePoints.get(distancePoints.size() - 1),
+//                                    distancePoints.get(distancePoints.size() - 2));
+//                    DecimalFormat df = new DecimalFormat("#.0");
+//                    String disStr = df.format(distance / 1000);
+//                    TextView child = new TextView(mContext);
+//                    child.setTextSize(15);
+//                    child.setBackgroundColor(Color.parseColor("#ffffff"));
+//                    child.setTextColor(Color.parseColor("#ff5ea7ff"));
+//                    child.setText(disStr + "公里");
+//                    // 调用一个参数的addView方法
+//                    MapViewLayoutParams params2;
+//                    InfoWindow pinfo;
+//                    if (distancePoints.get(1).latitude > distancePoints.get(0).latitude) {
+//                        pinfo = new InfoWindow(child, latLng, -10);
+//                    } else {
+//                        pinfo = new InfoWindow(child, latLng, 70);
+//                    }
+//                    mBaiduMap.showInfoWindow(pinfo);
+//                }
+//                //在地图上绘制折线
+//                //mPloyline 折线对象
+//                if (distancePoints.size() > 1) {
+//                    //设置折线的属性
+//                    OverlayOptions mOverlayOptions = new PolylineOptions()
+//                            .width(10)
+//                            .color(0xff5ea7ff)
+//                            .points(distancePoints);
+//                    Overlay mPolyline = mBaiduMap.addOverlay(mOverlayOptions);
+//                }
+//            }
+//
+//            @Override
+//            public void onMapPoiClick(MapPoi mapPoi) {
+//                onMapClick(mapPoi.getPosition());
+//            }
+//        };
+//
+//        areaUtilClick = new BaiduMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//            }
+//
+//            @Override
+//            public void onMapPoiClick(MapPoi mapPoi) {
+//            }
+//        };
 
         if (!closeMarquee) {
             // TODO: 2022-02-14 轮播的接口  关闭
 //            mPresenter.getBannerNews(MapContract.BANNER_NEWS);
         }
+    }
+
+    /**
+     * 地图点 飞手
+     */
+    private void clickFlyOperatorItem(MapClusterItem mmCase, BaiduMap map) {
+        FlyOperatorsBean.DataBean flyOperator = mmCase.flyOperator;
+        LatLng latLng = new LatLng(Double.parseDouble(flyOperator.getLatitude()), Double.parseDouble(flyOperator.getLongitude()));
+        MapUtil.mapMoveTo(map, latLng);
+        infowindowPeople = View.inflate(mContext, R.layout.infowindow_fly_operator, null);
+        //将一个布局文件转换成一个view对象
+        TextView titleTv = infowindowPeople.findViewById(R.id.item_title);
+        TextView contentTv = infowindowPeople.findViewById(R.id.item_content);
+        titleTv.setText(flyOperator.getName());
+        contentTv.setText(flyOperator.getAccount());
+        ImageLoadUtil.loadImageCache(getContext(), flyOperator.getImg(),
+                (ImageView) infowindowPeople.findViewById(R.id.fly_operator_iv));
+        infowindowPeople.findViewById(R.id.audio_call_bt).setOnClickListener(v -> {
+            // : 2021-11-23 视频通话
+            MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, flyOperator.getId(), flyOperator.getAccount(), flyOperator.getName(), flyOperator.getImg(), "");
+            //跳转到等待接听界面
+            Intent intent =
+                    new Intent(mContext, VideoRequestActivity.class)
+                            .putExtra(VideoRequestActivity.IS_SENDER, true)
+                            .putExtra(BaseActivity.BASE_PARCELABLE,
+                                    videoMsg);
+
+            startActivity(intent);
+
+        });
+        MapViewLayoutParams params2 = new MapViewLayoutParams.Builder()
+                .layoutMode(MapViewLayoutParams.ELayoutMode.mapMode)
+                .position(latLng)
+                .width(MapViewLayoutParams.WRAP_CONTENT)
+                .height(MapViewLayoutParams.WRAP_CONTENT)
+                .yOffset(-mmCase.getBd().getBitmap().getHeight() * clickType)
+                .build();
+        mMapView.addView(infowindowPeople, params2);
     }
 
     /**
@@ -895,17 +954,17 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 startActivity(new Intent(mContext, HistoryTrack.class));
                 break;
             case R.id.distance_switch:
-                mBaiduMap.setOnMapClickListener(distanceUtilSwitch ? normalClick : distanceUtilClick);
-                if (distanceUtilSwitch) {
-                    mBaiduMap.setOnMapClickListener(normalClick);
-                    distance = 0;
-                    clearTheMap(mBaiduMap);
-                    distancePoints.clear();
-                    distanceUtilSwitch = false;
-                } else {
-                    mBaiduMap.setOnMapClickListener(distanceUtilClick);
-                    distanceUtilSwitch = true;
-                }
+//                mBaiduMap.setOnMapClickListener(distanceUtilSwitch ? normalClick : distanceUtilClick);
+//                if (distanceUtilSwitch) {
+//                    mBaiduMap.setOnMapClickListener(normalClick);
+//                    distance = 0;
+//                    clearTheMap(mBaiduMap);
+//                    distancePoints.clear();
+//                    distanceUtilSwitch = false;
+//                } else {
+//                    mBaiduMap.setOnMapClickListener(distanceUtilClick);
+//                    distanceUtilSwitch = true;
+//                }
                 break;
             case R.id.zoomminus:
                 MapUtil.mapZoom(MapUtil.MAP_ZOOM_OUT1, mBaiduMap);
@@ -980,6 +1039,13 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 }
                 nowMarkerId = String.valueOf(item.mcase.getId());
                 break;
+            case MapClusterItem.FLY_OPERAOTR:
+                updateMarkerIcon(item.flyOperator.getImg());
+                if (clickType == 1 || nowMarkerId.equals(String.valueOf(item.flyOperator.getId()))) {
+                    clickFlyOperatorItem(item, mBaiduMap);
+                }
+                nowMarkerId = String.valueOf(item.flyOperator.getId());
+                break;
         }
         return false;
     }
@@ -993,10 +1059,10 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         for (MapClusterItem mapClusterItem : clusterItemList) {
             builder.include(mapClusterItem.getPosition());
         }
-        if (myLocation != null) {
-            // 我的当前位置
-            builder.include(new LatLng(myLocation.latitude, myLocation.longitude));
-        }
+//        if (myLocation != null) {
+//            // 我的当前位置
+//            builder.include(new LatLng(myLocation.latitude, myLocation.longitude));
+//        }
         LatLngBounds bounds = builder.build();
         // 设置显示在屏幕中的地图地理范围
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
@@ -1134,6 +1200,22 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 MapMenuButton mapMenuButton = (MapMenuButton) o;
                 MyApp.setMapMenuButton(mapMenuButton);
 //                addMapMenuButton(mapMenuButton.getData());
+                break;
+
+            case AppHttpPath.ALL_OPERATORS:
+                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.fly_operator_tip);
+                FlyOperatorsBean flyOperatorsBean = (FlyOperatorsBean) o;
+                if (flyOperatorsBean != null) {
+                    List<FlyOperatorsBean.DataBean> arrays = flyOperatorsBean.getData();
+                    if (arrays != null) {
+                        for (FlyOperatorsBean.DataBean dataBean : arrays) {
+                            MapClusterItem mCItem = new MapClusterItem(dataBean);
+                            clusterItemList.add(mCItem);
+                        }
+                    }
+                    clusterManager.addItems(clusterItemList);
+                    clusterManager.cluster();
+                }
                 break;
 //                OpenLiveBean openLiveBean = (OpenLiveBean) o;
 //                int errorCode = openLiveBean.getErrcode();

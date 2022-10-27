@@ -13,6 +13,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.juntai.wisdom.basecomponent.app.BaseApplication;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.policeAir.bean.MapMenuButton;
 import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.bean.message.UnReadCountBean;
@@ -21,6 +22,8 @@ import com.juntai.wisdom.policeAir.entrance.complete_info.CompleteInfoActivity;
 import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.orhanobut.hawk.Hawk;
+import com.videoaudiocall.net.AppHttpPathSocket;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 /**
  * @aouther Ma
@@ -53,6 +56,16 @@ public class MyApp extends BaseApplication {
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath(true));
         ObjectBox.init(this);
+        if (UserInfoManager.isLogin()) {
+            MyWsManager.getInstance()
+                    .init(getApplicationContext())
+                    .setWsUrl(AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId())
+                    .startConnect();
+        } else {
+            MyWsManager.getInstance()
+                    .init(getApplicationContext());
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

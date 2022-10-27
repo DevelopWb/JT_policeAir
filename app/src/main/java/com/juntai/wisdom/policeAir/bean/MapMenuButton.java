@@ -59,10 +59,36 @@ public class MapMenuButton extends BaseResult {
          * "pictureUrl": "/appMapButton/地图.png"
          */
 
-        private boolean isSelected = false;
+
         private int id;//地图按钮id
         private String uncheckedUrl;//未选中图片
         private String checkedUrl;//选中的图片
+        private int uncheckedRes;//未选中图片
+        private int checkedRes;//选中的图片
+        private boolean isSelected = false;
+
+        public DataBean(int id, int uncheckedRes, int checkedRes, boolean isSelected) {
+            this.id = id;
+            this.uncheckedRes = uncheckedRes;
+            this.checkedRes = checkedRes;
+            this.isSelected = isSelected;
+        }
+
+        public int getUncheckedRes() {
+            return uncheckedRes;
+        }
+
+        public void setUncheckedRes(int uncheckedRes) {
+            this.uncheckedRes = uncheckedRes;
+        }
+
+        public int getCheckedRes() {
+            return checkedRes;
+        }
+
+        public void setCheckedRes(int checkedRes) {
+            this.checkedRes = checkedRes;
+        }
 
         public int getId() {
             return id;

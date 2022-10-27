@@ -14,11 +14,13 @@ import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.utils.EventManager;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
-import com.videoaudiocall.AppHttpPathSocket;
-import com.videoaudiocall.AppNetModuleSocket;
+import com.videoaudiocall.net.AppHttpPathSocket;
+import com.videoaudiocall.net.AppNetModuleSocket;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.bean.VideoActivityMsgBean;
+import com.videoaudiocall.net.BaseSocketObserver;
+import com.videoaudiocall.net.BaseSocketResult;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -105,7 +107,7 @@ public class ReceiveVideoCallService extends Service {
         mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromUserId(), mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
         mMessageBodyBean.setFaceTimeType(1);
         mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
-        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
+        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.ACCESS_VIDEO_CALL);
         if (mPeerConnection == null) {
             mPeerConnection = createPeerConnection();
         }
@@ -225,7 +227,7 @@ public class ReceiveVideoCallService extends Service {
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
-            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
 //            pause();
         }
 
@@ -407,7 +409,7 @@ public class ReceiveVideoCallService extends Service {
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
             }
 
             @Override
@@ -458,22 +460,7 @@ public class ReceiveVideoCallService extends Service {
      * @param tag
      */
     public void accessVideoCall(RequestBody body, String tag) {
-        AppNetModuleSocket.createrRetrofit()
-                .accessVideoCall(body)
-                .compose(RxScheduler.ObsIoMain(null))
-                .subscribe(new BaseObserver<BaseResult>(null) {
-                    @Override
-                    public void onSuccess(BaseResult o) {
-                        Log.i(TAG, "accessVideoCall:success ");
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        Log.i(TAG, "accessVideoCall:err ");
-
-                    }
-                });
+        sendPrivateMessage(body,tag);
     }
 
 
@@ -487,9 +474,9 @@ public class ReceiveVideoCallService extends Service {
         AppNetModuleSocket.createrRetrofit()
                 .sendMessage(body)
                 .compose(RxScheduler.ObsIoMain(null))
-                .subscribe(new BaseObserver<BaseResult>(null) {
+                .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
                     @Override
-                    public void onSuccess(BaseResult o) {
+                    public void onSuccess(BaseSocketResult o) {
                         Log.i(TAG, "sendPrivateMessage:success ");
 
                     }

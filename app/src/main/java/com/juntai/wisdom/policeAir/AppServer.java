@@ -3,6 +3,7 @@ package com.juntai.wisdom.policeAir;
 
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
+import com.juntai.wisdom.policeAir.bean.FlyOperatorsBean;
 import com.juntai.wisdom.policeAir.bean.PoliceDetailBean;
 import com.juntai.wisdom.basecomponent.bean.ReportTypeBean;
 import com.juntai.wisdom.policeAir.bean.map.ResponseDrone;
@@ -188,6 +189,14 @@ public interface AppServer {
      */
     @POST(AppHttpPath.HEAD_UPDATE)
     Observable<BaseResult> modifyHeadPortrait(@Body RequestBody jsonBody);
+
+    /**
+     * 获取所有飞手信息
+     * @param jsonBody
+     * @return
+     */
+    @POST(AppHttpPath.ALL_OPERATORS)
+    Observable<FlyOperatorsBean> getAllOperators(@Body RequestBody jsonBody);
 
 
     /**
@@ -1214,7 +1223,7 @@ public interface AppServer {
 
 
     //    @POST(AppHttpPath.ADD_PRE_POSITION)
-    //    Observable<BaseResult> addPrePosition(@Body RequestBody body);
+    //    Observable<BaseSocketResult> addPrePosition(@Body RequestBody body);
     //
     //    /**
     //     * 删除预置位
@@ -1223,7 +1232,7 @@ public interface AppServer {
     //     * @return
     //     */
     //    @POST(AppHttpPath.DEL_PRE_POSITION)
-    //    Observable<BaseResult> delPrePosition(@Body RequestBody body);
+    //    Observable<BaseSocketResult> delPrePosition(@Body RequestBody body);
     //
     //    /**
     //     * 获取预置位

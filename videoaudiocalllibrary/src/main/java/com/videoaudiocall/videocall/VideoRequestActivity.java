@@ -17,7 +17,7 @@ import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.UrlFormatUtil;
-import com.videoaudiocall.AppHttpPathSocket;
+import com.videoaudiocall.net.AppHttpPathSocket;
 import com.videoaudiocall.ChatPresent;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.FinishVideoActivityMsgBean;
@@ -256,7 +256,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_OFFER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
             }
         }, mediaConstraints);
     }
@@ -340,7 +340,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
-            mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+            mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
             pause();
         }
 
@@ -414,7 +414,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                  */
                 mMessageBodyBean.setFaceTimeType(1);
                 mMessageBodyBean.setEvent(EVENT_CAMERA_REQUEST);
-                mPresenter.requestVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.REQUEST_VIDEO_CALL);
+                mPresenter.requestVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.REQUEST_VIDEO_CALL);
             } else {
                 /**
                  * 第二步 被叫 收到通话申请  接收EVENT_CAMERA_REQUEST   弹出通话界面
@@ -692,7 +692,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                     mSenderMessageBodyBean.setDuration(null);
                 }
                 mSenderMessageBodyBean.setEvent(EVENT_CAMERA_FINISH_SENDER);
-                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(mSenderMessageBodyBean).build(), EVENT_CAMERA_FINISH_SENDER);
+                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(mSenderMessageBodyBean), EVENT_CAMERA_FINISH_SENDER);
 
             } else {
                 //挂断
@@ -716,7 +716,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                     bodyBean.setFaceTimeType(2);
                 }
                 bodyBean.setEvent(EVENT_CAMERA_FINISH_RECEIVER);
-                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(bodyBean).build(), EVENT_CAMERA_FINISH_RECEIVER);
+                mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(bodyBean), EVENT_CAMERA_FINISH_RECEIVER);
 
 
             }
@@ -729,7 +729,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setFaceTimeType(1);
             mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
             callOnSuccess();
-            mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
+            mPresenter.accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.ACCESS_VIDEO_CALL);
             if (mPeerConnection == null) {
                 mPeerConnection = createPeerConnection();
             }
@@ -776,6 +776,23 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         }
     }
 
+
+    @Override
+    public void onError(String tag, Object o) {
+        super.onError(tag, o);
+        switch (tag) {
+            case EVENT_CAMERA_FINISH_SENDER:
+                // : 2021-12-01 主动挂断 生成发起者的历史记录
+                finishActivity(mSenderMessageBodyBean);
+
+                break;
+            case EVENT_CAMERA_FINISH_RECEIVER:
+                finishActivity(mReceiverMessageBodyBean);
+                break;
+            default:
+                break;
+        }
+    }
 
     public static class SimpleSdpObserver implements SdpObserver {
         @Override
@@ -853,7 +870,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
             }
 
             @Override

@@ -11,7 +11,9 @@ import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.mvp.IView;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
-import com.videoaudiocall.library.R;
+import com.videoaudiocall.net.AppNetModuleSocket;
+import com.videoaudiocall.net.BaseSocketObserver;
+import com.videoaudiocall.net.BaseSocketResult;
 
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
@@ -39,15 +41,6 @@ import okhttp3.RequestBody;
  */
 public class ChatPresent extends BasePresenter<IModel, IView> {
 
-    public final static String MORE_ACTION_PIC = "照片";
-    public final static String MORE_ACTION_TAKE_PHOTO = "拍照";
-    public final static String MORE_ACTION_VIDEO_CALL = "视频通话";
-    public final static String MORE_ACTION_LOCATION = "位置";
-    public final static String MORE_ACTION_SECRET_CHAT = "密聊";
-    public final static String MORE_ACTION_FILE = "文件";
-    public final static String MORE_ACTION_CARD = "名片";
-    public final static String EDIT_MSG_DELETE = "删除";
-    public final static String EDIT_MSG_FORWARD = "转发";
 
 
     @Override
@@ -60,24 +53,8 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void requestVideoCall(RequestBody body, String tag) {
-        AppNetModuleSocket.createrRetrofit()
-                .requestVideoCall(body)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseResult>(getView()) {
-                    @Override
-                    public void onSuccess(BaseResult o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
+        sendPrivateMessage(body,tag);
 
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
     }
 
     /**
@@ -85,24 +62,8 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void accessVideoCall(RequestBody body, String tag) {
-        AppNetModuleSocket.createrRetrofit()
-                .accessVideoCall(body)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseResult>(getView()) {
-                    @Override
-                    public void onSuccess(BaseResult o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
+        sendPrivateMessage(body,tag);
 
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
     }
 
     /**
@@ -110,24 +71,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void rejectVideoCall(RequestBody body, String tag) {
-        AppNetModuleSocket.createrRetrofit()
-                .rejectVideoCall(body)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseResult>(getView()) {
-                    @Override
-                    public void onSuccess(BaseResult o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
+        sendPrivateMessage(body,tag);
     }
 
 
@@ -142,9 +86,9 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
         AppNetModuleSocket.createrRetrofit()
                 .sendMessage(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseResult>(null) {
+                .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
                     @Override
-                    public void onSuccess(BaseResult o) {
+                    public void onSuccess(BaseSocketResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

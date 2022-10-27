@@ -32,6 +32,8 @@ import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.basecomponent.utils.MD5;
 import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
+import com.videoaudiocall.net.AppHttpPathSocket;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -145,6 +147,9 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                         Hawk.put(AppUtils.SP_KEY_TOKEN, loginBean.getData().getToken());
                         Hawk.put(AppUtils.SP_RONGYUN_TOKEN, loginBean.getData().getrOngYunToken());
                         EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
+                        //ws连接
+                        MyWsManager.getInstance().setWsUrl(AppHttpPathSocket.BASE_SOCKET +  UserInfoManager.getUserId());
+
                         startActivity(new Intent(mContext, MainActivity.class));
                         LogUtil.d("token=" + MyApp.getUserToken());
                     } else if (loginBean.status == 1301) {

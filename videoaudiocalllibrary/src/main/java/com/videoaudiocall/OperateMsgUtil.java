@@ -16,7 +16,9 @@ import com.videoaudiocall.videocall.VideoRequestActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @Author: tobato
@@ -41,14 +43,17 @@ public class OperateMsgUtil {
         MessageBodyBean messageBody = new MessageBodyBean();
         messageBody.setContent(content);
         messageBody.setCreateTime(String.valueOf(System.currentTimeMillis()));
-//        messageBody.setFromAccount(UserInfoManager.getUserUUID());
+        /**
+         * 使用userid作为唯一值 链接socket
+         */
+        messageBody.setFromAccount(String.valueOf(UserInfoManager.getUserId()));
         messageBody.setFromNickname(UserInfoManager.getUserNickName());
         messageBody.setFromHead(UserInfoManager.getHeadPic());
         messageBody.setFromUserId(UserInfoManager.getUserId());
         messageBody.setRead(true);
         // TODO: 2021-11-19 阅后即焚  先默认1 否
         messageBody.setReadBurn(1);
-        messageBody.setToAccount(toUserAccout);
+        messageBody.setToAccount(String.valueOf(toUserId));
         messageBody.setToNickname(toNickName);
         messageBody.setToHead(toHead);
         messageBody.setToUserId(toUserId);
@@ -56,75 +61,8 @@ public class OperateMsgUtil {
         messageBody.setMsgType(msgType);
         return messageBody;
     }
-    public static MultipartBody.Builder getMsgBuilder(MessageBodyBean messageBodyBean) {
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("token", UserInfoManager.getUserToken())
-                .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()))
-                .addFormDataPart("type", "1")
-                .addFormDataPart("fromUserId", String.valueOf(messageBodyBean.getFromUserId()))
-                .addFormDataPart("fromAccount", messageBodyBean.getFromAccount())
-                .addFormDataPart("fromNickname", messageBodyBean.getFromNickname())
-                .addFormDataPart("event", messageBodyBean.getEvent())
-                .addFormDataPart("fromHead", messageBodyBean.getFromHead())
-                .addFormDataPart("toUserId", String.valueOf(messageBodyBean.getToUserId()))
-                .addFormDataPart("toAccount", TextUtils.isEmpty(messageBodyBean.getToAccount()) ? "0" : messageBodyBean.getToAccount())
-                .addFormDataPart("toNickname", messageBodyBean.getToNickname())
-                .addFormDataPart("rotation", messageBodyBean.getRotation())
-                .addFormDataPart("toHead", messageBodyBean.getToHead())
-                .addFormDataPart("otherUserId", String.valueOf(messageBodyBean.getOtherUserId()))
-                .addFormDataPart("otherAccount", messageBodyBean.getOtherAccount())
-                .addFormDataPart("otherNickname", messageBodyBean.getOtherNickname())
-                .addFormDataPart("otherHead", messageBodyBean.getOtherHead())
-                .addFormDataPart("content", messageBodyBean.getContent())
-                .addFormDataPart("sdp", messageBodyBean.getSdp())
-                .addFormDataPart("sdpMid", messageBodyBean.getSdpMid())
-                .addFormDataPart("sdpMLineIndex", String.valueOf(messageBodyBean.getSdpMLineIndex()))
-                .addFormDataPart("duration", messageBodyBean.getDuration())
-                .addFormDataPart("videoCover", messageBodyBean.getVideoCover())
-                .addFormDataPart("fileSize", messageBodyBean.getFileSize())
-                .addFormDataPart("fileName", messageBodyBean.getFileName())
-//                .addFormDataPart("hwPushIntentUrl", OperateMsgUtil.getHuaWeiPushIntentStr(messageBodyBean))
-//                .addFormDataPart("xiaomiPushIntentUrl", OperateMsgUtil.getXiaomiPushIntentStr(messageBodyBean))
-                .addFormDataPart("faceTimeType", String.valueOf(messageBodyBean.getFaceTimeType()))
-                .addFormDataPart("readBurn", String.valueOf(messageBodyBean.getReadBurn()))
-                .addFormDataPart("msgType", String.valueOf(messageBodyBean.getMsgType()))
-                .addFormDataPart("groupNickname", messageBodyBean.getGroupUserNickname())
-                .addFormDataPart("groupName", messageBodyBean.getGroupName())
-                .addFormDataPart("quoteMsg", messageBodyBean.getQuoteMsg())
-                .addFormDataPart("chatType", String.valueOf(messageBodyBean.getChatType()));
-        if (messageBodyBean.getFromUserId() == UserInfoManager.getUserId()) {
-            //我发送的信息
-            //收藏的时候需要上传
-            builder.addFormDataPart("localCatchPath", String.valueOf(messageBodyBean.getLocalCatchPath()));
-        }
-        if (2 == messageBodyBean.getChatType()) {
-            builder.addFormDataPart("groupId", String.valueOf(messageBodyBean.getGroupId()));
-            builder.addFormDataPart("isGroupCreater", String.valueOf(messageBodyBean.getIsGroupCreater()));
-            if (!TextUtils.isEmpty(messageBodyBean.getAtUserId())) {
-                builder.addFormDataPart("atUserId", messageBodyBean.getAtUserId());
-            }
-
-        }
-        switch (messageBodyBean.getMsgType()) {
-            case 6:
-                builder.addFormDataPart("lat", messageBodyBean.getLat())
-                        .addFormDataPart("lng", messageBodyBean.getLng())
-                        .addFormDataPart("addrName", messageBodyBean.getAddrName())
-                        .addFormDataPart("addrDes", messageBodyBean.getAddrDes());
-                break;
-            case 11:
-                //外部分享的链接
-                builder.addFormDataPart("shareTitle", messageBodyBean.getShareTitle())
-                        .addFormDataPart("shareContent", messageBodyBean.getShareContent())
-                        .addFormDataPart("shareUrl", messageBodyBean.getShareUrl())
-                        .addFormDataPart("shareAppName", messageBodyBean.getShareAppName())
-                        .addFormDataPart("sharePic", messageBodyBean.getSharePic());
-                break;
-            default:
-                break;
-        }
-        return builder;
+    public static RequestBody getMsgBuilder(MessageBodyBean messageBodyBean) {
+        return  getJsonRequestBody(GsonTools.createGsonString(messageBodyBean));
 
     }
 
@@ -134,5 +72,10 @@ public class OperateMsgUtil {
         List<MessageBodyBean> list = gson.fromJson(gsonString, new TypeToken<List<MessageBodyBean>>() {
         }.getType());
         return list;
+    }
+
+    public static RequestBody getJsonRequestBody(String jsonStr){
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        return RequestBody.create(JSON,jsonStr);
     }
 }

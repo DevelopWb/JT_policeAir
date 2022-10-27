@@ -40,6 +40,11 @@ public class AppHttpPath {
      * 注册
      */
     public static final String REGIST = BASE + "/insertUserRegister.shtml";
+
+    /**
+     * 飞手人员列表
+     */
+    public static final String ALL_OPERATORS = BASE + "/getUserList.shtml";
     /**
      * 查询职务
      */
