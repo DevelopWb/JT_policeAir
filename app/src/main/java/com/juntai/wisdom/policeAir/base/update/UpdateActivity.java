@@ -10,17 +10,20 @@ import com.allenliu.versionchecklib.v2.AllenVersionChecker;
 import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
+import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
+import com.juntai.wisdom.basecomponent.utils.ActivityManagerTool;
+import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
-import com.juntai.wisdom.policeAir.AppHttpPath;
-import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.bean.UpdateBean;
-import com.juntai.wisdom.basecomponent.utils.AppUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Ma
@@ -31,15 +34,16 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
     boolean isForceUpdate = false;
     String version;
 
+
     /**
      * @param isWarn 是否提醒
      */
     public void update(boolean isWarn) {
-        DownloadBuilder downloadBuilder = AllenVersionChecker
+        AllenVersionChecker
                 .getInstance()
                 .requestVersion()
                 .setRequestMethod(HttpRequestMethod.POST)
-                .setRequestUrl(AppHttpPath.APP_UPDATE)
+                .setRequestUrl(getUpdateHttpUrl())
                 .setRequestParams(getHttpParams())
                 .request(new RequestVersionListener() {
                     @Nullable
@@ -58,8 +62,6 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
                         version = upgradeBean.getData().getVersionsName();
                         isForceUpdate = upgradeBean.getData().isConstraintUpdate();
                         if (AppUtils.getVersionCode(mContext) < upgradeBean.getData().getVersionsCode()) {
-                            downloadBuilder.setDownloadAPKPath(FileCacheUtils.getAppPath(true))//自定义下载路径
-                                           .setApkName(upgradeBean.getData().getFileName());
                             return UIData.create()
                                     .setTitle(upgradeBean.getData().getFileName())
                                     .setContent(upgradeBean.getData().getUpdateContent())
@@ -77,9 +79,10 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
                     public void onRequestVersionFailure(String message) {
                         LogUtil.d("更新" + message);
                     }
-                });
-
-        downloadBuilder.setCustomVersionDialogListener((context, versionBundle) -> {
+                })
+                .setDownloadAPKPath(FileCacheUtils.getAppPath(true))//自定义下载路径
+                .setApkName(new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()))
+                .setCustomVersionDialogListener((context, versionBundle) -> {
                     UpdateDialog updateDialog = new UpdateDialog(context, R.style.BaseDialog, R.layout.update_dialog);
                     //versionBundle 就是UIData，之前开发者传入的，在这里可以拿出UI数据并展示
                     TextView textView = updateDialog.findViewById(R.id.update_content);
@@ -93,12 +96,18 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
                 .setForceUpdateListener(() -> {
                     //强制更新
                     if (isForceUpdate) {
-                        MyApp.app.clearActivitys();
+                        ActivityManagerTool.getInstance().finishApp();
                     }
                     cancle();
                 })
                 .executeMission(mContext.getApplicationContext());
     }
+
+    /**
+     * 获取更新的url
+     * @return
+     */
+    protected abstract String getUpdateHttpUrl();
 
     public static void cancle() {
         AllenVersionChecker.getInstance().cancelAllMission();
@@ -111,7 +120,7 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseMvpAct
      */
     private HttpParams getHttpParams() {
         HttpParams httpParams = new HttpParams();
-        httpParams.put("typeId", MyApp.CHECK_UPDATE_TYPE);
+//        httpParams.put("typeId", MyApp.CHECK_UPDATE_TYPE);
         return httpParams;
     }
 }

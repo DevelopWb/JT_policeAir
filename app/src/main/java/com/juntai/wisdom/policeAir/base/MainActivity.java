@@ -47,7 +47,7 @@ import io.rong.pushperm.ResultCallback;
 import io.rong.pushperm.RongPushPremissionsCheckHelper;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-public class MainActivity extends UpdateActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
+public class MainActivity extends BaseAppActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
         View.OnClickListener, MainPageContract.IMainPageView {
     private MainPagerAdapter adapter;
     private LinearLayout mainLayout;

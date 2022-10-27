@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.juntai.wisdom.basecomponent.app.BaseApplication;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 

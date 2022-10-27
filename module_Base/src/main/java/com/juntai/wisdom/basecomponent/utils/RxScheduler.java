@@ -50,6 +50,10 @@ public class RxScheduler {
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(Observable<T> upstream) {
+                if (view == null) {
+                    return upstream.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread());
+                }
                 return upstream.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(view.bindToLife());

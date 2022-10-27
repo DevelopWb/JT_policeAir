@@ -10,15 +10,13 @@ import android.util.Log;
 
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
-import com.juntai.wisdom.basecomponent.base.BaseObserver;
-import com.juntai.wisdom.basecomponent.base.BaseResult;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
 import com.videoaudiocall.net.AppHttpPathSocket;
 import com.videoaudiocall.net.AppNetModuleSocket;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.MessageBodyBean;
-import com.videoaudiocall.bean.VideoActivityMsgBean;
 import com.videoaudiocall.net.BaseSocketObserver;
 import com.videoaudiocall.net.BaseSocketResult;
 
@@ -104,7 +102,7 @@ public class ReceiveVideoCallService extends Service {
         /**
          * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
          */
-        mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromUserId(), mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
+        mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
         mMessageBodyBean.setFaceTimeType(1);
         mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
         accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.ACCESS_VIDEO_CALL);
@@ -276,21 +274,20 @@ public class ReceiveVideoCallService extends Service {
 
         /*====================================================    event   ==============================================================*/
 
-    /**
-     * @param videoActivityMsgBean
-     */
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
-    public void receiveMessage(VideoActivityMsgBean videoActivityMsgBean) {
-        MessageBodyBean messageBody = videoActivityMsgBean.getMessageBodyBean();
-        if (messageBody != null) {
-            switch (messageBody.getMsgType()) {
-                //视频通话
-                case 4:
-                    //音频通话
-                case 5:
-                    String eventMsg = messageBody.getEvent();
-                    if (!TextUtils.isEmpty(eventMsg)) {
-                        switch (eventMsg) {
+    public void onEvent(EventBusObject eventBusObject) {
+        switch (eventBusObject.getEventKey()) {
+            case EventBusObject.VIDEO_CALL:
+                MessageBodyBean messageBody = (MessageBodyBean) eventBusObject.getEventObj();
+                if (messageBody != null) {
+                    switch (messageBody.getMsgType()) {
+                        //视频通话
+                        case 4:
+                            //音频通话
+                        case 5:
+                            String eventMsg = messageBody.getEvent();
+                            if (!TextUtils.isEmpty(eventMsg)) {
+                                switch (eventMsg) {
 //                            case EVENT_CAMERA_ACCESS:
 //                                //发送端逻辑
 //                                /**
@@ -304,18 +301,18 @@ public class ReceiveVideoCallService extends Service {
 //                                 */
 //                                doStartCall();
 //                                break;
-                            case EVENT_CAMERA_FINISH_SENDER:
-                                //主动挂断  接收端的逻辑
+                                    case EVENT_CAMERA_FINISH_SENDER:
+                                        //主动挂断  接收端的逻辑
 //                                if (isCallOn) {
 //                                    //已经接通了 这时候挂断
 //                                    messageBody.setDuration(getTextViewValue(mDurationTv));
 //                                } else {
 //                                    messageBody.setDuration(null);
 //                                }
-                                messageBody.setFaceTimeType(4);
+                                        messageBody.setFaceTimeType(4);
 //                                //关闭并记录到本地
 //                                finishActivity(messageBody);
-                                break;
+                                        break;
 //                            case EVENT_CAMERA_FINISH_RECEIVER:
 //                                //结束
 //                                //对方不同意接听  发送端的逻辑
@@ -330,24 +327,24 @@ public class ReceiveVideoCallService extends Service {
 //                                mSenderMessageBodyBean.setFaceTimeType(4);
 //                                finishActivity(mSenderMessageBodyBean);
 //                                break;
-                            case EVENT_CAMERA_OFFER:
-                                /**
-                                 * 接收端逻辑
-                                 * 第六步 被叫  收到offer
-                                 */
-                                if (mPeerConnection == null) {
-                                    mPeerConnection = createPeerConnection();
-                                }
-                                mPeerConnection.setRemoteDescription(
-                                        new SimpleSdpObserver(),
-                                        new SessionDescription(
-                                                SessionDescription.Type.OFFER,
-                                                messageBody.getSdp()));
-                                /**
-                                 * 第七步 被叫  接听call
-                                 */
-                                doAnswerCall();
-                                break;
+                                    case EVENT_CAMERA_OFFER:
+                                        /**
+                                         * 接收端逻辑
+                                         * 第六步 被叫  收到offer
+                                         */
+                                        if (mPeerConnection == null) {
+                                            mPeerConnection = createPeerConnection();
+                                        }
+                                        mPeerConnection.setRemoteDescription(
+                                                new SimpleSdpObserver(),
+                                                new SessionDescription(
+                                                        SessionDescription.Type.OFFER,
+                                                        messageBody.getSdp()));
+                                        /**
+                                         * 第七步 被叫  接听call
+                                         */
+                                        doAnswerCall();
+                                        break;
 //                            case EVENT_CAMERA_ANSWER:
 //                                /**
 //                                 * 第八步 主叫  被叫链接创建成功了
@@ -362,30 +359,34 @@ public class ReceiveVideoCallService extends Service {
 //
 //
 //                                break;
-                            case EVENT_CAMERA_CANDIDATE:
-                                /**
-                                 * 第九步
-                                 */
-                                IceCandidate remoteIceCandidate =
-                                        new IceCandidate(messageBody.getSdpMid(),
-                                                messageBody.getSdpMLineIndex(),
-                                                messageBody.getSdp());
-                                mPeerConnection.addIceCandidate(remoteIceCandidate);
-                                break;
-                            default:
-                                break;
-                        }
-                        return;
+                                    case EVENT_CAMERA_CANDIDATE:
+                                        /**
+                                         * 第九步
+                                         */
+                                        IceCandidate remoteIceCandidate =
+                                                new IceCandidate(messageBody.getSdpMid(),
+                                                        messageBody.getSdpMLineIndex(),
+                                                        messageBody.getSdp());
+                                        mPeerConnection.addIceCandidate(remoteIceCandidate);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                return;
+                            }
+
+                            break;
+                        default:
+                            break;
                     }
 
-                    break;
-                default:
-                    break;
-            }
-
+                }
+                break;
+            default:
+                break;
         }
-
     }
+
 
     /**
      * 被叫  接听会话

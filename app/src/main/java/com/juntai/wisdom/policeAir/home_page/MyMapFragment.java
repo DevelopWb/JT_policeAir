@@ -794,7 +794,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 (ImageView) infowindowPeople.findViewById(R.id.fly_operator_iv));
         infowindowPeople.findViewById(R.id.audio_call_bt).setOnClickListener(v -> {
             // : 2021-11-23 视频通话
-            MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, flyOperator.getId(), flyOperator.getAccount(), flyOperator.getName(), flyOperator.getImg(), "");
+            MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg(), "");
             //跳转到等待接听界面
             Intent intent =
                     new Intent(mContext, VideoRequestActivity.class)

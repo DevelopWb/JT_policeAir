@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.policeAir.base.BaseAppActivity;
 import com.juntai.wisdom.policeAir.base.BaseSelectPicsActivity;
 import com.juntai.wisdom.policeAir.entrance.regist.RegistContract;
 
@@ -13,7 +14,7 @@ import com.juntai.wisdom.policeAir.entrance.regist.RegistContract;
  * @description 描述
  * @date 2020/3/25 8:46
  */
-public abstract class SmsCheckCodeActivity<P extends BasePresenter> extends BaseSelectPicsActivity<P> {
+public abstract class SmsCheckCodeActivity<P extends BasePresenter> extends BaseAppActivity<P> {
     @Override
     public void onSuccess(String tag, Object o) {
         if (tag.equals(RegistContract.GET_MS_CODE)){

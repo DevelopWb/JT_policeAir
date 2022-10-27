@@ -32,14 +32,13 @@ public class OperateMsgUtil {
     /**
      * 获取私聊文本消息
      *
-     * @param toUserId
      * @param toUserAccout
      * @param toNickName
      * @param content
      * @param msgType      msgType":"消息类型（0：text；1：image；2：video；3：语音；4视频通话；5音频通话，6位置消息 7分享名片 8 文件9 合并群消息 10 外部分享链接"  11 切换摄像头 （content 0是前置 1是后置）,
      * @return
      */
-    public static MessageBodyBean getPrivateMsg(int msgType, int toUserId, String toUserAccout, String toNickName, String toHead, String content) {
+    public static MessageBodyBean getPrivateMsg(int msgType, String toUserAccout, String toNickName, String toHead, String content) {
         MessageBodyBean messageBody = new MessageBodyBean();
         messageBody.setContent(content);
         messageBody.setCreateTime(String.valueOf(System.currentTimeMillis()));
@@ -49,14 +48,12 @@ public class OperateMsgUtil {
         messageBody.setFromAccount(String.valueOf(UserInfoManager.getUserId()));
         messageBody.setFromNickname(UserInfoManager.getUserNickName());
         messageBody.setFromHead(UserInfoManager.getHeadPic());
-        messageBody.setFromUserId(UserInfoManager.getUserId());
         messageBody.setRead(true);
         // TODO: 2021-11-19 阅后即焚  先默认1 否
         messageBody.setReadBurn(1);
-        messageBody.setToAccount(String.valueOf(toUserId));
+        messageBody.setToAccount(toUserAccout);
         messageBody.setToNickname(toNickName);
         messageBody.setToHead(toHead);
-        messageBody.setToUserId(toUserId);
         messageBody.setChatType(1);
         messageBody.setMsgType(msgType);
         return messageBody;

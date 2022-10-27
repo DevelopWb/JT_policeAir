@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/banner" />
             <option value="$PROJECT_DIR$/module_Base" />
             <option value="$PROJECT_DIR$/module_Map" />
+            <option value="$PROJECT_DIR$/networkmonitor" />
             <option value="$PROJECT_DIR$/pushpermission" />
             <option value="$PROJECT_DIR$/videoaudiocalllibrary" />
           </set>

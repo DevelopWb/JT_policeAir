@@ -12,7 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juntai.wisdom.basecomponent.mvp.IView;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
@@ -20,14 +21,10 @@ import com.juntai.wisdom.basecomponent.utils.UrlFormatUtil;
 import com.videoaudiocall.net.AppHttpPathSocket;
 import com.videoaudiocall.ChatPresent;
 import com.videoaudiocall.OperateMsgUtil;
-import com.videoaudiocall.bean.FinishVideoActivityMsgBean;
 import com.videoaudiocall.bean.MessageBodyBean;
-import com.videoaudiocall.bean.VideoActivityMsgBean;
 import com.videoaudiocall.library.R;
 import com.videoaudiocall.webSocket.MyWsManager;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.DataChannel;
@@ -440,134 +437,136 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
-    public void receiveFinishMessage(FinishVideoActivityMsgBean finishVideoActivityMsgBean) {
-        finish();
-    }
+    @Override
+    public void onEvent(EventBusObject eventBusObject) {
+        super.onEvent(eventBusObject);
+        switch (eventBusObject.getEventKey()) {
+            case EventBusObject.FINISH_ACTIVITY:
+                finish();
+                break;
+            case EventBusObject.VIDEO_CALL:
+                MessageBodyBean messageBody = (MessageBodyBean) eventBusObject.getEventObj();
+                if (messageBody != null) {
+                    switch (messageBody.getMsgType()) {
+                        case 11:
+                            //切换摄像头
+                            String content = messageBody.getContent();
+                            if ("0".equals(content)) {
+                                isFront = true;
+                                //切换到前置摄像头
+                                mSmallSurfaceView.setMirror(true);
+                            } else {
+                                isFront = false;
+                                //切换到后置摄像头
+                                mSmallSurfaceView.setMirror(false);
+                            }
 
-    /**
-     * @param videoActivityMsgBean
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
-    public void receiveMessage(VideoActivityMsgBean videoActivityMsgBean) {
-        MessageBodyBean messageBody = videoActivityMsgBean.getMessageBodyBean();
-        if (messageBody != null) {
-            switch (messageBody.getMsgType()) {
-                case 11:
-                    //切换摄像头
-                    String content = messageBody.getContent();
-                    if ("0".equals(content)) {
-                        isFront = true;
-                //切换到前置摄像头
-                        mSmallSurfaceView.setMirror(true);
-                    } else {
-                        isFront = false;
-                    //切换到后置摄像头
-                        mSmallSurfaceView.setMirror(false);
+                            break;
+                        //视频通话
+                        case 4:
+                            //音频通话
+                        case 5:
+                            String eventMsg = messageBody.getEvent();
+                            if (!TextUtils.isEmpty(eventMsg)) {
+                                switch (eventMsg) {
+                                    case EVENT_CAMERA_ACCESS:
+                                        //发送端逻辑
+                                        /**
+                                         * 主叫 画面
+                                         * 第四步 对方同意接听音视频画面
+                                         */
+                                        callOnSuccess();
+                                        // 这时候链路通了  发起通话
+                                        /**
+                                         * 第五步 主叫申请call
+                                         */
+                                        doStartCall();
+                                        break;
+                                    case EVENT_CAMERA_FINISH_SENDER:
+                                        //主动挂断  接收端的逻辑
+                                        if (isCallOn) {
+                                            //已经接通了 这时候挂断
+                                            messageBody.setDuration(getTextViewValue(mDurationTv));
+                                        } else {
+                                            messageBody.setDuration(null);
+                                        }
+                                        messageBody.setFaceTimeType(4);
+                                        finishActivity(messageBody);
+                                        break;
+                                    case EVENT_CAMERA_FINISH_RECEIVER:
+                                        //结束
+                                        //对方不同意接听  发送端的逻辑
+                                        //已经接通了 这时候挂断
+                                        if (isCallOn) {
+                                            //已经接通了 这时候挂断
+                                            mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
+                                        } else {
+                                            mSenderMessageBodyBean.setDuration(null);
+
+                                        }
+                                        mSenderMessageBodyBean.setFaceTimeType(4);
+                                        finishActivity(mSenderMessageBodyBean);
+                                        break;
+                                    case EVENT_CAMERA_OFFER:
+                                        /**
+                                         * 接收端逻辑
+                                         * 第六步 被叫  收到offer
+                                         */
+                                        if (mPeerConnection == null) {
+                                            mPeerConnection = createPeerConnection();
+                                        }
+                                        mPeerConnection.setRemoteDescription(
+                                                new SimpleSdpObserver(),
+                                                new SessionDescription(
+                                                        SessionDescription.Type.OFFER,
+                                                        messageBody.getSdp()));
+                                        /**
+                                         * 第七步 被叫  接听call
+                                         */
+                                        doAnswerCall();
+                                        break;
+                                    case EVENT_CAMERA_ANSWER:
+                                        /**
+                                         * 第八步 主叫  被叫链接创建成功了
+                                         */
+                                        isCallOn = true;
+                                        mPeerConnection.setRemoteDescription(
+                                                new SimpleSdpObserver(),
+                                                new SessionDescription(
+                                                        SessionDescription.Type.ANSWER,
+                                                        messageBody.getSdp()));
+                                        updateCallState(false);
+
+
+                                        break;
+                                    case EVENT_CAMERA_CANDIDATE:
+                                        /**
+                                         * 第九步
+                                         */
+                                        IceCandidate remoteIceCandidate =
+                                                new IceCandidate(messageBody.getSdpMid(),
+                                                        messageBody.getSdpMLineIndex(),
+                                                        messageBody.getSdp());
+                                        mPeerConnection.addIceCandidate(remoteIceCandidate);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                return;
+                            }
+
+                            break;
+                        default:
+                            break;
                     }
 
-                    break;
-                //视频通话
-                case 4:
-                    //音频通话
-                case 5:
-                    String eventMsg = messageBody.getEvent();
-                    if (!TextUtils.isEmpty(eventMsg)) {
-                        switch (eventMsg) {
-                            case EVENT_CAMERA_ACCESS:
-                                //发送端逻辑
-                                /**
-                                 * 主叫 画面
-                                 * 第四步 对方同意接听音视频画面
-                                 */
-                                callOnSuccess();
-                                // 这时候链路通了  发起通话
-                                /**
-                                 * 第五步 主叫申请call
-                                 */
-                                doStartCall();
-                                break;
-                            case EVENT_CAMERA_FINISH_SENDER:
-                                //主动挂断  接收端的逻辑
-                                if (isCallOn) {
-                                    //已经接通了 这时候挂断
-                                    messageBody.setDuration(getTextViewValue(mDurationTv));
-                                } else {
-                                    messageBody.setDuration(null);
-                                }
-                                messageBody.setFaceTimeType(4);
-                                finishActivity(messageBody);
-                                break;
-                            case EVENT_CAMERA_FINISH_RECEIVER:
-                                //结束
-                                //对方不同意接听  发送端的逻辑
-                                //已经接通了 这时候挂断
-                                if (isCallOn) {
-                                    //已经接通了 这时候挂断
-                                    mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
-                                } else {
-                                    mSenderMessageBodyBean.setDuration(null);
-
-                                }
-                                mSenderMessageBodyBean.setFaceTimeType(4);
-                                finishActivity(mSenderMessageBodyBean);
-                                break;
-                            case EVENT_CAMERA_OFFER:
-                                /**
-                                 * 接收端逻辑
-                                 * 第六步 被叫  收到offer
-                                 */
-                                if (mPeerConnection == null) {
-                                    mPeerConnection = createPeerConnection();
-                                }
-                                mPeerConnection.setRemoteDescription(
-                                        new SimpleSdpObserver(),
-                                        new SessionDescription(
-                                                SessionDescription.Type.OFFER,
-                                                messageBody.getSdp()));
-                                /**
-                                 * 第七步 被叫  接听call
-                                 */
-                                doAnswerCall();
-                                break;
-                            case EVENT_CAMERA_ANSWER:
-                                /**
-                                 * 第八步 主叫  被叫链接创建成功了
-                                 */
-                                isCallOn = true;
-                                mPeerConnection.setRemoteDescription(
-                                        new SimpleSdpObserver(),
-                                        new SessionDescription(
-                                                SessionDescription.Type.ANSWER,
-                                                messageBody.getSdp()));
-                                updateCallState(false);
-
-
-                                break;
-                            case EVENT_CAMERA_CANDIDATE:
-                                /**
-                                 * 第九步
-                                 */
-                                IceCandidate remoteIceCandidate =
-                                        new IceCandidate(messageBody.getSdpMid(),
-                                                messageBody.getSdpMLineIndex(),
-                                                messageBody.getSdp());
-                                mPeerConnection.addIceCandidate(remoteIceCandidate);
-                                break;
-                            default:
-                                break;
-                        }
-                        return;
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-
+                }
+                break;
+            default:
+                break;
         }
-
     }
+
 
     private void initMsgData(Intent intent) {
         String msgStr = intent.getStringExtra(BASE_STRING);
@@ -591,7 +590,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
      * 关闭当前activity
      */
     private void finishActivity(MessageBodyBean messageBody) {
-        EventManager.getEventBus().post(new FinishVideoActivityMsgBean(messageBody));
+        EventManager.getEventBus().post(new EventBusObject(EventBusObject.FINISH_ACTIVITY,messageBody));
     }
 
     @Override
@@ -667,7 +666,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             }
             isFront = !isFront;
             // TODO: 2022/6/2 镜面问题  感觉这个地方得发个消息告诉对方更改镜面  就是切换摄像头之后 告诉对方 需要更改镜面
-            MessageBodyBean messageBodyBean = OperateMsgUtil.getPrivateMsg(11, mMessageBodyBean.getToUserId(), mMessageBodyBean.getToAccount(), mMessageBodyBean.getToNickname(), mMessageBodyBean.getToHead(), isFront ? "0" : "1");
+            MessageBodyBean messageBodyBean = OperateMsgUtil.getPrivateMsg(11, mMessageBodyBean.getToAccount(), mMessageBodyBean.getToNickname(), mMessageBodyBean.getToHead(), isFront ? "0" : "1");
             messageBodyBean.setEvent("switchcamera");
             if (isFront) {
                 mBigSurfaceView.setMirror(true);
@@ -708,7 +707,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                     mReceiverMessageBodyBean.setDuration(null);
 
                 }
-                MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, mReceiverMessageBodyBean.getFromUserId(), mReceiverMessageBodyBean.getFromAccount(), mReceiverMessageBodyBean.getFromNickname(), mReceiverMessageBodyBean.getFromHead(), "");
+                MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, mReceiverMessageBodyBean.getFromAccount(), mReceiverMessageBodyBean.getFromNickname(), mReceiverMessageBodyBean.getFromHead(), "");
                 if (isCallOn) {
                     //已经接通了 这时候挂断
                     bodyBean.setFaceTimeType(4);
@@ -725,7 +724,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             /**
              * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
              */
-            mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromUserId(), mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
+            mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType,mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
             mMessageBodyBean.setFaceTimeType(1);
             mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
             callOnSuccess();

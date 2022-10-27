@@ -4,9 +4,10 @@ public class AppHttpPathSocket {
     /**
      * base
      */
-//    public static final String BASE = "https://wx.juntaikeji.com:19156/lanshanUAV/u/app";
-        public static final String BASE = "http://192.168.124.148:8888";
-    public static final String BASE_SOCKET = "ws://192.168.124.148:8888/appSocket/";
+    public static final String BASE = "https://www.juntaikeji.com:21280";
+//        public static final String BASE = "http://192.168.124.148:8888";
+//    public static final String BASE_SOCKET = "ws://192.168.124.148:8888/appSocket/";
+    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21280/appSocket/";
 
     public static final String CHAT_VIDEO_URL = "turn:stun.juntaikeji.com:19603";
 

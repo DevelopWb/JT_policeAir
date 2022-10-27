@@ -22,7 +22,7 @@ public class UrlFormatUtil {
      * @return
      */
     public static String getImageThumUrl(String path) {
-        return path+IMAGE_THUM;
+        return path;
     }
 
 

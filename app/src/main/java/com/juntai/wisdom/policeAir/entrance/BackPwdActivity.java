@@ -271,4 +271,6 @@ public class BackPwdActivity extends SmsCheckCodeActivity<RegistPresent> impleme
     protected void selectedPicsAndEmpressed(List<String> icons) {
 
     }
+
+
 }

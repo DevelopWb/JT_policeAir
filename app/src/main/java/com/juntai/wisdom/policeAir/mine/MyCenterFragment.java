@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
 import com.juntai.wisdom.basecomponent.utils.DialogUtil;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.SPTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;

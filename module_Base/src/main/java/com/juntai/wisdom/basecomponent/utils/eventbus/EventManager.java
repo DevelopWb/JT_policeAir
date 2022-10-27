@@ -1,4 +1,4 @@
-package com.juntai.wisdom.basecomponent.utils;
+package com.juntai.wisdom.basecomponent.utils.eventbus;
 
 import android.widget.ImageView;
 

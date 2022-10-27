@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,10 +38,9 @@ import com.juntai.wisdom.basecomponent.R;
 import com.juntai.wisdom.basecomponent.bean.BaseMenuBean;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.DividerItemDecoration;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
-import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.LoadingDialog;
-import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.ScreenUtils;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -52,11 +52,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import top.zibin.luban.CompressionPredicate;
-import top.zibin.luban.Luban;
-import top.zibin.luban.OnCompressListener;
-import top.zibin.luban.OnRenameListener;
 
 
 public abstract class BaseActivity extends RxAppCompatActivity implements Toolbar.OnMenuItemClickListener {
@@ -479,10 +474,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
-    public void receiveMsg(String test) {
-//        if ("888888".equals(test)) {
-//            LogUtil.e(test);
-//        }
+    public void onEvent(EventBusObject eventBusObject) {
+        Log.d("MyWsManager", "MyWsManager-----BaseActivity--");
+
     }
     /**
      * 设置顶部图标

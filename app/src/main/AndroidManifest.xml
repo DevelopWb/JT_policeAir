@@ -31,18 +31,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.policeAir.home_page.news.exoplayer_tiktok.TikTokActivity" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_publish.preview.VideoPreActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_publish.preview.ImageTextPreActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_info.report.ReportActivity"
-            android:launchMode="singleTop" />
         <activity
             android:name="com.juntai.wisdom.policeAir.entrance.SecondActivity"
             android:parentActivityName="com.juntai.wisdom.policeAir.base.MainActivity">
@@ -66,175 +54,11 @@
                     android:scheme="jingxiaobao" />
             </intent-filter>
         </activity>
-        <activity android:name="com.juntai.wisdom.video.player.VideoNetPlayerActivity"></activity>
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.equipment.my_equipment.MyEquipmentListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_publish.UpdateVideoNewsActivity"
-            android:launchMode="singleTop"/>
         <activity
             android:name="com.juntai.wisdom.policeAir.entrance.BindingPhoneActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_publish.UpdateImageNewsActivity"
-            android:launchMode="singleTop" />
-        <activity
             android:name="com.juntai.wisdom.policeAir.entrance.complete_info.CompleteInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_add.UpdateSiteActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_personal_homepage.FansListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_personal_homepage.PersonalHomepageActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_info.NewsNormalInfoActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" /> <!-- android:hardwareAccelerated="true" -->
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_info.NewsVideoInfoActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_search.NewsSearchActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_publish.PublishNewsActivity"
-            android:hardwareAccelerated="false"
-            android:launchMode="singleTop"/>
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_add.AddNewSiteActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_add.AddUnitInspectionActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_add.AddEmployeeActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_info.UnitInspectionDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_info.NewUnitDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.key_personnel.KeyPersonnelInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.key_personnel.PublishInterviewActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.key_personnel.InterviewDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.exchange_mall.HistoryListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.exchange_mall.GoodsInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.exchange_mall.AllGoodsListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.my_business.MyBusinessDetialActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.my_business.MyBusinessActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.transact_business.SubmitSuccessActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.transact_business.TransactBusinessActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.more_business.MoreBusinessActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.business.business_common.BusinessActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_common.ConciliatonInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.conciliation.conciliation.JoinRoomActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_list.ConciliationListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_publish.SucessResultActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.conciliation.conciliation_publish.PublishConciliationActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.task.ReportDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.task.PublishTReportActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.task.TaskInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.task.MyTaskListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.inspection.InspectionInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.camera.ijkplayer.PlayerLiveActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.camera.ijkplayer.CarLiveActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop" />
-
-        <service android:name="com.juntai.wisdom.policeAir.home_page.camera.ijkplayer.KeepAliveService" />
-
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.site_manager.site_info.EmployeeDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.message.InformMsgInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.inspection.InspectionDetailActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.news.news_comment.CommentChildActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.inspection.PublishInspectionActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.law_case.PublishCaseActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.message.MyMessageActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.mypublish.MyPublishListActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.mycollect.MyCollectActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.mine.score.MyScoreActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.call_to_police.VerifiedActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.call_to_police.CallToPoliceActivity"
             android:launchMode="singleTop" />
         <activity
             android:name="com.juntai.wisdom.policeAir.mine.setting.MySettingActivity"
@@ -259,9 +83,6 @@
             android:launchMode="singleTop" />
         <activity
             android:name="com.juntai.wisdom.policeAir.home_page.weather.SelectLocation"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.search.SearchActivity"
             android:launchMode="singleTop" />
 
         <provider
@@ -335,12 +156,6 @@
         <activity
             android:name="com.juntai.wisdom.policeAir.mine.myinfo.ImageCropActivity"
             android:launchMode="singleTop" /> <!-- 案件追踪 -->
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.law_case.CaseInfoActivity"
-            android:launchMode="singleTop" /> <!-- 案件详情 -->
-        <activity
-            android:name="com.juntai.wisdom.policeAir.home_page.law_case.CaseDetailActivity"
-            android:launchMode="singleTop" />
         <activity
             android:name="com.juntai.wisdom.policeAir.home_page.map.HistoryTrack"
             android:launchMode="singleTop" />

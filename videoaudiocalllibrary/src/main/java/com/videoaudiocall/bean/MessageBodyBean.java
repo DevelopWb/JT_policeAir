@@ -27,7 +27,6 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
      */
     public long id;
     public int offMsgId;
-    private int fromUserId;
     private String fromAccount;
     private String atUserId;
     /**
@@ -40,7 +39,6 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
      */
     private String hwPushIntentUrl;
     private String fromHead;
-    private int toUserId;
     private int adapterPosition;
     private String toAccount;
     private String toNickname;
@@ -509,13 +507,6 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
         this.toNickname = toNickname == null ? "" : toNickname;
     }
 
-    public int getFromUserId() {
-        return fromUserId;
-    }
-
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
-    }
 
     public String getFromAccount() {
         return fromAccount == null ? "" : fromAccount;
@@ -525,13 +516,6 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
         this.fromAccount = fromAccount == null ? "" : fromAccount;
     }
 
-    public int getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(int toUserId) {
-        this.toUserId = toUserId;
-    }
 
     public String getToAccount() {
         return toAccount == null ? "" : toAccount;
@@ -594,14 +578,12 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeInt(this.offMsgId);
-        dest.writeInt(this.fromUserId);
         dest.writeString(this.fromAccount);
         dest.writeString(this.atUserId);
         dest.writeString(this.owner);
         dest.writeString(this.fromNickname);
         dest.writeString(this.hwPushIntentUrl);
         dest.writeString(this.fromHead);
-        dest.writeInt(this.toUserId);
         dest.writeInt(this.adapterPosition);
         dest.writeString(this.toAccount);
         dest.writeString(this.toNickname);
@@ -653,14 +635,12 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
     protected MessageBodyBean(Parcel in) {
         this.id = in.readLong();
         this.offMsgId = in.readInt();
-        this.fromUserId = in.readInt();
         this.fromAccount = in.readString();
         this.atUserId = in.readString();
         this.owner = in.readString();
         this.fromNickname = in.readString();
         this.hwPushIntentUrl = in.readString();
         this.fromHead = in.readString();
-        this.toUserId = in.readInt();
         this.adapterPosition = in.readInt();
         this.toAccount = in.readString();
         this.toNickname = in.readString();

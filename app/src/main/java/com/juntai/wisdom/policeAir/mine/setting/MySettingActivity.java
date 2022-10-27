@@ -25,6 +25,7 @@ import com.juntai.wisdom.basecomponent.utils.RxTask;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.policeAir.MyApp;
 import com.juntai.wisdom.policeAir.R;
+import com.juntai.wisdom.policeAir.base.BaseAppActivity;
 import com.juntai.wisdom.policeAir.bean.MyMenuBean;
 import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.entrance.BackPwdActivity;
@@ -53,7 +54,7 @@ import cn.sharesdk.wechat.friends.Wechat;
  * @aouther ZhangZhenlong
  * @date 2020/3/9
  */
-public class MySettingActivity extends UpdateActivity<EntrancePresent> implements EntranceContract.IEntranceView {
+public class MySettingActivity extends BaseAppActivity<EntrancePresent> implements EntranceContract.IEntranceView {
     SettingMenuAdapter settingMenuAdapter;
     List<MyMenuBean> menuBeans = new ArrayList<>();
 
@@ -171,7 +172,7 @@ public class MySettingActivity extends UpdateActivity<EntrancePresent> implement
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         initData();
     }

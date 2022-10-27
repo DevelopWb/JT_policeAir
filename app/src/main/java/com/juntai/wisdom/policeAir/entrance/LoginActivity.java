@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
 import com.juntai.wisdom.basecomponent.bean.UnionidBean;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.HttpUtil;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
@@ -25,6 +25,7 @@ import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.MyApp;
+import com.juntai.wisdom.policeAir.base.BaseAppActivity;
 import com.juntai.wisdom.policeAir.base.MainActivity;
 import com.juntai.wisdom.basecomponent.bean.UserBean;
 import com.juntai.wisdom.policeAir.entrance.regist.RegistActivity;
@@ -51,7 +52,7 @@ import okhttp3.FormBody;
  * @description 描述  登录
  * @date 2020/3/6 9:12
  */
-public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements EntranceContract.IEntranceView,
+public class LoginActivity extends BaseAppActivity<EntrancePresent> implements EntranceContract.IEntranceView,
         View.OnClickListener {
     public String otherHeadIcon = "";
     /**

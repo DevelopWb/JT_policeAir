@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.MD5;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;

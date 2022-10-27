@@ -14,21 +14,16 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
-import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
+import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
-import com.juntai.wisdom.basecomponent.utils.NotificationTool;
-import com.orhanobut.hawk.Hawk;
 import com.rabtman.wsmanager.WsManager;
 import com.rabtman.wsmanager.listener.WsStatusListener;
 import com.videoaudiocall.bean.BaseWsMessageBean;
 import com.videoaudiocall.bean.MessageBodyBean;
-import com.videoaudiocall.bean.VideoActivityMsgBean;
-import com.videoaudiocall.library.R;
 import com.videoaudiocall.videocall.ReceiveVideoCallService;
 import com.videoaudiocall.videocall.VideoRequestActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -131,7 +126,8 @@ public class MyWsManager {
                                                     messageBody);
                             mContext.startService(intent);
                         } else {
-                            EventManager.getEventBus().post(new VideoActivityMsgBean(messageBody));
+                            Log.d(TAG, "MyWsManager-----onMessage---其他视频相关信息"+messageBody.getEvent());
+                            EventManager.getEventBus().post(new EventBusObject(EventBusObject.VIDEO_CALL,messageBody));
                         }
                         return;
                     }
