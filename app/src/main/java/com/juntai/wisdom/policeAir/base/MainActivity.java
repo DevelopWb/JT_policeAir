@@ -23,6 +23,7 @@ import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.Logger;
 import com.juntai.wisdom.basecomponent.utils.SPTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.bdmap.service.LocateAndUpload;
 import com.juntai.wisdom.policeAir.R;
 import com.juntai.wisdom.policeAir.MyApp;
@@ -37,6 +38,8 @@ import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.PermissionUtil;
 import com.mob.MobSDK;
+import com.videoaudiocall.net.AppHttpPathSocket;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -89,6 +92,16 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         intentFilter.addAction(ActionConfig.BROAD_LOGIN);
         intentFilter.addAction(ActionConfig.BROAD_CASE_DETAILS);
         registerReceiver(broadcastReceiver, intentFilter);
+
+        if (UserInfoManager.isLogin()) {
+            MyWsManager.getInstance()
+                    .init(getApplicationContext())
+                    .setWsUrl(AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId())
+                    .startConnect();
+        } else {
+            MyWsManager.getInstance()
+                    .init(getApplicationContext());
+        }
     }
 
     @Override

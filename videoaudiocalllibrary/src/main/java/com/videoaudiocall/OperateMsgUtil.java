@@ -1,19 +1,12 @@
 package com.videoaudiocall;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.juntai.wisdom.basecomponent.base.BaseActivity;
-import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.videoaudiocall.bean.MessageBodyBean;
-import com.videoaudiocall.videocall.VideoRequestActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -58,8 +51,46 @@ public class OperateMsgUtil {
         messageBody.setMsgType(msgType);
         return messageBody;
     }
-    public static RequestBody getMsgBuilder(MessageBodyBean messageBodyBean) {
-        return  getJsonRequestBody(GsonTools.createGsonString(messageBodyBean));
+
+    /**
+     * todo 不能用json传  因为sdp很大
+     * @param messageBodyBean
+     * @return
+     */
+    public static MultipartBody.Builder getMsgBuilder(MessageBodyBean messageBodyBean) {
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("token", UserInfoManager.getUserToken())
+                .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()))
+                .addFormDataPart("type", "1")
+                .addFormDataPart("fromAccount", messageBodyBean.getFromAccount())
+                .addFormDataPart("fromNickname", messageBodyBean.getFromNickname())
+                .addFormDataPart("event", messageBodyBean.getEvent())
+                .addFormDataPart("fromHead", messageBodyBean.getFromHead())
+                .addFormDataPart("toAccount", TextUtils.isEmpty(messageBodyBean.getToAccount()) ? "0" : messageBodyBean.getToAccount())
+                .addFormDataPart("toNickname", messageBodyBean.getToNickname())
+                .addFormDataPart("rotation", messageBodyBean.getRotation())
+                .addFormDataPart("toHead", messageBodyBean.getToHead())
+                .addFormDataPart("otherUserId", String.valueOf(messageBodyBean.getOtherUserId()))
+                .addFormDataPart("otherAccount", messageBodyBean.getOtherAccount())
+                .addFormDataPart("otherNickname", messageBodyBean.getOtherNickname())
+                .addFormDataPart("otherHead", messageBodyBean.getOtherHead())
+                .addFormDataPart("content", messageBodyBean.getContent())
+                .addFormDataPart("sdp", messageBodyBean.getSdp())
+                .addFormDataPart("sdpMid", messageBodyBean.getSdpMid())
+                .addFormDataPart("sdpMLineIndex", String.valueOf(messageBodyBean.getSdpMLineIndex()))
+                .addFormDataPart("duration", messageBodyBean.getDuration())
+                .addFormDataPart("videoCover", messageBodyBean.getVideoCover())
+                .addFormDataPart("fileSize", messageBodyBean.getFileSize())
+                .addFormDataPart("fileName", messageBodyBean.getFileName())
+                .addFormDataPart("faceTimeType", String.valueOf(messageBodyBean.getFaceTimeType()))
+                .addFormDataPart("readBurn", String.valueOf(messageBodyBean.getReadBurn()))
+                .addFormDataPart("msgType", String.valueOf(messageBodyBean.getMsgType()))
+                .addFormDataPart("groupNickname", messageBodyBean.getGroupUserNickname())
+                .addFormDataPart("groupName", messageBodyBean.getGroupName())
+                .addFormDataPart("quoteMsg", messageBodyBean.getQuoteMsg())
+                .addFormDataPart("chatType", String.valueOf(messageBodyBean.getChatType()));
+        return builder;
 
     }
 

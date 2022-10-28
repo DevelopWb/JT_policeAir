@@ -56,15 +56,7 @@ public class MyApp extends BaseApplication {
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath(true));
         ObjectBox.init(this);
-        if (UserInfoManager.isLogin()) {
-            MyWsManager.getInstance()
-                    .init(getApplicationContext())
-                    .setWsUrl(AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId())
-                    .startConnect();
-        } else {
-            MyWsManager.getInstance()
-                    .init(getApplicationContext());
-        }
+
 
     }
 

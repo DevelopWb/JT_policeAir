@@ -105,7 +105,7 @@ public class ReceiveVideoCallService extends Service {
         mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
         mMessageBodyBean.setFaceTimeType(1);
         mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
-        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.ACCESS_VIDEO_CALL);
+        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
         if (mPeerConnection == null) {
             mPeerConnection = createPeerConnection();
         }
@@ -225,7 +225,7 @@ public class ReceiveVideoCallService extends Service {
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
-            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
+            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
 //            pause();
         }
 
@@ -410,7 +410,7 @@ public class ReceiveVideoCallService extends Service {
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean), AppHttpPathSocket.SEND_MSG);
+                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
             }
 
             @Override
