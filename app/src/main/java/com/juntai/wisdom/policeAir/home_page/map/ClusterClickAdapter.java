@@ -30,19 +30,6 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
         ImageView imageView = helper.getView(R.id.item_image);
         switch (item.getType()) {
             case MapClusterItem.STREAM_CAMERA:
-                //标识 区分硬盘录像机和独立摄像头
-//                helper.setGone(R.id.item_tag_tv,true);
-//                if (0==item.streamCamera.getFlag()) {
-//                    //网络视频录像机
-//                    helper.setText(R.id.item_tag_tv,"NVR");
-//                    helper.setBackgroundColor(R.id.item_tag_tv,
-//                            ContextCompat.getColor(mContext.getApplicationContext(),R.color.blue));
-//                }else{
-//                    //网络摄像机IP
-//                    helper.setText(R.id.item_tag_tv,"IPC");
-//                    helper.setBackgroundColor(R.id.item_tag_tv,
-//                            ContextCompat.getColor(mContext.getApplicationContext(),R.color.colorGreen));
-//                }
 
                 ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), item.streamCamera.getEzOpen(),imageView);
                 helper.setText(R.id.item_title, item.streamCamera.getName())
@@ -76,6 +63,13 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
                         .setText(R.id.item_content, "职务:" + item.people.getPostName())
 //                        .setText(R.id.item_case_content, "状态:" + "离线")
                         .setText(R.id.item_time, "所属单位:" + item.people.getDepartmentName());
+                break;
+            case MapClusterItem.FLY_OPERAOTR:
+                helper.addOnClickListener(R.id.video_call_tv);
+                ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), item.flyOperator.getImg(),imageView);
+                helper.setText(R.id.item_title, "" + item.flyOperator.getName());
+                helper.setText(R.id.item_content, item.flyOperator.getAccount());
+                helper.getView(R.id.item_time).setVisibility(View.GONE);
                 break;
             case MapClusterItem.SITE:
                 ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), item.site.getLogoUrl(),imageView);

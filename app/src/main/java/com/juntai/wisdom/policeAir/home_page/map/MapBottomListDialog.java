@@ -1,6 +1,7 @@
 package com.juntai.wisdom.policeAir.home_page.map;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +15,14 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.bdmap.act.NavigationDialog;
 import com.juntai.wisdom.policeAir.R;
+import com.juntai.wisdom.policeAir.bean.FlyOperatorsBean;
 import com.juntai.wisdom.policeAir.bean.map.MapClusterItem;
+import com.videoaudiocall.OperateMsgUtil;
+import com.videoaudiocall.bean.MessageBodyBean;
+import com.videoaudiocall.videocall.VideoRequestActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,24 +70,31 @@ public class MapBottomListDialog extends DialogFragment implements BaseQuickAdap
         Bundle bundle = getArguments();
         if (bundle != null) {
             list = (List<MapClusterItem>) bundle.getSerializable("data");
-            if(list.size()>0 && MapClusterItem.NEWS.equals(list.get(0).getType())){
+            if (list.size() > 0 && MapClusterItem.NEWS.equals(list.get(0).getType())) {
                 Collections.sort(list);
             }
-            ClusterClickAdapter clusterClickAdapter = new ClusterClickAdapter(R.layout.item_case,list);
+            ClusterClickAdapter clusterClickAdapter = new ClusterClickAdapter(R.layout.item_case, list);
             bottomListRv.setAdapter(clusterClickAdapter);
             clusterClickAdapter.setOnItemClickListener(this::onItemClick);
             type = list.get(0).getType();
-            if(MapClusterItem.CASE.equals(list.get(0).getType())){
-                clusterClickAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-                    if (view.getId() == R.id.item_right) {//导航
-                        navigationDialog.showMenu(
-                                getFragmentManager(),
-                                ((MapClusterItem) adapter.getData().get(position)).mcase.getLatitude(),
-                                ((MapClusterItem) adapter.getData().get(position)).mcase.getLongitude(),
-                                ((MapClusterItem) adapter.getData().get(position)).mcase.getAddress());
-                    }
-                });
-            }
+            clusterClickAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                if (view.getId() == R.id.video_call_tv) {//
+                    MapClusterItem mapClusterItem = list.get(position);
+                    FlyOperatorsBean.DataBean flyOperator = mapClusterItem.flyOperator;
+                    //音频通话
+                    // : 2021-11-23 视频通话
+                    MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg(), "");
+                    //跳转到等待接听界面
+                    Intent intent =
+                            new Intent(getContext(), VideoRequestActivity.class)
+                                    .putExtra(VideoRequestActivity.IS_SENDER, true)
+                                    .putExtra(BaseActivity.BASE_PARCELABLE,
+                                            videoMsg);
+
+                    startActivity(intent);
+
+                }
+            });
         }
         return dialog;
     }
@@ -89,7 +102,7 @@ public class MapBottomListDialog extends DialogFragment implements BaseQuickAdap
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         MapClusterItem mapClusterItem;
-        mapClusterItem = (MapClusterItem)adapter.getData().get(position);
+        mapClusterItem = (MapClusterItem) adapter.getData().get(position);
         this.selectedItem = mapClusterItem;
         dismiss();
     }
