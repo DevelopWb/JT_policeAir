@@ -700,4 +700,64 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
             return new MessageBodyBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "MessageBodyBean{" +
+                "id=" + id +
+                ", offMsgId=" + offMsgId +
+                ", fromAccount='" + fromAccount + '\'' +
+                ", atUserId='" + atUserId + '\'' +
+                ", owner='" + owner + '\'' +
+                ", fromNickname='" + fromNickname + '\'' +
+                ", hwPushIntentUrl='" + hwPushIntentUrl + '\'' +
+                ", fromHead='" + fromHead + '\'' +
+                ", adapterPosition=" + adapterPosition +
+                ", toAccount='" + toAccount + '\'' +
+                ", toNickname='" + toNickname + '\'' +
+                ", toHead='" + toHead + '\'' +
+                ", content='" + content + '\'' +
+                ", canDelete=" + canDelete +
+                ", isDraft=" + isDraft +
+                ", otherUserId=" + otherUserId +
+                ", unreadCount=" + unreadCount +
+                ", otherAccount='" + otherAccount + '\'' +
+                ", otherNickname='" + otherNickname + '\'' +
+                ", collectionCreateTime='" + collectionCreateTime + '\'' +
+                ", otherHead='" + otherHead + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", faceTimeType=" + faceTimeType +
+                ", msgType=" + msgType +
+                ", chatType=" + chatType +
+                ", groupId=" + groupId +
+                ", groupUserNickname='" + groupUserNickname + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", isGroupCreater=" + isGroupCreater +
+                ", readBurn=" + readBurn +
+                ", isRead=" + isRead +
+                ", isCollected=" + isCollected +
+                ", isSelected=" + isSelected +
+                ", duration='" + duration + '\'' +
+                ", fileSize='" + fileSize + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", localCatchPath='" + localCatchPath + '\'' +
+                ", uploadProgress=" + uploadProgress +
+                ", event='" + event + '\'' +
+                ", sdp='" + sdp + '\'' +
+                ", sdpMLineIndex=" + sdpMLineIndex +
+                ", sdpMid='" + sdpMid + '\'' +
+                ", rotation='" + rotation + '\'' +
+                ", videoCover='" + videoCover + '\'' +
+                ", shareTitle='" + shareTitle + '\'' +
+                ", shareContent='" + shareContent + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", sharePic='" + sharePic + '\'' +
+                ", shareAppName='" + shareAppName + '\'' +
+                ", quoteMsg='" + quoteMsg + '\'' +
+                ", addrName='" + addrName + '\'' +
+                ", addrDes='" + addrDes + '\'' +
+                ", lat='" + lat + '\'' +
+                ", lng='" + lng + '\'' +
+                '}';
+    }
 }

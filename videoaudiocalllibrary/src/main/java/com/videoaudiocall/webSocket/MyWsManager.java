@@ -24,6 +24,7 @@ import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.videocall.ReceiveVideoCallService;
 import com.videoaudiocall.videocall.VideoRequestActivity;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -89,7 +90,7 @@ public class MyWsManager {
             Log.e("onOpen", "开始链接服务器");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "startConnect 服务器连接异常"+e);
+            Log.d(TAG, "startConnect 服务器连接异常" + e);
         }
     }
 
@@ -103,7 +104,7 @@ public class MyWsManager {
 
         @Override
         public void onMessage(String text) {
-            Log.e("onMessage", text + "\n\n");
+            Log.d(TAG, "MyWsManager-----text-" + text);
             //在这里接收和处理收到的ws数据吧
             if (!TextUtils.isEmpty(text)) {
                 BaseWsMessageBean baseWsMessageBean = GsonTools.changeGsonToBean(text, BaseWsMessageBean.class);
@@ -118,16 +119,17 @@ public class MyWsManager {
                     //视频通话相关
                     if (!TextUtils.isEmpty(messageBody.getEvent())) {
                         if (VideoRequestActivity.EVENT_CAMERA_REQUEST.equals(messageBody.getEvent())) {
-                            Log.d(TAG, "MyWsManager-----onMessage---视频通话消息");
-                            Intent intent =
-                                    new Intent(mContext, ReceiveVideoCallService.class)
-                                            .putExtra(VideoRequestActivity.IS_SENDER, false)
-                                            .putExtra(BaseActivity.BASE_PARCELABLE,
-                                                    messageBody);
+                            Log.d(TAG, "MyWsManager-----onMessage---视频通话消息" + messageBody.toString());
+
+                            Intent intent = new Intent(mContext, ReceiveVideoCallService.class)
+                                    .putExtra(VideoRequestActivity.IS_SENDER, false)
+                                    .addFlags(new Random().nextInt(10086))
+                                    .putExtra(BaseActivity.BASE_PARCELABLE,
+                                            messageBody);
                             mContext.startService(intent);
                         } else {
-                            Log.d(TAG, "MyWsManager-----onMessage---其他视频相关信息"+messageBody.getEvent());
-                            EventManager.getEventBus().post(new EventBusObject(EventBusObject.VIDEO_CALL,messageBody));
+                            Log.d(TAG, "MyWsManager-----onMessage---其他视频相关信息" + messageBody.getEvent());
+                            EventManager.getEventBus().post(new EventBusObject(EventBusObject.VIDEO_CALL, messageBody));
                         }
                         return;
                     }

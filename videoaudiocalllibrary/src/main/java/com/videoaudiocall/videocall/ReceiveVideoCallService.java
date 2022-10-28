@@ -4,15 +4,19 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
+import com.videoaudiocall.library.R;
 import com.videoaudiocall.net.AppHttpPathSocket;
 import com.videoaudiocall.net.AppNetModuleSocket;
 import com.videoaudiocall.OperateMsgUtil;
@@ -70,6 +74,7 @@ public class ReceiveVideoCallService extends Service {
 
     private AudioTrack mAudioTrack;
     private MessageBodyBean mMessageBodyBean;
+    private String senderName = "";
     /**
      * 音频通话
      */
@@ -79,6 +84,10 @@ public class ReceiveVideoCallService extends Service {
     public final static String EVENT_CAMERA_ACCESS = "access";
     private PeerConnection mPeerConnection;
     private AudioManager audioManager;
+    // 主线程
+    Handler handler = new Handler();
+
+    private MediaPlayer mediaPlayer;
 
 
     public ReceiveVideoCallService() {
@@ -96,23 +105,70 @@ public class ReceiveVideoCallService extends Service {
             EventManager.getEventBus().register(this);//注册
         }
         initTrack();
-// TODO: 2022/10/21 响铃三声之后 自动接听
-        mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
-//        isCallOn = true;
-        /**
-         * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
-         */
-        mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
-        mMessageBodyBean.setFaceTimeType(1);
-        mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
-        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
-        if (mPeerConnection == null) {
-            mPeerConnection = createPeerConnection();
-        }
-
+        initMedia(intent);
         return super.onStartCommand(intent, flags, startId);
 
 
+    }
+
+    private void initMedia(Intent intent) {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.shake);
+            if (mediaPlayer != null) {
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        // : 2022/10/21 响铃三声之后 自动接听
+                        mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
+                        if (mMessageBodyBean != null) {
+                            senderName = mMessageBodyBean.getFromNickname();
+                        }
+                        Log.d("MyWsManager", "MyWsManager-----接收到的messagebody" + mMessageBodyBean.toString());
+//        isCallOn = true;
+                        /**
+                         * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
+                         */
+                        mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
+                        mMessageBodyBean.setFaceTimeType(1);
+                        mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
+                        Log.d("MyWsManager", "MyWsManager-----onMessage---被叫接听");
+                        accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
+                        if (mPeerConnection == null) {
+                            mPeerConnection = createPeerConnection();
+                        }
+                    }
+                });
+                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        return false;
+                    }
+                });
+            }
+        }
+        play();
+    }
+
+    /**
+     * 开始播放无声音乐
+     */
+    public void play() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    /**
+     * 暂停无声音乐
+     */
+    private void release() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     /**
@@ -200,6 +256,20 @@ public class ReceiveVideoCallService extends Service {
 
         @Override
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
+            if (PeerConnection.IceConnectionState.CLOSED == iceConnectionState
+                    || PeerConnection.IceConnectionState.COMPLETED == iceConnectionState
+                    || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
+                    || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
+                stopSelf();
+            } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.toast(ReceiveVideoCallService.this, String.format("接收到%s的来电", senderName));
+                    }
+                });
+
+            }
             Log.i(TAG, "onIceConnectionChange: " + iceConnectionState);
         }
 
@@ -272,7 +342,7 @@ public class ReceiveVideoCallService extends Service {
 
 
 
-        /*====================================================    event   ==============================================================*/
+    /*====================================================    event   ==============================================================*/
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onEvent(EventBusObject eventBusObject) {
@@ -328,6 +398,7 @@ public class ReceiveVideoCallService extends Service {
 //                                finishActivity(mSenderMessageBodyBean);
 //                                break;
                                     case EVENT_CAMERA_OFFER:
+
                                         /**
                                          * 接收端逻辑
                                          * 第六步 被叫  收到offer
@@ -426,6 +497,7 @@ public class ReceiveVideoCallService extends Service {
 //        updateCallState(false);
         initAudioConfig();
     }
+
     public static class SimpleSdpObserver implements SdpObserver {
         @Override
         public void onCreateSuccess(SessionDescription sessionDescription) {
@@ -456,12 +528,13 @@ public class ReceiveVideoCallService extends Service {
 
 
     /*====================================================    网络部分   ==============================================================*/
+
     /**
      * @param body
      * @param tag
      */
     public void accessVideoCall(RequestBody body, String tag) {
-        sendPrivateMessage(body,tag);
+        sendPrivateMessage(body, tag);
     }
 
 
@@ -521,10 +594,12 @@ public class ReceiveVideoCallService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "服务关闭:err ");
         EventManager.getEventBus().unregister(this);//注册
         if (audioManager != null) {
             audioManager.setMode(AudioManager.MODE_NORMAL);
         }
+        release();
         mRootEglBase.releaseSurface();
         mRootEglBase.release();
         if (mPeerConnection != null) {
