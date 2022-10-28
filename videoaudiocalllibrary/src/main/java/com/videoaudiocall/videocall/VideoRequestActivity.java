@@ -781,6 +781,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         super.onError(tag, o);
         switch (tag) {
             case EVENT_CAMERA_FINISH_SENDER:
+//            case AppHttpPathSocket.REQUEST_VIDEO_CALL:
                 // : 2021-12-01 主动挂断 生成发起者的历史记录
                 finishActivity(mSenderMessageBodyBean);
 

@@ -52,13 +52,13 @@ public class PubUtil {
     }
     /**
      * 验证密码 字母 数字 下划线 必须有两种
-     * \u4E00-\u9FA5A标识中文  \w是下划线 {5,21}代表最小6位 最大21位
+     * (?=.*?[a-zA-Z])表示 最少有一个字母  [a-zA-Z0-9~`@#%&_^$.*+?=!]这个表示取值范围 {6,21}代表最小6位 最大21位
      *
      * @param account
      * @return
      */
     public static boolean checkPwdMark(String account) {
-        String all =  "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{5,21}\\w$";
+        String all =  "^(?=.*?[a-zA-Z])(?=.*?[0-9])[a-zA-Z0-9~`@#%&_^$.*+?=!]{6,21}$";
         return Pattern.matches(all, account);
     }
     /**
