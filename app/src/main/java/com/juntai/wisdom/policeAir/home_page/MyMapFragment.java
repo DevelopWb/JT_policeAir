@@ -53,6 +53,7 @@ import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.SPTools;
 import com.juntai.wisdom.basecomponent.utils.SnackbarUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.widght.ProgressDialog;
 import com.juntai.wisdom.bdmap.act.NavigationDialog;
 import com.juntai.wisdom.bdmap.service.LocateAndUpload;
@@ -790,6 +791,9 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         TextView contentTv = infowindowPeople.findViewById(R.id.item_content);
         titleTv.setText(flyOperator.getName());
         contentTv.setText(flyOperator.getAccount());
+        if (flyOperator.getId()== UserInfoManager.getUserId()) {
+            infowindowPeople.findViewById(R.id.audio_call_bt).setVisibility(View.GONE);
+        }
         ImageLoadUtil.loadImageCache(getContext(), flyOperator.getImg(),
                 (ImageView) infowindowPeople.findViewById(R.id.fly_operator_iv));
         infowindowPeople.findViewById(R.id.audio_call_bt).setOnClickListener(v -> {
