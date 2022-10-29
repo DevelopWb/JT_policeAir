@@ -27,7 +27,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.HeatMap;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
@@ -37,14 +36,9 @@ import com.baidu.mapapi.map.MapViewLayoutParams;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.Overlay;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.PolylineOptions;
-import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.ActionConfig;
@@ -97,18 +91,17 @@ import com.sunfusheng.marqueeview.MarqueeView;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.videocall.VideoRequestActivity;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.DoubleToIntFunction;
 
 /**
  * 地图相关
@@ -797,16 +790,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         ImageLoadUtil.loadImageCache(getContext(), flyOperator.getImg(),
                 (ImageView) infowindowPeople.findViewById(R.id.fly_operator_iv));
         infowindowPeople.findViewById(R.id.audio_call_bt).setOnClickListener(v -> {
-            // : 2021-11-23 视频通话
-            MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg(), "");
-            //跳转到等待接听界面
-            Intent intent =
-                    new Intent(mContext, VideoRequestActivity.class)
-                            .putExtra(VideoRequestActivity.IS_SENDER, true)
-                            .putExtra(BaseActivity.BASE_PARCELABLE,
-                                    videoMsg);
-
-            startActivity(intent);
+            MyWsManager.getInstance().init(mContext).startAudioCall(String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg());
 
         });
         MapViewLayoutParams params2 = new MapViewLayoutParams.Builder()
@@ -1219,6 +1203,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                     }
                     clusterManager.addItems(clusterItemList);
                     clusterManager.cluster();
+                    zoomToSpan(clusterItemList);
                 }
                 break;
 //                OpenLiveBean openLiveBean = (OpenLiveBean) o;

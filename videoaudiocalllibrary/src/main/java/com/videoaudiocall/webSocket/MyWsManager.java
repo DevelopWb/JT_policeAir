@@ -14,11 +14,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
 import com.rabtman.wsmanager.WsManager;
 import com.rabtman.wsmanager.listener.WsStatusListener;
+import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.BaseWsMessageBean;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.videocall.ReceiveVideoCallService;
@@ -69,14 +71,16 @@ public class MyWsManager {
 
     public MyWsManager init(Context context) {
         this.mContext = context;
-        builder = new WsManager.Builder(context)
-                .client(new OkHttpClient().newBuilder()
-                        .pingInterval(10, TimeUnit.SECONDS)
-                        .retryOnConnectionFailure(false).build())
-                //.needReconnect(true)                  //是否需要重连
-                //.setHeaders(null)                     //设置请求头
-                //.setReconnnectIMaxTime(30*1000)       //设置重连最大时长
-                .needReconnect(false);
+        if (builder == null) {
+            builder = new WsManager.Builder(context)
+                    .client(new OkHttpClient().newBuilder()
+                            .pingInterval(10, TimeUnit.SECONDS)
+                            .retryOnConnectionFailure(false).build())
+                    //.needReconnect(true)                  //是否需要重连
+                    //.setHeaders(null)                     //设置请求头
+                    //.setReconnnectIMaxTime(30*1000)       //设置重连最大时长
+                    .needReconnect(false);
+        }
         return this;
     }
 
@@ -346,5 +350,27 @@ public class MyWsManager {
 //
 //        void onMessage(UnReadMsgsBean unReadMsgsBean);
 //    }
+
+    /**
+     * 开始语音通话
+     */
+    public void startAudioCall(String toUserAccout, String toNickName, String toHead) {
+        if (myWsManager!=null&&myWsManager.isWsConnected()) {
+            // : 2021-11-23 视频通话
+            MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, toUserAccout, toNickName, toHead, "");
+            //跳转到等待接听界面
+            Intent intent =
+                    new Intent(mContext, VideoRequestActivity.class)
+                            .putExtra(VideoRequestActivity.IS_SENDER, true)
+                            .putExtra(BaseActivity.BASE_PARCELABLE,
+                                    videoMsg);
+
+            mContext.startActivity(intent);
+        } else {
+            ToastUtils.toast(mContext, "当前链路已断开,重连中,稍后重试");
+            startConnect();
+        }
+
+    }
 
 }
