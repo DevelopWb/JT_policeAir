@@ -23,6 +23,7 @@ import com.juntai.wisdom.policeAir.bean.map.MapClusterItem;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.MessageBodyBean;
 import com.videoaudiocall.videocall.VideoRequestActivity;
+import com.videoaudiocall.webSocket.MyWsManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,17 +82,8 @@ public class MapBottomListDialog extends DialogFragment implements BaseQuickAdap
                 if (view.getId() == R.id.video_call_tv) {//
                     MapClusterItem mapClusterItem = list.get(position);
                     FlyOperatorsBean.DataBean flyOperator = mapClusterItem.flyOperator;
-                    //音频通话
-                    // : 2021-11-23 视频通话
-                    MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg(), "");
-                    //跳转到等待接听界面
-                    Intent intent =
-                            new Intent(getContext(), VideoRequestActivity.class)
-                                    .putExtra(VideoRequestActivity.IS_SENDER, true)
-                                    .putExtra(BaseActivity.BASE_PARCELABLE,
-                                            videoMsg);
+                    MyWsManager.getInstance().init(getContext()).startAudioCall(String.valueOf(flyOperator.getId()), flyOperator.getName(), flyOperator.getImg());
 
-                    startActivity(intent);
 
                 }
             });
