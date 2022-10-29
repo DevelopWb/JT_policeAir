@@ -3,6 +3,7 @@ package com.videoaudiocall.videocall;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juntai.wisdom.basecomponent.mvp.IView;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
@@ -57,7 +59,7 @@ import java.util.List;
  * @date 2020/12/3 15:11
  */
 public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> implements View.OnClickListener, IView {
-
+    protected final String TAG = "MyWsManager";
     private ImageView mHandDownIv;
     /**
      * 挂断
@@ -312,7 +314,21 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
         @Override
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
+            if (PeerConnection.IceConnectionState.CLOSED == iceConnectionState
+                    || PeerConnection.IceConnectionState.COMPLETED == iceConnectionState
+                    || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
+                    || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
+                finishActivity(null);
+            } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateCallState(false);
+                    }
+                });
+            }
             Log.i(TAG, "onIceConnectionChange: " + iceConnectionState);
+
         }
 
         @Override
@@ -484,12 +500,12 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                                         break;
                                     case EVENT_CAMERA_FINISH_SENDER:
                                         //主动挂断  接收端的逻辑
-                                        if (isCallOn) {
-                                            //已经接通了 这时候挂断
-                                            messageBody.setDuration(getTextViewValue(mDurationTv));
-                                        } else {
-                                            messageBody.setDuration(null);
-                                        }
+//                                        if (isCallOn) {
+//                                            //已经接通了 这时候挂断
+//                                            messageBody.setDuration(getTextViewValue(mDurationTv));
+//                                        } else {
+//                                            messageBody.setDuration(null);
+//                                        }
                                         messageBody.setFaceTimeType(4);
                                         finishActivity(messageBody);
                                         break;
@@ -497,13 +513,13 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                                         //结束
                                         //对方不同意接听  发送端的逻辑
                                         //已经接通了 这时候挂断
-                                        if (isCallOn) {
-                                            //已经接通了 这时候挂断
-                                            mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
-                                        } else {
-                                            mSenderMessageBodyBean.setDuration(null);
-
-                                        }
+//                                        if (isCallOn) {
+//                                            //已经接通了 这时候挂断
+//                                            mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
+//                                        } else {
+//                                            mSenderMessageBodyBean.setDuration(null);
+//
+//                                        }
                                         mSenderMessageBodyBean.setFaceTimeType(4);
                                         finishActivity(mSenderMessageBodyBean);
                                         break;
@@ -535,9 +551,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                                                 new SessionDescription(
                                                         SessionDescription.Type.ANSWER,
                                                         messageBody.getSdp()));
-                                        updateCallState(false);
-
-
                                         break;
                                     case EVENT_CAMERA_CANDIDATE:
                                         /**
@@ -590,7 +603,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
      * 关闭当前activity
      */
     private void finishActivity(MessageBodyBean messageBody) {
-        EventManager.getEventBus().post(new EventBusObject(EventBusObject.FINISH_ACTIVITY,messageBody));
+        EventManager.getEventBus().post(new EventBusObject(EventBusObject.FINISH_ACTIVITY, ""));
     }
 
     @Override
@@ -685,10 +698,10 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 if (isCallOn) {
                     //已经接通了 这时候挂断
                     mSenderMessageBodyBean.setFaceTimeType(4);
-                    mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
+//                    mSenderMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
                 } else {
                     mSenderMessageBodyBean.setFaceTimeType(2);
-                    mSenderMessageBodyBean.setDuration(null);
+//                    mSenderMessageBodyBean.setDuration(null);
                 }
                 mSenderMessageBodyBean.setEvent(EVENT_CAMERA_FINISH_SENDER);
                 mPresenter.rejectVideoCall(OperateMsgUtil.getMsgBuilder(mSenderMessageBodyBean).build(), EVENT_CAMERA_FINISH_SENDER);
@@ -701,10 +714,10 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 if (isCallOn) {
                     //已经接通了 这时候挂断
                     mReceiverMessageBodyBean.setFaceTimeType(4);
-                    mReceiverMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
+//                    mReceiverMessageBodyBean.setDuration(getTextViewValue(mDurationTv));
                 } else {
                     mReceiverMessageBodyBean.setFaceTimeType(2);
-                    mReceiverMessageBodyBean.setDuration(null);
+//                    mReceiverMessageBodyBean.setDuration(null);
 
                 }
                 MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, mReceiverMessageBodyBean.getFromAccount(), mReceiverMessageBodyBean.getFromNickname(), mReceiverMessageBodyBean.getFromHead(), "");
@@ -724,7 +737,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             /**
              * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
              */
-            mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType,mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
+            mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
             mMessageBodyBean.setFaceTimeType(1);
             mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
             callOnSuccess();
@@ -883,6 +896,5 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 super.onSetFailure(msg);
             }
         }, sdpMediaConstraints);
-        updateCallState(false);
     }
 }

@@ -58,7 +58,7 @@ import okhttp3.RequestBody;
  */
 
 public class ReceiveVideoCallService extends Service {
-    protected final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = "MyWsManager";
     private PeerConnectionFactory mPeerConnectionFactory;
     //OpenGL ES
     private EglBase mRootEglBase;
@@ -84,8 +84,6 @@ public class ReceiveVideoCallService extends Service {
     public final static String EVENT_CAMERA_ACCESS = "access";
     private PeerConnection mPeerConnection;
     private AudioManager audioManager;
-    // 主线程
-    Handler handler = new Handler();
 
     private MediaPlayer mediaPlayer;
 
@@ -112,6 +110,14 @@ public class ReceiveVideoCallService extends Service {
     }
 
     private void initMedia(Intent intent) {
+        mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
+        if (mMessageBodyBean != null) {
+            senderName = mMessageBodyBean.getFromNickname();
+        }
+        ToastUtils.toast(ReceiveVideoCallService.this, String.format("接收到%s的来电", senderName));
+        Log.d("MyWsManager", "MyWsManager-----接收到的messagebody" + mMessageBodyBean.toString());
+
+
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(this, R.raw.shake);
             if (mediaPlayer != null) {
@@ -119,19 +125,13 @@ public class ReceiveVideoCallService extends Service {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         // : 2022/10/21 响铃三声之后 自动接听
-                        mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
-                        if (mMessageBodyBean != null) {
-                            senderName = mMessageBodyBean.getFromNickname();
-                        }
-                        Log.d("MyWsManager", "MyWsManager-----接收到的messagebody" + mMessageBodyBean.toString());
-//        isCallOn = true;
                         /**
                          * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
                          */
                         mMessageBodyBean = OperateMsgUtil.getPrivateMsg(callType, mMessageBodyBean.getFromAccount(), mMessageBodyBean.getFromNickname(), mMessageBodyBean.getFromHead(), "");
                         mMessageBodyBean.setFaceTimeType(1);
                         mMessageBodyBean.setEvent(EVENT_CAMERA_ACCESS);
-                        Log.d("MyWsManager", "MyWsManager-----onMessage---被叫接听");
+                        Log.d("MyWsManager", "MyWsManager-----onMessage---被叫接听--发送access");
                         accessVideoCall(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.ACCESS_VIDEO_CALL);
                         if (mPeerConnection == null) {
                             mPeerConnection = createPeerConnection();
@@ -262,12 +262,6 @@ public class ReceiveVideoCallService extends Service {
                     || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
                 stopSelf();
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ToastUtils.toast(ReceiveVideoCallService.this, String.format("接收到%s的来电", senderName));
-                    }
-                });
 
             }
             Log.i(TAG, "onIceConnectionChange: " + iceConnectionState);
@@ -285,7 +279,6 @@ public class ReceiveVideoCallService extends Service {
 
         @Override
         public void onIceCandidate(IceCandidate iceCandidate) {
-            Log.i(TAG, "onIceCandidate: " + iceCandidate);
             /**
              * 当两边通了之后  主叫和被叫都会触发这个回调
              */
@@ -295,6 +288,9 @@ public class ReceiveVideoCallService extends Service {
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
+            Log.i(TAG, "onIceCandidate: " + iceCandidate + "----");
+            Log.i(TAG, "onIceCandidate:----mMessageBodyBean " + mMessageBodyBean.toString());
+
             sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
 //            pause();
         }
@@ -414,6 +410,9 @@ public class ReceiveVideoCallService extends Service {
                                         /**
                                          * 第七步 被叫  接听call
                                          */
+
+                                        Log.d("MyWsManager", "MyWsManager-----对方收到access,发送offer---接受到offer");
+
                                         doAnswerCall();
                                         break;
 //                            case EVENT_CAMERA_ANSWER:
@@ -439,6 +438,8 @@ public class ReceiveVideoCallService extends Service {
                                                         messageBody.getSdpMLineIndex(),
                                                         messageBody.getSdp());
                                         mPeerConnection.addIceCandidate(remoteIceCandidate);
+                                        Log.d("MyWsManager", "MyWsManager---被叫已发送answer--主叫开始发送candidate 被叫收到了");
+
                                         break;
                                     default:
                                         break;
@@ -481,6 +482,8 @@ public class ReceiveVideoCallService extends Service {
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
+                Log.d("MyWsManager", "MyWsManager-----接受到offer--发送answer");
+
                 sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
             }
 

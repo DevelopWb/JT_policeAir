@@ -41,9 +41,6 @@ public class OperateMsgUtil {
         messageBody.setFromAccount(String.valueOf(UserInfoManager.getUserId()));
         messageBody.setFromNickname(UserInfoManager.getUserNickName());
         messageBody.setFromHead(UserInfoManager.getHeadPic());
-        messageBody.setRead(true);
-        // TODO: 2021-11-19 阅后即焚  先默认1 否
-        messageBody.setReadBurn(1);
         messageBody.setToAccount(toUserAccout);
         messageBody.setToNickname(toNickName);
         messageBody.setToHead(toHead);
@@ -69,26 +66,13 @@ public class OperateMsgUtil {
                 .addFormDataPart("fromHead", messageBodyBean.getFromHead())
                 .addFormDataPart("toAccount", TextUtils.isEmpty(messageBodyBean.getToAccount()) ? "0" : messageBodyBean.getToAccount())
                 .addFormDataPart("toNickname", messageBodyBean.getToNickname())
-                .addFormDataPart("rotation", messageBodyBean.getRotation())
                 .addFormDataPart("toHead", messageBodyBean.getToHead())
-                .addFormDataPart("otherUserId", String.valueOf(messageBodyBean.getOtherUserId()))
-                .addFormDataPart("otherAccount", messageBodyBean.getOtherAccount())
-                .addFormDataPart("otherNickname", messageBodyBean.getOtherNickname())
-                .addFormDataPart("otherHead", messageBodyBean.getOtherHead())
                 .addFormDataPart("content", messageBodyBean.getContent())
                 .addFormDataPart("sdp", messageBodyBean.getSdp())
                 .addFormDataPart("sdpMid", messageBodyBean.getSdpMid())
                 .addFormDataPart("sdpMLineIndex", String.valueOf(messageBodyBean.getSdpMLineIndex()))
-                .addFormDataPart("duration", messageBodyBean.getDuration())
-                .addFormDataPart("videoCover", messageBodyBean.getVideoCover())
-                .addFormDataPart("fileSize", messageBodyBean.getFileSize())
-                .addFormDataPart("fileName", messageBodyBean.getFileName())
                 .addFormDataPart("faceTimeType", String.valueOf(messageBodyBean.getFaceTimeType()))
-                .addFormDataPart("readBurn", String.valueOf(messageBodyBean.getReadBurn()))
                 .addFormDataPart("msgType", String.valueOf(messageBodyBean.getMsgType()))
-                .addFormDataPart("groupNickname", messageBodyBean.getGroupUserNickname())
-                .addFormDataPart("groupName", messageBodyBean.getGroupName())
-                .addFormDataPart("quoteMsg", messageBodyBean.getQuoteMsg())
                 .addFormDataPart("chatType", String.valueOf(messageBodyBean.getChatType()));
         return builder;
 
