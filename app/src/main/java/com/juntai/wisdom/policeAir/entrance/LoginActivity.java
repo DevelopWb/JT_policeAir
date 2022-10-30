@@ -150,8 +150,8 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements E
                         EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
                         //ws连接
                         MyWsManager.getInstance().setWsUrl(AppHttpPathSocket.BASE_SOCKET +  UserInfoManager.getUserId());
-
                         startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
                         LogUtil.d("token=" + MyApp.getUserToken());
                     } else if (loginBean.status == 1301) {
                         //未绑定 将第三方信息注册到平台

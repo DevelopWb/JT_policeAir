@@ -51,6 +51,7 @@ public class MessageBodyBean extends BaseWsMessageBean implements Parcelable {
 
     //视频通话相关
     private String event;//
+
     private String sdp;//
     private int sdpMLineIndex;//
     private String sdpMid;//

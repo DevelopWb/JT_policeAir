@@ -262,7 +262,7 @@ public class ReceiveVideoCallService extends Service {
                     || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
                 stopSelf();
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
-
+                initAudioConfig();
             }
             Log.i(TAG, "onIceConnectionChange: " + iceConnectionState);
         }
@@ -498,7 +498,7 @@ public class ReceiveVideoCallService extends Service {
             }
         }, sdpMediaConstraints);
 //        updateCallState(false);
-        initAudioConfig();
+
     }
 
     public static class SimpleSdpObserver implements SdpObserver {

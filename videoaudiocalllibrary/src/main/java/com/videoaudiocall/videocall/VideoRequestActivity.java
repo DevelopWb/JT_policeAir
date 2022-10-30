@@ -164,14 +164,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         mNameTv = (TextView) findViewById(R.id.name_tv);
         mCallOnGp.setVisibility(View.GONE);
         mRootEglBase = EglBase.create();
-        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        if (audioManager != null) {
-            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-                    AudioManager.FX_KEY_CLICK);
-            audioManager.setSpeakerphoneOn(true);
-        }
     }
 
     private void initSurfaceView() {
@@ -324,6 +316,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                     @Override
                     public void run() {
                         updateCallState(false);
+                        initAudioConfig();
                     }
                 });
             }
@@ -354,7 +347,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
             mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
-            pause();
+
         }
 
         @Override
@@ -365,9 +358,15 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mPeerConnection.removeIceCandidates(iceCandidates);
         }
 
+        /**
+         * onaddstream() ,表示相关的媒体流已经初始化成功（但是并没有建立连接），通常在这个时候显示对方视频窗口
+         * @param mediaStream
+         */
         @Override
         public void onAddStream(MediaStream mediaStream) {
             Log.i(TAG, "onAddStream: " + mediaStream.videoTracks.size());
+
+
         }
 
         @Override
@@ -627,7 +626,19 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         }
 
     }
-
+    /**
+     * 语音通话相关配置
+     */
+    private void initAudioConfig() {
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager != null) {
+            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                    AudioManager.FX_KEY_CLICK);
+            audioManager.setSpeakerphoneOn(true);
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -830,6 +841,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         if (idle) {
 //            mSmallSurfaceView.setVisibility(View.GONE);
         } else {
+            pause();
             mRecordingBegin = System.currentTimeMillis();
 //            mSmallSurfaceView.setVisibility(View.VISIBLE);
             mDurationTv.setVisibility(View.VISIBLE);

@@ -368,6 +368,7 @@ public class MyWsManager {
             mContext.startActivity(intent);
         } else {
             ToastUtils.toast(mContext, "当前链路已断开,重连中,稍后重试");
+            disconnect();
             startConnect();
         }
 

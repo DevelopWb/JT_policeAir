@@ -3,7 +3,10 @@
 
     <application android:networkSecurityConfig="@xml/network_security_config">
 
-        <activity android:name="com.videoaudiocall.videocall.VideoRequestActivity" />
+        <activity android:name="com.videoaudiocall.videocall.VideoRequestActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:exported="true"
+            />
 
         <service
             android:name="com.videoaudiocall.videocall.ReceiveVideoCallService"
