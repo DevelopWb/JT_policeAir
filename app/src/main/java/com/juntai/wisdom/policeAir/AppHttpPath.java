@@ -364,22 +364,6 @@ public class AppHttpPath {
     public static final String GET_INSPECTION_INFO_FOR_SACN = BASE + "/selectClientByQrCode.shtml";
 
 
-    /*====================================================    消息类型
-    ==============================================================*/
-
-    //消息对应类型（1：案件通知；2：巡检通知；3：实名认证通知；4：户籍业务通知；5：新任务通知, 6：任务审核, 7：互联网调解通知）
-    public static final int NOTICE_TYPE_CASE = 1;
-    public static final int NOTICE_TYPE_INSPECTION = 2;
-    public static final int NOTICE_TYPE_AUTH = 3;
-    public static final int NOTICE_TYPE_CENCUS = 4;
-    public static final int NOTICE_TYPE_TASK = 5;
-    public static final int NOTICE_TYPE_TASK_REPORT = 6;
-    public static final int NOTICE_TYPE_CONCILIATION = 7;
-
-
-
-    /*====================================================    业务办理
-    ==============================================================*/
     /**
      * 户籍业务列表
      */
