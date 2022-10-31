@@ -84,9 +84,11 @@ import com.juntai.wisdom.policeAir.home_page.map.SelectTime;
 import com.juntai.wisdom.policeAir.home_page.weather.WeatherActivity;
 import com.juntai.wisdom.basecomponent.utils.AppUtils;
 import com.juntai.wisdom.policeAir.utils.DateUtil;
+import com.juntai.wisdom.policeAir.utils.HawkProperty;
 import com.juntai.wisdom.policeAir.utils.ImageUtil;
 import com.juntai.wisdom.policeAir.utils.ObjectBox;
 import com.juntai.wisdom.policeAir.utils.StringTools;
+import com.orhanobut.hawk.Hawk;
 import com.sunfusheng.marqueeview.MarqueeView;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.MessageBodyBean;
@@ -166,6 +168,10 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
     private long currentTime;
     private List<BannerNewsBean.DataBean> noticeList;
     private boolean closeMarquee = false;//关闭轮播资讯
+    /**
+     * 指挥中心
+     */
+    private FlyOperatorsBean.DataBean  centerFb = null;
 
     //当前点击的marker
     Marker nowMarker;
@@ -784,7 +790,7 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
         TextView contentTv = infowindowPeople.findViewById(R.id.item_content);
         titleTv.setText(flyOperator.getName());
         contentTv.setText(flyOperator.getAccount());
-        if (flyOperator.getId()== UserInfoManager.getUserId()) {
+        if (flyOperator.getId() == UserInfoManager.getUserId()) {
             infowindowPeople.findViewById(R.id.audio_call_bt).setVisibility(View.GONE);
         }
         ImageLoadUtil.loadImageCache(getContext(), flyOperator.getImg(),
@@ -962,6 +968,16 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                 break;
             case R.id.distance_util_btn:
                 startActivity(new Intent(mContext, DistanceUtilActivity.class));
+                break;
+            case R.id.call_police_iv:
+                // 呼叫中心
+                FlyOperatorsBean.DataBean  centerFb = Hawk.get(HawkProperty.CENTER_OPERATOR);
+                if (centerFb == null) {
+                    ToastUtils.toast(mContext,"无法获取呼叫中心信息,请获取飞手列表之后重拾");
+                    return;
+                }
+                MyWsManager.getInstance().init(mContext).startAudioCall(String.valueOf(centerFb.getId()),centerFb.getName(),centerFb.getImg());
+
                 break;
             case R.id.delete_icon:
                 closeMarquee = true;
@@ -1199,6 +1215,11 @@ public class MyMapFragment extends BaseMvpFragment<MapPresenter> implements MapC
                         for (FlyOperatorsBean.DataBean dataBean : arrays) {
                             MapClusterItem mCItem = new MapClusterItem(dataBean);
                             clusterItemList.add(mCItem);
+                            if (25==dataBean.getId()) {
+                                //指挥中心
+                                centerFb = dataBean;
+                                Hawk.put(HawkProperty.CENTER_OPERATOR,centerFb);
+                            }
                         }
                     }
                     clusterManager.addItems(clusterItemList);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+<Wechat AppId="wxfa0af7477eb173a5" AppSecret="fd1fd3ff4469750b1ec9bc5337847e40" UserName="gh_afb25ac019c9" Path="pages/index/index.html?id=1" WithShareTicket="true" MiniprogramType="2" />
+<QQ AppId="1110400936" AppKey="IPdOZSdVqaeGbRpn" />
+<QZone AppId="1110400936" AppKey="IPdOZSdVqaeGbRpn" />
+<WechatMoments AppId="wxfa0af7477eb173a5" AppSecret="fd1fd3ff4469750b1ec9bc5337847e40" />
+<WechatFavorite AppId="wxfa0af7477eb173a5" AppSecret="fd1fd3ff4469750b1ec9bc5337847e40" />
+</DevInfor>

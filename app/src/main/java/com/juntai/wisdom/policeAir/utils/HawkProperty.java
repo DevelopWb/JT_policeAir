@@ -8,6 +8,9 @@ package com.juntai.wisdom.policeAir.utils;
  * @UpdateDate: 2020/12/19 14:28
  */
 public class HawkProperty {
-
+    /**
+     * 指挥中心
+     */
+    public static  String CENTER_OPERATOR = "CENTER_OPERATOR";
 
 }

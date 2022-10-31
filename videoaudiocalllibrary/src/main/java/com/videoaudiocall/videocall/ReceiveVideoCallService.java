@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -103,6 +104,7 @@ public class ReceiveVideoCallService extends Service {
             EventManager.getEventBus().register(this);//注册
         }
         initTrack();
+        initAudioConfig();
         initMedia(intent);
         return super.onStartCommand(intent, flags, startId);
 
@@ -262,7 +264,10 @@ public class ReceiveVideoCallService extends Service {
                     || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
                 stopSelf();
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
-                initAudioConfig();
+                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                if (vibrator.hasVibrator()) {
+                    vibrator.vibrate(500);
+                }
             }
             Log.i(TAG, "onIceConnectionChange: " + iceConnectionState);
         }
@@ -368,16 +373,9 @@ public class ReceiveVideoCallService extends Service {
 //                                doStartCall();
 //                                break;
                                     case EVENT_CAMERA_FINISH_SENDER:
-                                        //主动挂断  接收端的逻辑
-//                                if (isCallOn) {
-//                                    //已经接通了 这时候挂断
-//                                    messageBody.setDuration(getTextViewValue(mDurationTv));
-//                                } else {
-//                                    messageBody.setDuration(null);
-//                                }
+                                        // 接收端的逻辑 主叫挂断
                                         messageBody.setFaceTimeType(4);
-//                                //关闭并记录到本地
-//                                finishActivity(messageBody);
+                                        stopSelf();
                                         break;
 //                            case EVENT_CAMERA_FINISH_RECEIVER:
 //                                //结束

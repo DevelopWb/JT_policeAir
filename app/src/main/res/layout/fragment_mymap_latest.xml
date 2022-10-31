@@ -165,10 +165,9 @@
             android:id="@+id/call_police_iv"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"
+            android:layout_marginTop="30dp"
             android:src="@mipmap/call_police_icon"
-            app:layout_constraintBottom_toTopOf="@+id/zoom_ll"
+            app:layout_constraintTop_toBottomOf="@+id/menu_list"
             app:layout_constraintLeft_toLeftOf="@+id/zoom_ll"
             app:layout_constraintRight_toRightOf="@+id/zoom_ll" />
 

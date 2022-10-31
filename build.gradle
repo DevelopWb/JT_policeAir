@@ -9,27 +9,40 @@ ext {
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
+        // 1.添加MobSDK Maven地址
+        maven {
+            url "https://mvn.mob.com/android"
+        }
+        maven {
+            url "https://maven.aliyun.com/repository/gradle-plugin"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         // tinkersupport插件, 其中lastest.release指拉取最新版本，也可以指定明确版本号，例如1.0.4
 //        classpath "com.tencent.bugly:tinker-support:1.2.0"
         //mob
-        classpath "com.mob.sdk:MobSDK:2018.0319.1724"
+        classpath "com.mob.sdk:MobSDK2:+"
         classpath "io.objectbox:objectbox-gradle-plugin:2.9.1"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 android.useDeprecatedNdk=true
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven {
+            url "https://maven.aliyun.com/repository/gradle-plugin"
+        }
+        maven {
             url "https://jitpack.io" }
+        // 1.添加MobSDK Maven地址
+        maven {
+            url "https://mvn.mob.com/android"
+        }
     }
 }
 
