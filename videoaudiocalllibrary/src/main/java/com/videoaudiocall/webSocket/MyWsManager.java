@@ -10,6 +10,8 @@ package com.videoaudiocall.webSocket;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -355,7 +357,7 @@ public class MyWsManager {
      * 开始语音通话
      */
     public void startAudioCall(String toUserAccout, String toNickName, String toHead) {
-        if (myWsManager!=null&&myWsManager.isWsConnected()) {
+        if (myWsManager != null && myWsManager.isWsConnected()) {
             // : 2021-11-23 视频通话
             MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, toUserAccout, toNickName, toHead, "");
             //跳转到等待接听界面
@@ -367,11 +369,33 @@ public class MyWsManager {
 
             mContext.startActivity(intent);
         } else {
-            ToastUtils.toast(mContext, "当前链路已断开,重连中,稍后重试");
-            disconnect();
-            startConnect();
+            if (isNetworkConnected(mContext)) {
+                disconnect();
+                startConnect();
+                try {
+                    Thread.sleep(500);
+                    startAudioCall(toUserAccout, toNickName, toHead);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ToastUtils.toast(mContext, "当前网络异常 请检查网络");
+            }
         }
 
     }
 
+    //检查网络是否连接
+    public boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager
+                    .getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
 }
