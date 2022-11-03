@@ -310,8 +310,10 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                     || PeerConnection.IceConnectionState.COMPLETED == iceConnectionState
                     || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
                     || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
+                isCallOn = false;
                 finishActivity(null);
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
+                isCallOn = true;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -481,6 +483,9 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                         case 4:
                             //音频通话
                         case 5:
+                            if (isCallOn) {
+                                return;
+                            }
                             String eventMsg = messageBody.getEvent();
                             if (!TextUtils.isEmpty(eventMsg)) {
                                 switch (eventMsg) {
@@ -544,7 +549,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                                         /**
                                          * 第八步 主叫  被叫链接创建成功了
                                          */
-                                        isCallOn = true;
                                         mPeerConnection.setRemoteDescription(
                                                 new SimpleSdpObserver(),
                                                 new SessionDescription(
@@ -581,6 +585,9 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
 
     private void initMsgData(Intent intent) {
+        if (isCallOn) {
+            return;
+        }
         String msgStr = intent.getStringExtra(BASE_STRING);
         isSender = getIntent().getBooleanExtra(IS_SENDER, true);
         if (!TextUtils.isEmpty(msgStr)) {
@@ -648,6 +655,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         }
         mRootEglBase.releaseSurface();
         mRootEglBase.release();
+        mPeerConnectionObserver=null;
         if (mPeerConnection != null) {
             mPeerConnection.close();
             mPeerConnection = null;
@@ -744,7 +752,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
             }
         } else if (id == R.id.hand_up_iv) {
-            isCallOn = true;
             /**
              * 第三步 被叫  接听  发送EVENT_CAMERA_ACCESS
              */
@@ -841,7 +848,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         if (idle) {
 //            mSmallSurfaceView.setVisibility(View.GONE);
         } else {
-            pause();
+            release();
             mRecordingBegin = System.currentTimeMillis();
 //            mSmallSurfaceView.setVisibility(View.VISIBLE);
             mDurationTv.setVisibility(View.VISIBLE);

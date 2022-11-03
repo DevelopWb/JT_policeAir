@@ -60,7 +60,7 @@ public abstract class SoundManagerActivity<P extends BasePresenter> extends Base
     /**
      * 暂停无声音乐
      */
-    private void release() {
+    public void release() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();

@@ -148,8 +148,6 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements E
                         Hawk.put(AppUtils.SP_KEY_TOKEN, loginBean.getData().getToken());
                         Hawk.put(AppUtils.SP_RONGYUN_TOKEN, loginBean.getData().getrOngYunToken());
                         EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
-                        //ws连接
-                        MyWsManager.getInstance().setWsUrl(AppHttpPathSocket.BASE_SOCKET +  UserInfoManager.getUserId());
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                         LogUtil.d("token=" + MyApp.getUserToken());

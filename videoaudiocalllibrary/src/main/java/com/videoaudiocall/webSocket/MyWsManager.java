@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
@@ -25,6 +26,7 @@ import com.rabtman.wsmanager.listener.WsStatusListener;
 import com.videoaudiocall.OperateMsgUtil;
 import com.videoaudiocall.bean.BaseWsMessageBean;
 import com.videoaudiocall.bean.MessageBodyBean;
+import com.videoaudiocall.net.AppHttpPathSocket;
 import com.videoaudiocall.videocall.ReceiveVideoCallService;
 import com.videoaudiocall.videocall.VideoRequestActivity;
 
@@ -88,6 +90,10 @@ public class MyWsManager {
 
     public void startConnect() {
         try {
+            String url = AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId();
+            if (builder != null) {
+                builder.wsUrl(url);
+            }
             if (myWsManager == null) {
                 myWsManager = builder.build();
                 myWsManager.setWsStatusListener(wsStatusListener);

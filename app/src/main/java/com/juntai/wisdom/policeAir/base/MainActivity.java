@@ -93,15 +93,14 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         intentFilter.addAction(ActionConfig.BROAD_CASE_DETAILS);
         registerReceiver(broadcastReceiver, intentFilter);
 
-        if (UserInfoManager.isLogin()) {
-            MyWsManager.getInstance()
-                    .init(getApplicationContext())
-                    .setWsUrl(AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId())
-                    .startConnect();
-        } else {
-            MyWsManager.getInstance()
-                    .init(getApplicationContext());
-        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyWsManager.getInstance()
+                .init(getApplicationContext())
+                .startConnect();
     }
 
     @Override

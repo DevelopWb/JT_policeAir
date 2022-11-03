@@ -81,6 +81,7 @@ public class ReceiveVideoCallService extends Service {
      */
     private int callType = 5;
 
+    private boolean isCallOn = false;//是否接听通话
 
     public final static String EVENT_CAMERA_ACCESS = "access";
     private PeerConnection mPeerConnection;
@@ -100,6 +101,7 @@ public class ReceiveVideoCallService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         if (!EventManager.getEventBus().isRegistered(this)) {
             EventManager.getEventBus().register(this);//注册
         }
@@ -112,6 +114,9 @@ public class ReceiveVideoCallService extends Service {
     }
 
     private void initMedia(Intent intent) {
+        if (isCallOn) {
+            return;
+        }
         mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
         if (mMessageBodyBean != null) {
             senderName = mMessageBodyBean.getFromNickname();
@@ -263,7 +268,9 @@ public class ReceiveVideoCallService extends Service {
                     || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
                     || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
                 stopSelf();
+                isCallOn =false;
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
+                isCallOn =true;
                 Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 if (vibrator.hasVibrator()) {
                     vibrator.vibrate(500);
@@ -347,6 +354,9 @@ public class ReceiveVideoCallService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onEvent(EventBusObject eventBusObject) {
+        if (isCallOn) {
+            return;
+        }
         switch (eventBusObject.getEventKey()) {
             case EventBusObject.VIDEO_CALL:
                 MessageBodyBean messageBody = (MessageBodyBean) eventBusObject.getEventObj();
@@ -603,6 +613,7 @@ public class ReceiveVideoCallService extends Service {
         release();
         mRootEglBase.releaseSurface();
         mRootEglBase.release();
+        mPeerConnectionObserver=null;
         if (mPeerConnection != null) {
             mPeerConnection.close();
             mPeerConnection = null;

@@ -66,7 +66,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
                     case NET_2G:
                         //有网络
                     case WIFI:
-                        MyWsManager.getInstance().startConnect();
+                        MyWsManager.getInstance() .init(getApplicationContext()).startConnect();
                         break;
                     case NOME:
                         //没有网络，提示用户跳转到设置
