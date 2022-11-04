@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.text.TextUtils;
@@ -114,9 +113,6 @@ public class ReceiveVideoCallService extends Service {
     }
 
     private void initMedia(Intent intent) {
-        if (isCallOn) {
-            return;
-        }
         mMessageBodyBean = intent.getParcelableExtra(BaseActivity.BASE_PARCELABLE);
         if (mMessageBodyBean != null) {
             senderName = mMessageBodyBean.getFromNickname();
@@ -263,15 +259,13 @@ public class ReceiveVideoCallService extends Service {
 
         @Override
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
-            if (PeerConnection.IceConnectionState.CLOSED == iceConnectionState
-                    || PeerConnection.IceConnectionState.COMPLETED == iceConnectionState
-                    || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
-                    || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
+            if (PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
+            ) {
                 stopSelf();
-                isCallOn =false;
+                isCallOn = false;
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
-                isCallOn =true;
-                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                isCallOn = true;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 if (vibrator.hasVibrator()) {
                     vibrator.vibrate(500);
                 }
@@ -303,7 +297,7 @@ public class ReceiveVideoCallService extends Service {
             Log.i(TAG, "onIceCandidate: " + iceCandidate + "----");
             Log.i(TAG, "onIceCandidate:----mMessageBodyBean " + mMessageBodyBean.toString());
 
-            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+            sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_VIDEO_MSG);
 //            pause();
         }
 
@@ -354,9 +348,6 @@ public class ReceiveVideoCallService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onEvent(EventBusObject eventBusObject) {
-        if (isCallOn) {
-            return;
-        }
         switch (eventBusObject.getEventKey()) {
             case EventBusObject.VIDEO_CALL:
                 MessageBodyBean messageBody = (MessageBodyBean) eventBusObject.getEventObj();
@@ -492,7 +483,7 @@ public class ReceiveVideoCallService extends Service {
                 mMessageBodyBean.setContent("空值");
                 Log.d("MyWsManager", "MyWsManager-----接受到offer--发送answer");
 
-                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_VIDEO_MSG);
             }
 
             @Override
@@ -557,7 +548,7 @@ public class ReceiveVideoCallService extends Service {
      */
     public void sendPrivateMessage(RequestBody body, String tag) {
         AppNetModuleSocket.createrRetrofit()
-                .sendMessage(body)
+                .sendVideoMessage(body)
                 .compose(RxScheduler.ObsIoMain(null))
                 .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
                     @Override
@@ -613,9 +604,10 @@ public class ReceiveVideoCallService extends Service {
         release();
         mRootEglBase.releaseSurface();
         mRootEglBase.release();
-        mPeerConnectionObserver=null;
+        mPeerConnectionObserver = null;
         if (mPeerConnection != null) {
             mPeerConnection.close();
+            mPeerConnection.dispose();
             mPeerConnection = null;
         }
         PeerConnectionFactory.stopInternalTracingCapture();

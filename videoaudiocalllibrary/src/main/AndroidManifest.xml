@@ -8,6 +8,7 @@
 
         <activity android:name="com.videoaudiocall.videocall.VideoRequestActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTop"
             android:exported="true"
             />
 

@@ -4,18 +4,22 @@ public class AppHttpPathSocket {
     /**
      * base
      */
-    public static final String BASE = "https://www.juntaikeji.com:21280";
-//        public static final String BASE = "http://192.168.124.148:8888";
-//    public static final String BASE_SOCKET = "ws://192.168.124.148:8888/appSocket/";
-    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21280/appSocket/";
+//    public static final String BASE = "https://www.juntaikeji.com:21280";
+//    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21280/appSocket/";
+    public static final String BASE = "https://www.juntaikeji.com:21282";
+    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21282/appSocket/";
 
     public static final String CHAT_VIDEO_URL = "turn:stun.juntaikeji.com:19603";
 
 
     /**
-     * 发送消息
+     * 音视频链接建立的消息
      */
-    public static final String SEND_MSG = BASE + "/msg/sendMassage";
+    public static final String SEND_VIDEO_MSG = BASE + "/msg/sendMsg";
+    /**
+     * 拨打 挂断电话
+     */
+    public static final String SEND_MSG_OPERATE = BASE + "/msg/sendMassage";
 
     /**
      * 发起视频通话

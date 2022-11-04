@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.utils.MD5;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.policeAir.AppHttpPath;
 import com.juntai.wisdom.policeAir.R;
@@ -66,7 +68,15 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
                     case NET_2G:
                         //有网络
                     case WIFI:
-                        MyWsManager.getInstance() .init(getApplicationContext()).startConnect();
+                        if (UserInfoManager.getUserId()>0) {
+                            Log.d("MyWsManager", "NETWORK_STATUS---开始连接-" +netType);
+                            if (!MyWsManager.getInstance().isSocketConnected()) {
+                                MyWsManager.getInstance().disconnect();
+                                MyWsManager.getInstance()
+                                        .init(getApplicationContext())
+                                        .startConnect();
+                            }
+                        }
                         break;
                     case NOME:
                         //没有网络，提示用户跳转到设置

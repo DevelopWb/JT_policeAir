@@ -1,7 +1,6 @@
 package com.videoaudiocall.net;
 
 
-
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -13,23 +12,15 @@ import retrofit2.http.POST;
 public interface AppServerSocket {
 
 
-    @POST(AppHttpPathSocket.SEND_MSG)
-    Observable<BaseSocketResult> requestVideoCall(@Body RequestBody requestBody);
-
-
-    @POST(AppHttpPathSocket.SEND_MSG)
-    Observable<BaseSocketResult> accessVideoCall(@Body RequestBody requestBody);
-
-    @POST(AppHttpPathSocket.SEND_MSG)
-    Observable<BaseSocketResult> rejectVideoCall(@Body RequestBody requestBody);
-
-
     /**
      * 发送消息
      *
      * @param requestBody
      * @return
      */
-    @POST(AppHttpPathSocket.SEND_MSG)
-    Observable<BaseSocketResult> sendMessage(@Body RequestBody requestBody);
+    @POST(AppHttpPathSocket.SEND_VIDEO_MSG)
+    Observable<BaseSocketResult> sendVideoMessage(@Body RequestBody requestBody);
+
+    @POST(AppHttpPathSocket.SEND_MSG_OPERATE)
+    Observable<BaseSocketResult> sendVideoMessageOperate(@Body RequestBody requestBody);
 }

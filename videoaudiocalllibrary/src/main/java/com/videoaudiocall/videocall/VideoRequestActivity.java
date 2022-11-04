@@ -3,9 +3,11 @@ package com.videoaudiocall.videocall;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Handler;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
+import android.telecom.TelecomManager;
+import android.telecom.VideoProfile;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juntai.wisdom.basecomponent.mvp.IView;
-import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
@@ -247,7 +248,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_OFFER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                mPresenter.sendVideoMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_VIDEO_MSG);
             }
         }, mediaConstraints);
     }
@@ -306,12 +307,16 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
         @Override
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
-            if (PeerConnection.IceConnectionState.CLOSED == iceConnectionState
-                    || PeerConnection.IceConnectionState.COMPLETED == iceConnectionState
-                    || PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
-                    || PeerConnection.IceConnectionState.FAILED == iceConnectionState) {
+            if (PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
+                    ) {
                 isCallOn = false;
-                finishActivity(null);
+                // : 2022/11/3 调用挂断电话的接口
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandDownIv.performClick();
+                    }
+                });
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
                 isCallOn = true;
                 runOnUiThread(new Runnable() {
@@ -348,7 +353,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mMessageBodyBean.setSdp(iceCandidate.sdp);
             mMessageBodyBean.setFaceTimeType(2);
             mMessageBodyBean.setContent("空值");
-            mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+            mPresenter.sendVideoMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_VIDEO_MSG);
 
         }
 
@@ -483,9 +488,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                         case 4:
                             //音频通话
                         case 5:
-                            if (isCallOn) {
-                                return;
-                            }
                             String eventMsg = messageBody.getEvent();
                             if (!TextUtils.isEmpty(eventMsg)) {
                                 switch (eventMsg) {
@@ -585,9 +587,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 
 
     private void initMsgData(Intent intent) {
-        if (isCallOn) {
-            return;
-        }
         String msgStr = intent.getStringExtra(BASE_STRING);
         isSender = getIntent().getBooleanExtra(IS_SENDER, true);
         if (!TextUtils.isEmpty(msgStr)) {
@@ -658,6 +657,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         mPeerConnectionObserver=null;
         if (mPeerConnection != null) {
             mPeerConnection.close();
+            mPeerConnection.dispose();
             mPeerConnection = null;
         }
         updateCallState(true);
@@ -811,6 +811,10 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
     public void onError(String tag, Object o) {
         super.onError(tag, o);
         switch (tag) {
+            case AppHttpPathSocket.REQUEST_VIDEO_CALL:
+                // : 2021-12-01 主动挂断 生成发起者的历史记录
+                finishActivity(mSenderMessageBodyBean);
+                break;
             case EVENT_CAMERA_FINISH_SENDER:
 //            case AppHttpPathSocket.REQUEST_VIDEO_CALL:
                 // : 2021-12-01 主动挂断 生成发起者的历史记录
@@ -902,7 +906,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
                 mMessageBodyBean.setEvent(EVENT_CAMERA_ANSWER);
                 mMessageBodyBean.setFaceTimeType(2);
                 mMessageBodyBean.setContent("空值");
-                mPresenter.sendPrivateMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_MSG);
+                mPresenter.sendVideoMessage(OperateMsgUtil.getMsgBuilder(mMessageBodyBean).build(), AppHttpPathSocket.SEND_VIDEO_MSG);
             }
 
             @Override

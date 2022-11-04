@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 
-import com.juntai.wisdom.basecomponent.base.BaseObserver;
-import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseMenuBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
@@ -53,7 +51,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void requestVideoCall(RequestBody body, String tag) {
-        sendPrivateMessage(body,tag);
+        sendVideoMessageOperate(body,tag);
 
     }
 
@@ -62,7 +60,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void accessVideoCall(RequestBody body, String tag) {
-        sendPrivateMessage(body,tag);
+        sendVideoMessage(body,tag);
 
     }
 
@@ -71,7 +69,7 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param tag
      */
     public void rejectVideoCall(RequestBody body, String tag) {
-        sendPrivateMessage(body,tag);
+        sendVideoMessageOperate(body,tag);
     }
 
 
@@ -82,9 +80,35 @@ public class ChatPresent extends BasePresenter<IModel, IView> {
      * @param body
      * @param tag
      */
-    public void sendPrivateMessage(RequestBody body, String tag) {
+    public void sendVideoMessage(RequestBody body, String tag) {
         AppNetModuleSocket.createrRetrofit()
-                .sendMessage(body)
+                .sendVideoMessage(body)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
+                    @Override
+                    public void onSuccess(BaseSocketResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    /**
+     * 发送私聊消息
+     *
+     * @param body
+     * @param tag
+     */
+    public void sendVideoMessageOperate(RequestBody body, String tag) {
+        AppNetModuleSocket.createrRetrofit()
+                .sendVideoMessageOperate(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
                     @Override

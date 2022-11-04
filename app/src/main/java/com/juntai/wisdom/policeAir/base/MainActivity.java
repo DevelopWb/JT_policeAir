@@ -98,9 +98,13 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     @Override
     protected void onResume() {
         super.onResume();
-        MyWsManager.getInstance()
-                .init(getApplicationContext())
-                .startConnect();
+        if (!MyWsManager.getInstance().isSocketConnected()) {
+            MyWsManager.getInstance().disconnect();
+            MyWsManager.getInstance()
+                    .init(getApplicationContext())
+                    .startConnect();
+        }
+
     }
 
     @Override
@@ -289,7 +293,10 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                     public void onClick(DialogInterface dialog, int which) {
                         MyApp.app.isFinish = true;
 //                        ModuleIm_Init.logout();
+                        MyWsManager.getInstance().disconnect();
                         finish();
+                        System.exit(0);
+
                     }
                 })
                 .setNegativeButton("挂起", new DialogInterface.OnClickListener() {

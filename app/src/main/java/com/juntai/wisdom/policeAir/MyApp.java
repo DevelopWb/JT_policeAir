@@ -223,7 +223,9 @@ public class MyApp extends BaseApplication {
         Hawk.delete(AppUtils.SP_RONGYUN_TOKEN);
         //        Hawk.delete(AppUtils.SP_NEWS_SAVE_DRAFTS);
         Hawk.delete(AppUtils.SP_KEY_UNREAD_COUNT);
-        //        clearActivitys();
+                clearActivitys();
+        MyWsManager.getInstance().disconnect();
+
     }
 
 

@@ -54,12 +54,6 @@ public class MyWsManager {
      */
     private int retryTime = 0;
 
-    public MyWsManager setWsUrl(String wsUrl) {
-        if (builder != null) {
-            builder.wsUrl(wsUrl);
-        }
-        return this;
-    }
 
     //单例
     public static MyWsManager getInstance() {
@@ -83,13 +77,16 @@ public class MyWsManager {
                     //.needReconnect(true)                  //是否需要重连
                     //.setHeaders(null)                     //设置请求头
                     //.setReconnnectIMaxTime(30*1000)       //设置重连最大时长
-                    .needReconnect(false);
+                    .needReconnect(true);
         }
         return this;
     }
 
     public void startConnect() {
         try {
+            if (UserInfoManager.getUserId() < 0) {
+                return;
+            }
             String url = AppHttpPathSocket.BASE_SOCKET + UserInfoManager.getUserId();
             if (builder != null) {
                 builder.wsUrl(url);
@@ -98,8 +95,12 @@ public class MyWsManager {
                 myWsManager = builder.build();
                 myWsManager.setWsStatusListener(wsStatusListener);
             }
-            myWsManager.startConnect();
-            Log.e("onOpen", "开始链接服务器");
+            if (!myWsManager.isWsConnected()) {
+                myWsManager.startConnect();
+                Log.d(TAG, "MyWsManager-----startConnect---"+UserInfoManager.getUserId() );
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "startConnect 服务器连接异常" + e);
@@ -109,8 +110,8 @@ public class MyWsManager {
     private WsStatusListener wsStatusListener = new WsStatusListener() {
         @Override
         public void onOpen(Response response) {
-            Log.d(TAG, "myWsManager-----onOpen");
-            Log.e("onOpen", "服务器连接成功");
+            Log.d(TAG, "myWsManager-----onOpen" + UserInfoManager.getUserNickName() + UserInfoManager.getUserId());
+
             retryTime = 0;
         }
 
@@ -279,11 +280,35 @@ public class MyWsManager {
 
     }
 
+    /**
+     * socket链接状态
+     * @return
+     */
+    public boolean  isSocketConnected(){
+        if (myWsManager != null) {
+            return myWsManager.isWsConnected();
+        }
+        return false;
+    }
+
+
     //断开ws
     public void disconnect() {
-        if (myWsManager != null)
+        if (wsManager != null) {
+            wsManager = null;
+        }
+        if (builder != null) {
+            builder.wsUrl(null);
+        }
+        if (wsStatusListener != null) {
+            wsStatusListener = null;
+        }
+        if (myWsManager != null) {
+            myWsManager.setWsStatusListener(null);
             myWsManager.stopConnect();
-        myWsManager = null;
+            myWsManager = null;
+        }
+
     }
 
 //    /**
@@ -366,6 +391,8 @@ public class MyWsManager {
         if (myWsManager != null && myWsManager.isWsConnected()) {
             // : 2021-11-23 视频通话
             MessageBodyBean videoMsg = OperateMsgUtil.getPrivateMsg(5, toUserAccout, toNickName, toHead, "");
+            Log.d(TAG, "MyWsManager-----startAudioCall---" + toNickName + "-----" + toUserAccout);
+
             //跳转到等待接听界面
             Intent intent =
                     new Intent(mContext, VideoRequestActivity.class)
