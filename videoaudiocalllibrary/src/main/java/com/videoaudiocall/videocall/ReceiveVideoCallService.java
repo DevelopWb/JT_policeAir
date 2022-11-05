@@ -390,7 +390,7 @@ public class ReceiveVideoCallService extends Service {
                                         // 接收端的逻辑 主叫挂断
                                         messageBody.setFaceTimeType(4);
                                         isStop = true;
-                                        stopSelf();
+                                        stopCurrentService();
                                         break;
 //                            case EVENT_CAMERA_FINISH_RECEIVER:
 //                                //结束
@@ -470,6 +470,15 @@ public class ReceiveVideoCallService extends Service {
             default:
                 break;
         }
+    }
+
+    /**
+     * 关闭当前服务
+     *
+     */
+    private void stopCurrentService() {
+        releaseRes();
+        stopSelf();
     }
 
 
@@ -568,13 +577,13 @@ public class ReceiveVideoCallService extends Service {
                     @Override
                     public void onSuccess(BaseSocketResult o) {
                         Log.i(TAG, "关闭服务");
-                        stopSelf();
+                        stopCurrentService();
                     }
 
                     @Override
                     public void onError(String msg) {
                         Log.i(TAG, "accessVideoCall:err ");
-                        stopSelf();
+                        stopCurrentService();
 
                     }
                 });
@@ -631,6 +640,9 @@ public class ReceiveVideoCallService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "服务关闭:err ");
+    }
+
+    private void releaseRes() {
         EventManager.getEventBus().unregister(this);//注册
         if (audioManager != null) {
             audioManager.setMode(AudioManager.MODE_NORMAL);

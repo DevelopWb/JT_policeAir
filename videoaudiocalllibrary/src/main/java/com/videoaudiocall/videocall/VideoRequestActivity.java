@@ -616,6 +616,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
      */
     private void finishActivity(MessageBodyBean messageBody) {
         EventManager.getEventBus().post(new EventBusObject(EventBusObject.FINISH_ACTIVITY, ""));
+        releaseRes();
     }
 
     @Override
@@ -652,10 +653,8 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             audioManager.setSpeakerphoneOn(true);
         }
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        doLeave();
+
+    private void releaseRes() {
         if (audioManager != null) {
             audioManager.setMode(AudioManager.MODE_NORMAL);
         }
@@ -692,7 +691,6 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
             mPeerConnectionFactory = null;
         }
         mDurationTv.removeCallbacks(callingRunnable);
-
     }
 
     @Override
