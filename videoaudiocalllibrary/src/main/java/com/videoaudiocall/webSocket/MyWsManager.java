@@ -403,6 +403,7 @@ public class MyWsManager {
         } else {
             if (isNetworkConnected(mContext)) {
                 disconnect();
+                init(mContext);
                 startConnect();
                 try {
                     Thread.sleep(500);
