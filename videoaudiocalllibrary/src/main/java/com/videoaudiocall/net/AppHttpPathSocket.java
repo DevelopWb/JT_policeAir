@@ -4,10 +4,10 @@ public class AppHttpPathSocket {
     /**
      * base
      */
-//    public static final String BASE = "https://www.juntaikeji.com:21280";
-//    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21280/appSocket/";
-    public static final String BASE = "https://www.juntaikeji.com:21282";
-    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21282/appSocket/";
+    public static final String BASE = "https://www.juntaikeji.com:21280";
+    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21280/appSocket/";
+//    public static final String BASE = "https://www.juntaikeji.com:21282";
+//    public static final String BASE_SOCKET = "wss://www.juntaikeji.com:21282/appSocket/";
 
     public static final String CHAT_VIDEO_URL = "turn:stun.juntaikeji.com:19603";
 

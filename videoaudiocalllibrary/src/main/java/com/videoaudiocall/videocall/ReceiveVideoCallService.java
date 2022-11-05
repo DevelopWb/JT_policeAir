@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.juntai.wisdom.basecomponent.base.BaseActivity;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.basecomponent.utils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
@@ -88,6 +89,7 @@ public class ReceiveVideoCallService extends Service {
 
     private MediaPlayer mediaPlayer;
 
+    private boolean isStop = false;
 
     public ReceiveVideoCallService() {
     }
@@ -261,7 +263,18 @@ public class ReceiveVideoCallService extends Service {
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
             if (PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
             ) {
-                stopSelf();
+                if (isStop) {
+                    Log.i(TAG, "onIceConnectionChange: activity destroyed----- ");
+                    return;
+                }
+                // : 2022/11/4 调用结束的接口
+                String account = mMessageBodyBean.getFromAccount().equals(String.valueOf(UserInfoManager.getUserId()))?mMessageBodyBean.getToAccount():mMessageBodyBean.getFromAccount();
+                String nickName = mMessageBodyBean.getFromNickname().equals(UserInfoManager.getUserNickName())?mMessageBodyBean.getToNickname():mMessageBodyBean.getFromNickname();
+                MessageBodyBean bodyBean = OperateMsgUtil.getPrivateMsg(callType, account, nickName, "", "");
+                bodyBean.setEvent(EVENT_CAMERA_FINISH_SENDER);
+                finish(OperateMsgUtil.getMsgBuilder(bodyBean).build(), AppHttpPathSocket.REJECT_VIDEO_CALL);
+
+
                 isCallOn = false;
             } else if (PeerConnection.IceConnectionState.CONNECTED == iceConnectionState) {
                 isCallOn = true;
@@ -376,6 +389,7 @@ public class ReceiveVideoCallService extends Service {
                                     case EVENT_CAMERA_FINISH_SENDER:
                                         // 接收端的逻辑 主叫挂断
                                         messageBody.setFaceTimeType(4);
+                                        isStop = true;
                                         stopSelf();
                                         break;
 //                            case EVENT_CAMERA_FINISH_RECEIVER:
@@ -539,13 +553,33 @@ public class ReceiveVideoCallService extends Service {
         sendPrivateMessage(body, tag);
     }
 
-
     /**
-     * 发送私聊消息
+     * 挂断电话
      *
      * @param body
      * @param tag
      */
+
+    public void finish(RequestBody body, String tag) {
+        AppNetModuleSocket.createrRetrofit()
+                .sendVideoMessageOperate(body)
+                .compose(RxScheduler.ObsIoMain(null))
+                .subscribe(new BaseSocketObserver<BaseSocketResult>(null) {
+                    @Override
+                    public void onSuccess(BaseSocketResult o) {
+                        Log.i(TAG, "关闭服务");
+                        stopSelf();
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        Log.i(TAG, "accessVideoCall:err ");
+                        stopSelf();
+
+                    }
+                });
+    }
+
     public void sendPrivateMessage(RequestBody body, String tag) {
         AppNetModuleSocket.createrRetrofit()
                 .sendVideoMessage(body)

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juntai.wisdom.basecomponent.mvp.IView;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventBusObject;
 import com.juntai.wisdom.basecomponent.utils.eventbus.EventManager;
 import com.juntai.wisdom.basecomponent.utils.GsonTools;
@@ -309,6 +310,11 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
         public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
             if (PeerConnection.IceConnectionState.DISCONNECTED == iceConnectionState
                     ) {
+
+                if (isDestroyed()) {
+                    Log.i(TAG, "onIceConnectionChange: activity destroyed----- " );
+                    return;
+                }
                 isCallOn = false;
                 // : 2022/11/3 调用挂断电话的接口
                 runOnUiThread(new Runnable() {
@@ -527,6 +533,7 @@ public class VideoRequestActivity extends SoundManagerActivity<ChatPresent> impl
 //
 //                                        }
                                         mSenderMessageBodyBean.setFaceTimeType(4);
+                                        ToastUtils.toast(mContext,"对方拒绝了您的请求");
                                         finishActivity(mSenderMessageBodyBean);
                                         break;
                                     case EVENT_CAMERA_OFFER:

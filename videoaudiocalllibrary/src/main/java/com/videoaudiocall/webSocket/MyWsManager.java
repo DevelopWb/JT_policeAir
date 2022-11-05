@@ -304,7 +304,6 @@ public class MyWsManager {
             wsStatusListener = null;
         }
         if (myWsManager != null) {
-            myWsManager.setWsStatusListener(null);
             myWsManager.stopConnect();
             myWsManager = null;
         }
